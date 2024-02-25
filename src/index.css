@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: InterVariable, system-ui, Helvetica, Arial, sans-serif;
   font-feature-settings: "ss04";
