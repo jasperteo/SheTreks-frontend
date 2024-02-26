@@ -9,7 +9,6 @@ export default function App() {
       <div className="flex items-center justify-center">
         <img
           width="200"
-          height="200"
           src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/200/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
           alt="external-tourist-tropical-flaticons-lineal-color-flat-icons"
         />
@@ -19,7 +18,7 @@ export default function App() {
         <iconify-icon inline icon="line-md:phone-call-twotone-loop" />
       </h1>
       <button
-        className="btn btn-active btn-accent"
+        className="btn btn-accent btn-active"
         onClick={() => setCount((count) => count + 1)}
       >
         count is {count}

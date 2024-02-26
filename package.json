@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^4.30.5",
+    "@stream-io/video-react-sdk": "^0.4.26",
     "@supabase/supabase-js": "^2.39.7",
     "@tanstack/react-query": "^5.24.1",
     "@tanstack/react-query-devtools": "^5.24.1",
