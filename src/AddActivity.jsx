@@ -1,4 +1,4 @@
-import Select from "react-select";
+import Select  from "react-select";
 import { useState } from 'react';
 
 export default function AddActivity() {
@@ -22,14 +22,24 @@ export default function AddActivity() {
 
   return (
     <>
+  
+    <Select />
+   <br /> 
+ 
     
     <Select
-
     options={category}
+    placeholder="Category"
     isMulti
-    onChange={handleChange}/>
-   
-   
+    onChange={handleChange}
+    unstyled
+    classNames={{
+    control: () => "border-4 border-green rounded-md w-80",
+    multiValue: () => "border border-green rounded-md bg-light-pink p-1 m-0.5",
+    menu: () => "border border-green rounded-md",
+    option: () => "hover:bg-light-pink",
+  }}
+  />
    
     </>
   )
