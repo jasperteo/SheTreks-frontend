@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 
 export default function App() {
@@ -8,8 +9,8 @@ export default function App() {
     <>
       <div className="flex items-center justify-center">
         <img
-          width="200"
-          src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/200/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
+          width="500"
+          src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/500/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
           alt="external-tourist-tropical-flaticons-lineal-color-flat-icons"
         />
       </div>
@@ -23,6 +24,7 @@ export default function App() {
       >
         count is {count}
       </button>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 }
