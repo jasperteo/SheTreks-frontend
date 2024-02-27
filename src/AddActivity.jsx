@@ -1,20 +1,11 @@
 import Select  from "react-select";
 import { useState } from 'react';
+import { multiValue, control, menu, option } from './Components/lib/styles';
+import { category } from './Components/lib/constants';
+import { location } from './Components/lib/constants';
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([])
-
-  const category = [
-    {value: "Food and Culinary Experiences", label: "Food and Culinary Experiences"},
-    {value: "Outdoor Adventures and Nature", label: "Outdoor Adventures and Nature"},
-    {value: "Cultural Exploration and Heritage", label: "Cultural Exploration and Heritage"},
-    {value: "Adventure Sports and Recreation", label: "Adventure Sports and Recreation"},
-    {value: "Wellness and Relaxation", label: "Wellness and Relaxation"},
-    {value: "Urban Exploration and City Tours", label: "Urban Exploration and City Tours"},
-    {value: "Photography and Sightseeing", label: "Photography and Sightseeing"},
-    {value: "Nightlife and Events", label: "Nightlife and Events"},
-    {value: "Special Interest and Niche Experiences", label: "Special Interest and Niche Experiences"},
-  ]
 
   const handleChange = (value) => {
     console.log(value);
@@ -22,25 +13,50 @@ export default function AddActivity() {
 
   return (
     <>
+    <div>
+
+      <input type="text" placeholder="Title" className="w-80  border-4 border-green rounded-md bg-white focus:outline-none" />
+      <div>
+           <textarea
+            placeholder="Description"
+            cols="10"
+            rows="10"
+            className="w-80  border-4 border-green rounded-md bg-white focus:outline-none"
+           
+           
+          />
+
+      </div>
+    
+
   
-    <Select />
-   <br /> 
+    <Select
+    placeholder="Location" 
+     options={location}
+    onChange={handleChange}
+    unstyled
+    classNames={{
+    control: () => control,
+    menu: () => menu,
+    option: () => option,
+      }}
+     />
  
     
     <Select
-    options={category}
     placeholder="Category"
+    options={category}
     isMulti
     onChange={handleChange}
     unstyled
     classNames={{
-    control: () => "border-4 border-green rounded-md w-80",
-    multiValue: () => "border border-green rounded-md bg-light-pink p-1 m-0.5",
-    menu: () => "border border-green rounded-md",
-    option: () => "hover:bg-light-pink",
+    control: () => control,
+    multiValue: () => multiValue,
+    menu: () => menu,
+    option: () => option,
   }}
   />
-   
+   </div>
     </>
   )
 }

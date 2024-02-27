@@ -13,13 +13,14 @@ export default {
       mono: ["ui-monospace", "Menlo", "Monaco", "monospace"],
     },
     colors: {
-      white: "#FBF5EF",
+      beige: "#FBF5EF",
       "light-pink": "#F8DCD8",
       "dark-pink": "#F28482",
       grey: "#D9D9D9",
       "dark-grey": "#353839",
       yellow: "#FADDAD",
       green: "#84A59D",
+      white:  "#FFFFFF"
     },
     extend: {},
   },
