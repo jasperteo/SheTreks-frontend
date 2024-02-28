@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
+import AddActivity from "./AddActivity";
 
 export default function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div className="flex items-center justify-center">
+    <AddActivity />
+    {/* <div className="flex items-center justify-center">
         <img
           width="500"
           src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/500/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
@@ -23,7 +25,7 @@ export default function App() {
         onClick={() => setCount((count) => count + 1)}
       >
         count is {count}
-      </button>
+      </button>  */}
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   );

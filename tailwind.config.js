@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}",
+            "./node_modules/react-tailwindcss-select/dist/index.esm.js"],
   theme: {
     fontFamily: {
       sans: [
@@ -12,13 +13,14 @@ export default {
       mono: ["ui-monospace", "Menlo", "Monaco", "monospace"],
     },
     colors: {
-      white: "#FBF5EF",
+      beige: "#FBF5EF",
       "light-pink": "#F8DCD8",
       "dark-pink": "#F28482",
       grey: "#D9D9D9",
       "dark-grey": "#353839",
       yellow: "#FADDAD",
       green: "#84A59D",
+      white:  "#FFFFFF"
     },
     extend: {},
   },
