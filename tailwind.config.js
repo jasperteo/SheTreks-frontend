@@ -12,17 +12,19 @@ export default {
       ],
       mono: ["ui-monospace", "Menlo", "Monaco", "monospace"],
     },
-    colors: {
+  
+    extend: {
+        colors: {
       beige: "#FBF5EF",
       "light-pink": "#F8DCD8",
       "dark-pink": "#F28482",
-      grey: "#D9D9D9",
+      grey: "#F2F3F4",
       "dark-grey": "#353839",
       yellow: "#FADDAD",
       green: "#84A59D",
       white:  "#FFFFFF"
     },
-    extend: {},
+    },
   },
   daisyui: {
     themes: [

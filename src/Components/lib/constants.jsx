@@ -19,3 +19,10 @@
     {value: "Nightlife and Events", label: "Nightlife and Events"},
     {value: "Special Interest and Niche Experiences", label: "Special Interest and Niche Experiences"},
   ]
+
+  export const groupSizes = [ 
+    {value: "2 to 3", label: "2 to 3"},
+    {value: "4 to 6", label: "4 to 6"},
+    {value: "6 to 8", label: "6 to 8"},
+    {value: "More than 8", label: "More than 8"},
+  ]
