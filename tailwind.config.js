@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}",
-            "./node_modules/react-tailwindcss-select/dist/index.esm.js"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
       sans: [
@@ -12,18 +11,16 @@ export default {
       ],
       mono: ["ui-monospace", "Menlo", "Monaco", "monospace"],
     },
-  
     extend: {
-        colors: {
-      beige: "#FBF5EF",
-      "light-pink": "#F8DCD8",
-      "dark-pink": "#F28482",
-      grey: "#F2F3F4",
-      "dark-grey": "#353839",
-      yellow: "#FADDAD",
-      green: "#84A59D",
-      white:  "#FFFFFF"
-    },
+      colors: {
+        beige: "#FBF5EF",
+        "light-pink": "#F8DCD8",
+        "dark-pink": "#F28482",
+        grey: "#F2F3F4",
+        "dark-grey": "#353839",
+        yellow: "#FADDAD",
+        green: "#84A59D",
+      },
     },
   },
   daisyui: {
