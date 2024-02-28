@@ -9,7 +9,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #fbf5ef;
   background-color: #242424;
 
   font-synthesis: none;
@@ -20,15 +20,23 @@
 
 body {
   margin: 0;
-  display: flex;
+  /* display: flex; */
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
   background-color: #fbf5ef;
+  color: #353839; /* font colour */
 }
+
+/* Talilwind Classes */
 
 .lightgrey-icon {
   @apply content-center text-3xl text-grey;
+}
+
+/*bold text, centralised*/
+.bold-text {
+  @apply text-center font-semibold;
 }
 
 @media (prefers-color-scheme: light) {

@@ -4,6 +4,8 @@ import { RoundedAvatar } from "./lib/Styles";
 export default function NavBar() {
   const nav = useNavigate();
 
+  // use Link to instead of Nav
+
   return (
     <>
       <div className="btm-nav">

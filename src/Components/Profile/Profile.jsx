@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { RoundedAvatar } from "../lib/Styles";
+import ProfileHeader from "./ProfileHeader";
 
 export default function Profile() {
   const nav = useNavigate();
   return (
     <>
-      <RoundedAvatar
-        image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-        size="24"
-      />
-      First Name Last Name @userName
+      <ProfileHeader />
+      <div className="mt-2 font-semibold">First Name Last Name</div>
+      <div className="font-light italic">@userName</div>
+      <div>Hello! I am a human.</div>
       <div>
         <button
           onClick={() => {

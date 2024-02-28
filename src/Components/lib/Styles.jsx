@@ -12,10 +12,10 @@ export const menu = "border border-green rounded-md bg-white";
 export const option = "hover:bg-light-pink";
 
 //avatar
-export const RoundedAvatar = ({ image, size }) => {
+export const RoundedAvatar = ({ image }) => {
   return (
     <div className="avatar">
-      <div className={`w-${size} rounded-full`}>
+      <div className="w-8 rounded-full">
         <img src={image} alt="Avatar" />
       </div>
     </div>
