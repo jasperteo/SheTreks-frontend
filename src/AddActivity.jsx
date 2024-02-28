@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { multiValue, control, menu, option } from './Components/lib/styles';
 import { category } from './Components/lib/constants';
 import { location } from './Components/lib/constants';
-import {TimeField, Label, DateInput, DateSegment} from 'react-aria-components';
+import {DatePicker, Label} from 'react-aria-components';
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([])
@@ -16,7 +17,7 @@ export default function AddActivity() {
     <>
     <div>
 
-      <input type="text" placeholder="Title" className="w-80  border-4 border-green rounded-md bg-white focus:outline-none" />
+      {/* <input type="text" placeholder="Title" className="w-80  border-4 border-green rounded-md bg-white focus:outline-none" />
       <div>
            <textarea
             placeholder="Description"
@@ -26,14 +27,16 @@ export default function AddActivity() {
           
           />
 
-      </div>
-{/* 
-      <div> 
-        <MyTimeField
-      label="Activity time"
-      hourCycle={12} />
-      </div>
-     */}
+      </div> */}
+
+     <Label> Date and time</Label> 
+      <DatePicker
+      label="Event date"
+      aria-label="Event date"
+      granularity="minute"
+     />
+    
+    
 
   
     <Select
