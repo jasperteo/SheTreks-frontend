@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 import AddActivity from "./AddActivity";
 
@@ -8,10 +9,10 @@ export default function App() {
   return (
     <>
     <AddActivity />
-      {/* <div className="flex items-center justify-center">
+    {/* <div className="flex items-center justify-center">
         <img
-          width="200"
-          src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/200/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
+          width="500"
+          src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/500/external-tourist-tropical-flaticons-lineal-color-flat-icons.png"
           alt="external-tourist-tropical-flaticons-lineal-color-flat-icons"
         />
       </div>
@@ -24,7 +25,8 @@ export default function App() {
         onClick={() => setCount((count) => count + 1)}
       >
         count is {count}
-      </button> */}
+      </button>  */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 }
