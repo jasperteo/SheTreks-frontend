@@ -1,9 +1,8 @@
 import Select from "react-select";
 import { useState } from "react";
-import { multiValue, control, menu, option } from "./lib/Styles.js";
+import { multiValue, control, menu, option } from "./lib/Styles.jsx";
 import { categories, locations } from "./lib/Constants.js";
 import { DatePicker, Label } from "react-aria-components";
-import NavBar from "./NavBar.jsx";
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -55,7 +54,6 @@ export default function AddActivity() {
             option: () => option,
           }}
         />
-        <NavBar />
       </div>
     </>
   );

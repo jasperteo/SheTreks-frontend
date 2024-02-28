@@ -1,4 +1,9 @@
+import { useNavigate, Outlet } from "react-router-dom";
+import { RoundedAvatar } from "./lib/Styles";
+
 export default function NavBar() {
+  const nav = useNavigate();
+
   return (
     <>
       <div className="btm-nav">
@@ -9,7 +14,12 @@ export default function NavBar() {
             class="lightgrey-icon "
           ></iconify-icon>
         </button>
-        <button className="bg-accent">
+        <button
+          className="bg-accent"
+          onClick={() => {
+            nav("/activity");
+          }}
+        >
           <iconify-icon
             inline
             icon="ri:function-add-line"
@@ -30,14 +40,19 @@ export default function NavBar() {
             class="lightgrey-icon"
           ></iconify-icon>
         </button>
-        <button className="bg-accent">
-          <div className="avatar">
-            <div className="w-8 rounded-full">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </div>
+        <button
+          className="bg-accent"
+          onClick={() => {
+            nav("/profile/userID");
+          }}
+        >
+          <RoundedAvatar
+            image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            size="8"
+          />
         </button>
       </div>
+      <Outlet />
     </>
   );
 }
