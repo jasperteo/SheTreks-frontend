@@ -4,8 +4,8 @@ export default function ProfileHeader() {
   return (
     <>
       <div className="flex">
-        <div className="avatar w-20 flex-none">
-          <div className="w-28 rounded-full">
+        <div className="avatar w-24 flex-none">
+          <div className="rounded-full">
             <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
           </div>
         </div>

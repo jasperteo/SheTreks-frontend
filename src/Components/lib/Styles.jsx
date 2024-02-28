@@ -14,8 +14,8 @@ export const option = "hover:bg-light-pink";
 //avatar
 export const RoundedAvatar = ({ image }) => {
   return (
-    <div className="avatar">
-      <div className="w-8 rounded-full">
+    <div className="avatar w-8">
+      <div className="rounded-full">
         <img src={image} alt="Avatar" />
       </div>
     </div>
