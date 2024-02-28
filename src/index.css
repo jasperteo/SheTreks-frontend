@@ -27,6 +27,10 @@ body {
   background-color: #fbf5ef;
 }
 
+.lightgrey-icon {
+  @apply content-center text-3xl text-grey;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
