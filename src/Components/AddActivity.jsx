@@ -1,9 +1,7 @@
 import Select  from "react-select";
 import { useState } from 'react';
-import { multiValue, control, menu, option } from './Components/lib/styles';
-import { category } from './Components/lib/constants';
-import { location } from './Components/lib/constants';
-import { groupSizes } from './Components/lib/constants';
+import { multiValue, control, menu, option } from './lib/styles';
+import { category, location, groupSizes } from './lib/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,9 +19,9 @@ export default function AddActivity() {
   return (
     <>
     <div>
-        <h2 className="text-xl text-center font-bold text-black/50 mb-4 ">
+        <h1 className="text-xl text-center font-bold text-black/50 mb-4 ">
             Add Activity
-          </h2>
+          </h1>
          <div className="w-64 carousel rounded-box">
   <div className="carousel-item w-full">
     <img src="https://d18sx48tl6nre5.cloudfront.net/webp_xl_09e8f36b243c033473b3e0a8dc574183.webp" className="w-full" alt="Tailwind CSS Carousel component" />
