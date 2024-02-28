@@ -4,3 +4,36 @@
   padding: 2rem;
   text-align: center;
 }
+
+/*width here does not work */
+.MuiDateTimeField-root {
+  font-family: 'InterVariable';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+/*width here does not work */
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+ 
+  border-width: 1rem;   
+  border-radius: 25px;
+  border: solid;
+   border-color: #84A59D;
+  font-family: 'InterVariable';
+   width: 100%;
+    background-color:#F2F3F4 ;
+     /* this works */
+ 
+ }
+
+ .css-nr99o-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  /* border-width: 2px;
+  border-radius: 25px;
+  border: solid;
+  border-color: red; */
+
+ }
+ 

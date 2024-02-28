@@ -1,11 +1,12 @@
 import Select from "react-select";
 import { useState } from "react";
-import { multiValue, control, menu, option } from "./lib/styles";
-import { category, location, groupSizes } from "./lib/constants";
+import { multiValue, control, menu, option } from "./lib/Styles";
+import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
+import { DatePicker, defaultTheme, Provider } from "@adobe/react-spectrum";
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -20,11 +21,11 @@ export default function AddActivity() {
         <h1 className="text-xl text-center font-bold text-black/50 mb-4 ">
           Add Activity
         </h1>
-        <div className="w-64 carousel rounded-box">
-          <div className="carousel-item w-full">
+        <div className=" w-40 carousel rounded-box">
+          <div className="justify-center items-center carousel-item w-full">
             <img
               src="https://d18sx48tl6nre5.cloudfront.net/webp_xl_09e8f36b243c033473b3e0a8dc574183.webp"
-              className="w-full"
+              className="justify-center items-center w-full"
               alt="Tailwind CSS Carousel component"
             />
           </div>
@@ -43,23 +44,26 @@ export default function AddActivity() {
             className="text-center w-80 my-4 border-4 border-green rounded-md bg-grey focus:outline-none"
           />
         </div>
-
+    
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimeField
             label="Date & Time"
-            className=" text-center w-80 my-4 border-4 border-green rounded-md bg-grey font-sans"
-            // sx={{ width: 300,
-            // backgroundColor: "bg-grey",}}
+           
+            sx={{ width: "300px",
+            backgroundColor: "bg-grey",
+            borderRadius: "25%"}}
 
-            // value={value}
-            // onChange={(newValue) => setValue(newValue)}
+            
           />
         </LocalizationProvider>
+      
+
+    
 
         <div className="flex justify-center items-center">
           <Select
             placeholder="Location"
-            options={location}
+            options={locations}
             onChange={handleChange}
             unstyled
             classNames={{
@@ -73,7 +77,7 @@ export default function AddActivity() {
         <div className="flex justify-center items-center">
           <Select
             placeholder="Category"
-            options={category}
+            options={categories}
             isMulti
             onChange={handleChange}
             unstyled

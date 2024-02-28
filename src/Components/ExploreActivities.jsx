@@ -1,7 +1,7 @@
 import Select  from "react-select";
 import { useState } from 'react';
-import { multiValue, control, menu, option, center } from './lib/styles';
-import { category, location, groupSizes } from './lib/constants';
+import { multiValue, control, menu, option, center } from './lib/Styles';
+import { categories, locations, groupSizes } from './lib/Constants';
 
 export default function ExploreActivities() {
 
@@ -17,7 +17,7 @@ export default function ExploreActivities() {
     
     <Select
     placeholder="Location" 
-     options={location}
+     options={locations}
     onChange={handleChange}
     unstyled
     classNames={{
@@ -31,7 +31,7 @@ export default function ExploreActivities() {
     <div className={center}>
     <Select
     placeholder="Category"
-    options={category}
+    options={categories}
     isMulti
     onChange={handleChange}
     unstyled
