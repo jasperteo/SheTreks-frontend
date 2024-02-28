@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { multiValue, control, menu, option } from './Components/lib/styles';
 import { category } from './Components/lib/constants';
 import { location } from './Components/lib/constants';
+import {TimeField, Label, DateInput, DateSegment} from 'react-aria-components';
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([])
@@ -22,12 +23,17 @@ export default function AddActivity() {
             cols="10"
             rows="10"
             className="w-80  border-4 border-green rounded-md bg-white focus:outline-none"
-           
-           
+          
           />
 
       </div>
-    
+{/* 
+      <div> 
+        <MyTimeField
+      label="Activity time"
+      hourCycle={12} />
+      </div>
+     */}
 
   
     <Select
