@@ -21,10 +21,14 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
   background-color: #fbf5ef;
+}
+
+.lightgrey-icon {
+  @apply content-center text-3xl text-grey;
 }
 
 @media (prefers-color-scheme: light) {
