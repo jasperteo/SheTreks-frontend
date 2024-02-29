@@ -1,6 +1,6 @@
 import { pinkButton, greyButton } from "../lib/Styles";
 
-export default function FollowerRequest () {
+export default function FollowerRequest() {
   return (
     <div className="flex items-start justify-between gap-2 ">
       <img
@@ -16,8 +16,8 @@ export default function FollowerRequest () {
           @cryingKitty{" "}
         </div>
       </div>
-      <div className={pinkButton}>Confirm</div>
-      <div className={greyButton}>Delete</div>
+      <button className={pinkButton}>Confirm</button>
+      <button className={greyButton}>Delete</button>
     </div>
   );
 }

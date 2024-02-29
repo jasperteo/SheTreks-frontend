@@ -35,6 +35,8 @@ export const darkPinkButton =
 export const brGreenButton =
   "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
 
+export const tab = "tab-lg tab-lifted tab text-gray-400";
+
 //smallest  avatar
 export const RoundedAvatar = ({ image }) => {
   return (
