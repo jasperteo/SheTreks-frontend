@@ -45,7 +45,7 @@ export default function App() {
           path: "setting",
           element: <EditProfile />,
         },
-         {
+        {
           path: "follow",
           element: <Following />,
         },
@@ -55,7 +55,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 }
