@@ -32,6 +32,9 @@ export const greyButton =
 //Light grey icon in Navbar
 export const lgreyIcon = "content-center text-3xl text-grey";
 
+//Dark pink icon for activity
+export const dPinkIcon = "content-center text-3xl text-secondary";
+
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
 

@@ -1,4 +1,4 @@
-import { RoundedAvatar } from "./lib/Styles";
+import { RoundedAvatar, dPinkIcon, darkPinkButton } from "./lib/Styles";
 
 export default function ActivityCard() {
   return (
@@ -16,7 +16,12 @@ export default function ActivityCard() {
               @userName
             </div>
           </div>
-          <div className="font-semibold">Event Activity Title</div>
+          <div className="flex">
+            <div className={`${dPinkIcon}`}>
+              <iconify-icon inline icon="ri:plant-line" />
+            </div>
+            <div className="ml-2 mt-1 font-semibold">Event Activity Title</div>
+          </div>
           <div className="font-light italic">Date, General Time</div>
           <div>Description</div>
         </div>
@@ -28,6 +33,9 @@ export default function ActivityCard() {
         <figure>
           <img src="/map.png" alt="map" />
         </figure>
+        <div className="card-body -mb-8">
+          <button className={`${darkPinkButton} text-grey`}>JOIN NOW</button>
+        </div>
       </div>
     </>
   );
