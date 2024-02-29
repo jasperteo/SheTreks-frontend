@@ -54,18 +54,16 @@ export default function AddActivity() {
             sx={{
           width: "100%",
            borderRadius: "25px",
-            borderWidth: "1rem", 
-          border: "solid",
-          borderColor: "#84A59D",
+         
            
            "*": {
           fontFamily: "InterVariable !important",
           backgroundColor: "#F2F3F4",
           borderRadius: "25px",
 
-          // borderWidth: "1rem", 
-          // border: "solid",
-          // borderColor: "#84A59D",
+          borderWidth: "1rem", 
+          border: "solid",
+          borderColor: "#84A59D",
         },
       }}
 
