@@ -19,6 +19,16 @@ export const center = "flex justify-center items-center";
 export const pinkButton =
   "btn btn-primary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
 
+export const darkPinkButton =
+  "btn btn-secondary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+
+export const brGreenButton =
+  "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+
+//Button background grey
+export const greyButton =
+  "btn btn-grey mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+
 //Light grey icon in Navbar
 export const lgreyIcon = "content-center text-3xl text-grey";
 

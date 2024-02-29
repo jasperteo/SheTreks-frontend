@@ -1,4 +1,4 @@
-import { RoundedAvatar, semiBoldTxCen } from "../lib/Styles";
+import { semiBoldTxCen } from "../lib/Styles";
 
 export default function ProfileHeader() {
   return (
@@ -9,12 +9,7 @@ export default function ProfileHeader() {
             <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
           </div>
         </div>
-        {/* <div className="w-36 flex-initial">
-          <RoundedAvatar
-            image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            size="28"
-          />
-        </div> */}
+
         <div className={`${semiBoldTxCen} w-32 flex-auto`}>
           0 <br /> FOLLOWERS
         </div>
