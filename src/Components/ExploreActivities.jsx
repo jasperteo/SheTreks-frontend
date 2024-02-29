@@ -72,8 +72,7 @@ export default function ExploreActivities() {
        
             <button className="flex items-center justify-center  mt-4 bg-light-pink text-black rounded-full h-10 px-4 focus:outline-none focus:ring-2 focus:ring-green-500">
       <span className="mr-2">Search</span>
-     <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24"><path fill="black" 
-     d="m18.031 16.617l4.283 4.282l-1.415 1.415l-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9s9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617m-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.867-3.133-7-7-7s-7 3.133-7 7s3.133 7 7 7a6.977 6.977 0 0 0 4.875-1.975z"></path></svg>
+    
      
     </button>
      </div>

@@ -17,13 +17,15 @@ export const center = "flex justify-center items-center";
 //Button background light pink
 export const pinkButton = "mb-10 bg-light-pink text-black rounded-full h-10 min-w-20 focus:outline-none focus:ring-2 focus:ring-green-500";
 
-//avatar
-export const RoundedAvatar = ({ image, size }) => {
+//Light grey icon in Navbar
+export const lgreyIcon = "content-center text-3xl text-grey";
+
+//Semi bold text in container
+export const semiBoldTxCen = "text-center font-semibold";
+
+//smallest  avatar
+export const RoundedAvatar = ({ image }) => {
   return (
-    <div className="avatar">
-      <div className={`w-${size} rounded-full`}>
-        <img src={image} alt="Avatar" />
-      </div>
-    </div>
+    <img className="avatar mb-2 w-8 rounded-full" src={image} alt="Avatar" />
   );
 };

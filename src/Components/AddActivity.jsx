@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { useState } from "react";
-import { multiValue, control, menu, option, pinkButton } from "./lib/Styles";
+import { multiValue, control, menu, option, pinkButton, center } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -44,37 +44,10 @@ export default function AddActivity() {
             className="text-center w-80 my-4 border-4 border-green rounded-md bg-grey focus:outline-none"
           />
         </div>
-    
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimeField
-            label="Date & Time"
-           
-  
-
-            sx={{
-          width: "100%",
-           borderRadius: "25px",
-         
-           
-           "*": {
-          fontFamily: "InterVariable !important",
-          backgroundColor: "#F2F3F4",
-          borderRadius: "25px",
-
-          borderWidth: "1rem", 
-          border: "solid",
-          borderColor: "#84A59D",
-        },
-      }}
-
-            
-          />
-        </LocalizationProvider>
-      
 
     
 
-        <div className="flex justify-center items-center">
+        <div className={center}>
           <Select
             placeholder="Location"
             options={locations}
@@ -88,7 +61,7 @@ export default function AddActivity() {
           />
         </div>
 
-        <div className="flex justify-center items-center">
+        <div className={center}>
           <Select
             placeholder="Category"
             options={categories}
@@ -103,7 +76,7 @@ export default function AddActivity() {
             }}
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className={center}>
           <Select
             placeholder="Group size"
             options={groupSizes}
@@ -116,6 +89,34 @@ export default function AddActivity() {
             }}
           />
         </div>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimeField
+            label="Date & Time"
+           
+  
+
+            sx={{
+          width: "100%",
+           borderRadius: "25px",
+           backgroundColor: "#F2F3F4",
+           
+           "*": {
+          fontFamily: "InterVariable !important",
+          borderRadius: "25px",
+
+        },
+         ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
+          fontFamily: "InterVariable !important",
+          borderRadius: "25px",
+
+        },
+      }}
+
+            
+          />
+        </LocalizationProvider>
+      
 
         <div>
           <input
