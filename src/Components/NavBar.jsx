@@ -22,13 +22,15 @@ export default function NavBar() {
           ></iconify-icon>
         </button>
       </Link>
-      <button className="bg-accent">
-        <iconify-icon
-          inline
-          icon="ri:notification-2-line"
-          class={lgreyIcon}
-        ></iconify-icon>
-      </button>
+      <Link to="/notifications" className="bg-accent">
+        <button className="bg-accent">
+          <iconify-icon
+            inline
+            icon="ri:notification-2-line"
+            class={lgreyIcon}
+          ></iconify-icon>
+        </button>
+      </Link>
       <button className="bg-accent">
         <iconify-icon
           inline

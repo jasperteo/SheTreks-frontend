@@ -35,6 +35,10 @@ export const lgreyIcon = "content-center text-3xl text-grey";
 //Dark pink icon for activity
 export const dPinkIcon = "content-center text-3xl text-secondary";
 
+//Notification Icon
+export const notifIcon =
+  "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-3xl text-grey";
+
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
 
