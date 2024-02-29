@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 import AddActivity from "./Components/AddActivity";
+import ExploreActivities from "./Components/ExploreActivities";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import NavBar from "./Components/NavBar";
 import Profile from "./Components/Profile/Profile";
@@ -21,13 +22,19 @@ export default function App() {
     },
     {
       path: "/activity",
-      element: (
-        <>
-          <AddActivity />
-          <NavBar />
-        </>
-      ),
+      element: <NavBar />,
+      children: [
+        {
+          path: "explore",
+          element: <ExploreActivities />,
+        },
+        {
+          path: "add",
+          element: <AddActivity />,
+        },
+      ],
     },
+
     {
       path: `/profile`,
       element: <NavBar />,
@@ -40,7 +47,7 @@ export default function App() {
           path: "setting",
           element: <EditProfile />,
         },
-         {
+        {
           path: "follow",
           element: <Following />,
         },

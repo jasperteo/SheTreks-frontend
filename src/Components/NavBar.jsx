@@ -6,7 +6,7 @@ export default function NavBar() {
 
   return (
     <>
-      <div className="btm-nav">
+      <div className="btm-nav fixed bottom-0 z-10">
         <button className="bg-accent">
           <iconify-icon
             inline

@@ -1,12 +1,18 @@
 import Select from "react-select";
 import { useState } from "react";
-import { multiValue, control, menu, option, pinkButton, center } from "./lib/Styles";
+import {
+  multiValue,
+  control,
+  menu,
+  option,
+  center,
+  pinkButton,
+} from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
-
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -18,37 +24,51 @@ export default function AddActivity() {
   return (
     <>
       <div>
-        <h1 className="text-xl text-center font-bold text-black/50 mb-4 ">
+        <h1 className="mb-4 text-center text-xl font-bold text-black/50 ">
           Add Activity
         </h1>
-        <div className=" w-40 carousel rounded-box">
-          <div className="justify-center items-center carousel-item w-full">
+        <div className=" carousel w-40 rounded-box">
+          <div className="carousel-item w-full items-center justify-center">
             <img
               src="https://d18sx48tl6nre5.cloudfront.net/webp_xl_09e8f36b243c033473b3e0a8dc574183.webp"
-              className="justify-center items-center w-full"
+              className="w-full items-center justify-center"
               alt="Tailwind CSS Carousel component"
             />
           </div>
         </div>
 
-        <div> 
-
-        <input
-          type="text"
-          placeholder="Title"
-          className="text-center w-80 h-12 mt-4 leading-6 border-4 border-green rounded-md bg-grey focus:outline-none"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Title"
+            className="mt-4 h-12 w-80 rounded-md border-4 border-green bg-grey text-center leading-6 focus:outline-none"
+          />
         </div>
         <div>
           <textarea
             placeholder="Description"
             cols="10"
             rows="5"
-            className="text-center mt-4 w-80 border-4 border-green rounded-md bg-grey focus:outline-none"
+            className="mt-4 w-80 rounded-md border-4 border-green bg-grey text-center focus:outline-none"
           />
         </div>
 
-    
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimeField
+            label="Date & Time"
+            sx={{
+              width: "100%",
+              backgroundColor: "#F2F3F4",
+
+              "*": {
+                fontFamily: "InterVariable !important",
+              },
+              ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
+                fontFamily: "InterVariable !important",
+              },
+            }}
+          />
+        </LocalizationProvider>
 
         <div className={center}>
           <Select
@@ -93,39 +113,11 @@ export default function AddActivity() {
           />
         </div>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimeField
-            label="Date & Time"
-           
-  
-
-            sx={{
-          width: "100%",
-          
-           backgroundColor: "#F2F3F4",
-           
-           
-           "*": {
-          fontFamily: "InterVariable !important",
-        
-
-        },
-         ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
-          fontFamily: "InterVariable !important",
-        
-        },
-      }}
-
-            
-          />
-        </LocalizationProvider>
-      
-
         <div>
           <input
             type="file"
             accept="image/*"
-            className="file-input my-4 h-10 file-input-bordered file-input-primary w-full max-w-xs"
+            className="file-input file-input-bordered file-input-primary my-4 h-10 w-full max-w-xs"
           />
         </div>
 
