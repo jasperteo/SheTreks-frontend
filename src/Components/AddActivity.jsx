@@ -31,17 +31,20 @@ export default function AddActivity() {
           </div>
         </div>
 
+        <div> 
+
         <input
           type="text"
           placeholder="Title"
-          className="text-center my-4 w-80 h-12 leading-6 border-4 border-green rounded-md bg-grey focus:outline-none"
+          className="text-center w-80 h-12 mt-4 leading-6 border-4 border-green rounded-md bg-grey focus:outline-none"
         />
+        </div>
         <div>
           <textarea
             placeholder="Description"
             cols="10"
             rows="5"
-            className="text-center w-80 my-4 border-4 border-green rounded-md bg-grey focus:outline-none"
+            className="text-center mt-4 w-80 border-4 border-green rounded-md bg-grey focus:outline-none"
           />
         </div>
 
@@ -98,18 +101,18 @@ export default function AddActivity() {
 
             sx={{
           width: "100%",
-           borderRadius: "25px",
+          
            backgroundColor: "#F2F3F4",
+           
            
            "*": {
           fontFamily: "InterVariable !important",
-          borderRadius: "25px",
+        
 
         },
          ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
           fontFamily: "InterVariable !important",
-          borderRadius: "25px",
-
+        
         },
       }}
 
