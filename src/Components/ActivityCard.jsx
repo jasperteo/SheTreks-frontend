@@ -19,19 +19,14 @@ export default function ActivityCard() {
           <div className="font-semibold">Event Activity Title</div>
           <div className="font-light italic">Date, General Time</div>
           <div>Description</div>
-          <div>MAP</div>
         </div>
+        <img
+          className="-mt-2 object-none"
+          src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+          alt="Activity Image"
+        />
         <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-            alt="Album"
-          />
-        </figure>
-        <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-            alt="Album"
-          />
+          <img src="/map.png" alt="map" />
         </figure>
       </div>
     </>

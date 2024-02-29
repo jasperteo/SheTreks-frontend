@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { RoundedAvatar, lgreyIcon } from "./lib/Styles";
 
 export default function NavBar() {
-  // use Link to instead of Nav
+  // use Link to instead of useNavigate
 
   return (
     <div className="btm-nav">
