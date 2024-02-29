@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
+import ActivityCard from "../ActivityCard";
 
 export default function Profile() {
   return (
@@ -8,11 +9,10 @@ export default function Profile() {
       <div className="mt-2 font-semibold">First Name Last Name</div>
       <div className="font-light italic">@userName</div>
       <div>Hello! I am a human.</div>
-      <div>
-        <Link to="/profile/setting">
-          <button>Edit Profile/Following</button>
-        </Link>
-      </div>
+      <Link to="/profile/setting">
+        <button>Edit Profile/Following</button>
+      </Link>
+      <ActivityCard />
     </>
   );
 }

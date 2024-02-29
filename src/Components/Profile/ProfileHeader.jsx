@@ -1,4 +1,4 @@
-import { RoundedAvatar } from "../lib/Styles";
+import { RoundedAvatar, semiBoldTxCen } from "../lib/Styles";
 
 export default function ProfileHeader() {
   return (
@@ -15,10 +15,10 @@ export default function ProfileHeader() {
             size="28"
           />
         </div> */}
-        <div className="bold-text w-32 flex-auto ">
+        <div className={`${semiBoldTxCen} w-32 flex-auto`}>
           0 <br /> FOLLOWERS
         </div>
-        <div className="bold-text w-32 flex-auto ">
+        <div className={`${semiBoldTxCen} w-32 flex-auto`}>
           0 <br /> FOLLOWERING
         </div>
       </div>
