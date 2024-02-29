@@ -6,6 +6,7 @@ import NavBar from "./Components/NavBar";
 import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
 import Home from "./Components/Home";
+import Following from "./Components/Following";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -43,6 +44,10 @@ export default function App() {
         {
           path: "setting",
           element: <EditProfile />,
+        },
+         {
+          path: "follow",
+          element: <Following />,
         },
       ],
     },
