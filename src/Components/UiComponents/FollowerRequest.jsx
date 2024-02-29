@@ -1,6 +1,6 @@
 import { pinkButton, greyButton } from "../lib/Styles";
 
-export default function FollowBlock() {
+export default function FollowerRequest () {
   return (
     <div className="flex items-start justify-between gap-2 ">
       <img
