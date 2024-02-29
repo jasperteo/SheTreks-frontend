@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { useState } from "react";
-import { multiValue, control, menu, option } from "./lib/Styles";
+import { multiValue, control, menu, option, pinkButton } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -49,9 +49,25 @@ export default function AddActivity() {
           <DateTimeField
             label="Date & Time"
            
-            sx={{ width: "300px",
-            backgroundColor: "bg-grey",
-            borderRadius: "25%"}}
+  
+
+            sx={{
+          width: "100%",
+           borderRadius: "25px",
+            borderWidth: "1rem", 
+          border: "solid",
+          borderColor: "#84A59D",
+           
+           "*": {
+          fontFamily: "InterVariable !important",
+          backgroundColor: "#F2F3F4",
+          borderRadius: "25px",
+
+          // borderWidth: "1rem", 
+          // border: "solid",
+          // borderColor: "#84A59D",
+        },
+      }}
 
             
           />
@@ -111,7 +127,7 @@ export default function AddActivity() {
           />
         </div>
 
-        <button className="btn bg-light-pink">Submit</button>
+        <button className={pinkButton}>Submit</button>
       </div>
     </>
   );

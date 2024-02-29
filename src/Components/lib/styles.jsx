@@ -15,7 +15,7 @@ export const option = "hover:bg-light-pink";
 export const center = "flex justify-center items-center";
 
 //Button background light pink
-export const pinkButton = "bg-light-pink text-black rounded-full h-10 w-20 focus:outline-none focus:ring-2 focus:ring-green-500";
+export const pinkButton = "mb-10 bg-light-pink text-black rounded-full h-10 min-w-20 focus:outline-none focus:ring-2 focus:ring-green-500";
 
 //avatar
 export const RoundedAvatar = ({ image, size }) => {
