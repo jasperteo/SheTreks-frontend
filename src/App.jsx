@@ -1,7 +1,7 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 import AddActivity from "./Components/AddActivity";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import NavBar from "./Components/NavBar";
 import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
@@ -29,10 +29,15 @@ export default function App() {
     },
     {
       path: `/profile`,
-      element: <NavBar />,
+      element: (
+        <>
+          <NavBar />
+          <Outlet />
+        </>
+      ),
       children: [
         {
-          path: "userID",
+          path: "username",
           element: <Profile />,
         },
         {

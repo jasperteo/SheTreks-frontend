@@ -11,13 +11,15 @@ export const menu = "border border-green rounded-md bg-white";
 //Options in dropdown menu
 export const option = "hover:bg-light-pink";
 
-//avatar
-export const RoundedAvatar = ({ image, size }) => {
+//Light grey icon in Navbar
+export const lgreyIcon = "content-center text-3xl text-grey";
+
+//Semi bold text in container
+export const semiBoldTxCen = "text-center font-semibold";
+
+//smallest  avatar
+export const RoundedAvatar = ({ image }) => {
   return (
-    <div className="avatar">
-      <div className={`w-${size} rounded-full`}>
-        <img src={image} alt="Avatar" />
-      </div>
-    </div>
+    <img className="avatar mb-2 w-8 rounded-full" src={image} alt="Avatar" />
   );
 };
