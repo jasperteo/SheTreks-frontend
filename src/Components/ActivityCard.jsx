@@ -3,7 +3,7 @@ import { RoundedAvatar } from "./lib/Styles";
 export default function ActivityCard() {
   return (
     <>
-      <div className="card bg-primary shadow-xl lg:card-side">
+      <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
         <div className="card-body">
           <div className="flex">
             <div className="flex-none">
