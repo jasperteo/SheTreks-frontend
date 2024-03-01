@@ -1,6 +1,6 @@
-import { greyButton, brGreenButton } from "../lib/Styles";
+import { pinkButton, greyButton } from "../lib/Styles";
 
-export default function FollowBlock() {
+export default function FollowerRequest() {
   return (
     <div className="flex items-start justify-between gap-2 ">
       <img
@@ -8,7 +8,7 @@ export default function FollowBlock() {
         src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
         className="mt-3 aspect-[1.06] w-12 rounded-full"
       />
-      <div className=" mr-10 mt-3 flex flex-1 flex-col">
+      <div className="mt-3 flex flex-1 flex-col">
         <div className="whitespace-nowrap text-lg font-bold text-black">
           Cat Tan
         </div>
@@ -16,8 +16,8 @@ export default function FollowBlock() {
           @cryingKitty{" "}
         </div>
       </div>
-
-      <button className={greyButton}>Remove</button>
+      <button className={pinkButton}>Confirm</button>
+      <button className={greyButton}>Delete</button>
     </div>
   );
 }

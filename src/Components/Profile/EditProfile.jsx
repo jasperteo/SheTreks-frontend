@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { locations } from "../lib/Constants.js";
-import { control, menu, option } from "../lib/Styles.jsx";
+import { control, menu, option } from "../lib/Styles";
 
 export default function EditProfile() {
   return (
