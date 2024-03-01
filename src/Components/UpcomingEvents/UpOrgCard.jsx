@@ -1,13 +1,7 @@
 import UserSummProfile from "../UiComponents/UserSummProfile";
-import {
-  chatIcon,
-  RoundedAvatar,
-  dPinkIcon,
-  darkPinkButton,
-  lgreyIcon,
-} from "../lib/ClassesName";
+import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
 
-export default function UpcomingEventCard() {
+export default function UpOrgCard() {
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -22,6 +16,7 @@ export default function UpcomingEventCard() {
             <div className="ml-2 mt-1 flex-auto font-light italic">
               @organiser
             </div>
+            chat, calendar, delete
           </div>
           <div className="font-semibold">Hanoi, Vietnam</div>
 

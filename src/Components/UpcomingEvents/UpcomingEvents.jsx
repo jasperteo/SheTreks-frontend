@@ -1,11 +1,41 @@
+import { useState } from "react";
 import { title } from "../lib/ClassesName";
-import UpcomingEventCard from "./UpcomingEventsCard";
+import UpOrgCard from "./UpOrgCard";
+import UpJoinCard from "./UpJoinCard";
 
 export default function UpcomingEvents() {
+  const [activeTab, setActiveTab] = useState(1);
+
+  function updateToggle(id) {
+    setActiveTab(id);
+  }
   return (
     <>
       <div className={`${title}`}>UPCOMING EVENTS</div>
-      <UpcomingEventCard />
+      <div role="tablist" className="tabs tabs-bordered">
+        <a
+          role="tab"
+          className={`tab ${activeTab === 1 ? "tab-active" : ""}`}
+          onClick={() => updateToggle(1)}
+        >
+          Organised
+        </a>
+        <a
+          role="tab"
+          className={`tab ${activeTab === 2 ? "tab-active" : ""}`}
+          onClick={() => updateToggle(2)}
+        >
+          Joined
+        </a>
+      </div>
+
+      <div className={activeTab == 1 ? "block" : "hidden"}>
+        {" "}
+        <UpOrgCard />
+      </div>
+      <div className={activeTab == 2 ? "block" : "hidden"}>
+        <UpJoinCard />
+      </div>
     </>
   );
 }
