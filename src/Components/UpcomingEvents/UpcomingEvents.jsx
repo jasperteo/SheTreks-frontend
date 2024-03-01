@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { title } from "../lib/ClassesName";
+import { title, activeTabColour } from "../lib/ClassesName";
 import UpOrgCard from "./UpOrgCard";
 import UpJoinCard from "./UpJoinCard";
 
@@ -9,16 +9,18 @@ export default function UpcomingEvents() {
   function updateToggle(id) {
     setActiveTab(id);
   }
+  const activeTabColour = "hover:text-secondary font-semibold";
+
   return (
     <>
       <div className={`${title}`}>UPCOMING EVENTS</div>
-      <div role="tablist" className="tabs tabs-bordered">
+      <div role="tablist" className={`tabs tabs-bordered text-neutral`}>
         <a
           role="tab"
-          className={`tab ${activeTab === 1 ? "tab-active" : ""}`}
+          className={`tab ${activeTab === 1 ? `tab tab-active ${activeTabColour}` : ""}`}
           onClick={() => updateToggle(1)}
         >
-          Organised
+          ORGANISED
         </a>
         <a
           role="tab"

@@ -53,3 +53,6 @@ export const RoundedAvatar = ({ image }) => {
     <img className="avatar mb-2 w-8 rounded-full" src={image} alt="Avatar" />
   );
 };
+
+//tabs: active font colour
+export const activeTabColour = "hover:text-secondary font-semibold";
