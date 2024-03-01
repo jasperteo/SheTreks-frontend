@@ -19,6 +19,12 @@ export const center = "flex justify-center items-center my-4";
 export const pinkButton =
   "mt-3 grow justify-center whitespace-nowrap btn btn-primary  focus:outline-none focus:ring-2 focus:ring-green-500";
 
+export const darkPinkButton =
+  "btn btn-secondary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+
+export const brGreenButton =
+  "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+
 //Button background grey
 export const greyButton =
   "mt-3 grow justify-center whitespace-nowrap btn btn-grey focus:outline-none focus:ring-2 focus:ring-green-500";
@@ -26,14 +32,15 @@ export const greyButton =
 //Light grey icon in Navbar
 export const lgreyIcon = "content-center text-3xl text-grey";
 
+//Dark pink icon for activity
+export const dPinkIcon = "content-center text-xl text-secondary";
+
+//Notification Icon
+export const notifIcon =
+  "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-2xl text-grey";
+
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
-
-export const darkPinkButton =
-  "btn btn-secondary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
-
-export const brGreenButton =
-  "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
 
 //Titles text
 export const title = "mb-4 text-center text-xl font-bold text-dark-grey";

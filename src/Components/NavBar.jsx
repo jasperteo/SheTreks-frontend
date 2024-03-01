@@ -1,58 +1,52 @@
-import { useNavigate, Outlet } from "react-router-dom";
-import { RoundedAvatar } from "./lib/Styles";
+import { Link } from "react-router-dom";
+import { RoundedAvatar, lgreyIcon } from "./lib/Styles";
 
 export default function NavBar() {
-  const nav = useNavigate();
+  // use Link to instead of useNavigate
 
   return (
-    <>
-      <div className="btm-nav fixed bottom-0 z-10">
+    <div className="btm-nav fixed bottom-0 z-10">
+      <Link to="/feeds" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
             icon="ri:robot-2-line"
-            class="lightgrey-icon "
+            class={lgreyIcon}
           ></iconify-icon>
         </button>
-        <button
-          className="bg-accent"
-          onClick={() => {
-            nav("/activity");
-          }}
-        >
+      </Link>
+      <Link to="/activity" className="bg-accent">
+        <button className="bg-accent">
           <iconify-icon
             inline
             icon="ri:function-add-line"
-            class="lightgrey-icon "
+            class={lgreyIcon}
           ></iconify-icon>
         </button>
+      </Link>
+      <Link to="/notifications" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
             icon="ri:notification-2-line"
-            class="lightgrey-icon "
+            class={lgreyIcon}
           ></iconify-icon>
         </button>
+      </Link>
+      <Link to="/upcomingevents" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
             icon="ri:calendar-event-line"
-            class="lightgrey-icon"
+            class={lgreyIcon}
           ></iconify-icon>
         </button>
-        <button
-          className="bg-accent"
-          onClick={() => {
-            nav("/profile/userID");
-          }}
-        >
-          <RoundedAvatar
-            image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            size="8"
-          />
+      </Link>
+      <Link to="/profile/username" className="bg-accent">
+        <button className="mt-2 bg-accent">
+          <RoundedAvatar image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
         </button>
-      </div>
-      <Outlet />
-    </>
+      </Link>
+    </div>
   );
 }

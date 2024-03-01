@@ -20,15 +20,12 @@
 
 body {
   margin: 0;
-  display: flex;
+  /* display: flex; */
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
   background-color: #fbf5ef;
-}
-
-.lightgrey-icon {
-  @apply content-center text-3xl text-grey;
+  color: #353839; /* font colour */
 }
 
 @media (prefers-color-scheme: light) {
