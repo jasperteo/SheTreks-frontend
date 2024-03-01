@@ -5,8 +5,9 @@ import {
   control,
   menu,
   option,
-  pinkButton,
   center,
+  pinkButton,
+  title,
 } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
@@ -24,9 +25,7 @@ export default function AddActivity() {
   return (
     <>
       <div>
-        <h1 className="mb-4 text-center text-xl font-bold text-black ">
-          Add Activity
-        </h1>
+        <h1 className={title}>Add Activity</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
             <img
@@ -37,19 +36,42 @@ export default function AddActivity() {
           </div>
         </div>
 
-        <input
-          type="text"
-          placeholder="Title"
-          className="my-4 h-12 w-80 rounded-md border-4 border-green bg-grey text-center leading-6 focus:outline-none"
-        />
-        <div>
-          <textarea
-            placeholder="Description"
-            cols="10"
-            rows="5"
-            className="my-4 w-80 rounded-md border-4 border-green bg-grey text-center focus:outline-none"
+        <div className={center}>
+          <input
+            type="text"
+            placeholder="Title"
+            className="input input-bordered input-accent w-full max-w-xs bg-grey"
           />
         </div>
+        <div className={center}>
+          <textarea
+            className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
+            placeholder="Description"
+          ></textarea>
+        </div>
+        <div className={center}>
+          <textarea
+            className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
+            placeholder="Address"
+          ></textarea>
+        </div>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimeField
+            label="Date & Time"
+            sx={{
+              width: "20rem",
+              backgroundColor: "#F2F3F4",
+
+              "*": {
+                fontFamily: "InterVariable !important",
+              },
+              ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
+                fontFamily: "InterVariable !important",
+              },
+            }}
+          />
+        </LocalizationProvider>
 
         <div className={center}>
           <Select
@@ -94,31 +116,11 @@ export default function AddActivity() {
           />
         </div>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimeField
-            label="Date & Time"
-            sx={{
-              width: "100%",
-              borderRadius: "25px",
-              backgroundColor: "#F2F3F4",
-
-              "*": {
-                fontFamily: "InterVariable !important",
-                borderRadius: "25px",
-              },
-              ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
-                fontFamily: "InterVariable !important",
-                borderRadius: "25px",
-              },
-            }}
-          />
-        </LocalizationProvider>
-
         <div>
           <input
             type="file"
             accept="image/*"
-            className="file-input file-input-bordered file-input-primary my-4 h-10 w-full max-w-xs"
+            className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
           />
         </div>
 
