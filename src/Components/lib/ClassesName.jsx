@@ -39,6 +39,8 @@ export const dPinkIcon = "content-center text-xl text-secondary";
 export const notifIcon =
   "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-2xl text-grey";
 
+export const chatIcon = "ri:chat-4-line";
+
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
 

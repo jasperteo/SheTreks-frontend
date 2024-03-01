@@ -1,4 +1,5 @@
 import UserSummProfile from "./UiComponents/UserSummProfile";
+import { chatIcon } from "./lib/ClassesName";
 import {
   RoundedAvatar,
   dPinkIcon,
@@ -51,7 +52,7 @@ export default function ActivityCard() {
           <div className="-mt-2 font-semibold">Participants:</div>
           <UserSummProfile />
           <button className={`${darkPinkButton} mb-4 text-grey`}>
-            <iconify-icon icon="ri:chat-4-line" class={lgreyIcon} />
+            <iconify-icon icon={chatIcon} class={lgreyIcon} />
             DISCUSS PROGRAMME
           </button>
         </div>

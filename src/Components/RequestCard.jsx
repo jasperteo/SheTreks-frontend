@@ -1,4 +1,5 @@
 import UserSummProfile from "./UiComponents/UserSummProfile";
+import { chatIcon } from "./lib/ClassesName";
 import {
   RoundedAvatar,
   brGreenButton,
@@ -15,14 +16,14 @@ export default function RequestCard() {
           <div className="font-semibold">Requests</div>
           <UserSummProfile />
           <div>User is requesting to join the acitivty.</div>
-          <div className="flex">
+          <div className="flex items-start">
             <button className={`${darkPinkButton}  mr-2 mt-2 flex-auto`}>
-              <iconify-icon icon="ri:chat-4-line" class={lgreyIcon} />
+              <iconify-icon icon={chatIcon} class={lgreyIcon} />
             </button>
             <button className={`${brGreenButton} mr-2 mt-2 flex-auto`}>
               <iconify-icon icon="ri:check-line" class={lgreyIcon} />
             </button>
-            <button className={`${greyButton}  mr-2 mt-2 flex-auto`}>
+            <button className="btn-grey focus:ring-green-500 btn mr-2 mt-2 flex-auto  focus:outline-none focus:ring-2">
               <iconify-icon
                 icon="ri:close-line"
                 class="content-center text-3xl text-neutral"

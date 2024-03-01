@@ -12,11 +12,11 @@ export default function Profile() {
       <div className="font-light italic">@userName</div>
       <div>Hello! I am a human.</div>
       <Link to="/profile/setting">
-        <button className={`${pinkButton} -mb-2 mt-2`}>
+        <button className={`${pinkButton} absolute left-8  mt-2`}>
           Edit Profile/Following
         </button>
       </Link>
-      <div className="-mb-12"></div>
+      <div className="mb-20"></div>
       <ActivityCard />
       <RequestCard />
     </>

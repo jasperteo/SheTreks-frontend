@@ -1,26 +1,32 @@
-import { notifIcon } from "../lib/Styles";
+import { chatIcon, notifIcon } from "../lib/ClassesName";
+import { truncateText } from "../lib/Constants";
 
-export default function SingleNotification() {
+export default function ActivityNotification() {
   return (
     <>
-      <div className="flex justify-between">
-        <div className="flex items-center">
+      <div className="mb-4 flex justify-between">
+        <div className="flex items-start">
           <div className={`${notifIcon}`}>
             <iconify-icon icon="ri:walk-line" />
           </div>
-          <div className="ml-4">
-            Activity
-            <br />
-            Request to join from @userName
+          <div className="ml-4 w-3/5">
+            Activity <br />
+            {truncateText("Request to join from @userName", 30)}
           </div>
         </div>
-        <div className="text-xs font-light italic">
+        <div className="w-1/5 text-xs font-light italic">
           12 Feb 2024 <br />
           09:47AM
         </div>
       </div>
-      Activity Follow request Chat request
-      <iconify-icon icon="ri:user-settings-line"></iconify-icon>
+      This is for follow Request
+      <div className={`${notifIcon}`}>
+        <iconify-icon icon="ri:user-settings-line" />
+      </div>
+      This is for chat messages
+      <div className={`${notifIcon}`}>
+        <iconify-icon icon={chatIcon} />
+      </div>
     </>
   );
 }

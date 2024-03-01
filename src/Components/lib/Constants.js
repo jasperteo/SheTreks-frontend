@@ -40,9 +40,14 @@ export const categories = [
   },
 ];
 
-  export const groupSizes = [ 
-    {value: "2 to 3", label: "2 to 3"},
-    {value: "4 to 6", label: "4 to 6"},
-    {value: "6 to 8", label: "6 to 8"},
-    {value: "More than 8", label: "More than 8"},
-  ]
+export const groupSizes = [
+  { value: "2 to 3", label: "2 to 3" },
+  { value: "4 to 6", label: "4 to 6" },
+  { value: "6 to 8", label: "6 to 8" },
+  { value: "More than 8", label: "More than 8" },
+];
+
+//to reduce notification characters in notification page
+export const truncateText = (text, maxLength) => {
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+};
