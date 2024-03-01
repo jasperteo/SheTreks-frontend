@@ -11,7 +11,7 @@ export default function RequestCard() {
     <>
       <div className="lg:card-sides card mt-8 bg-info shadow-xl">
         <div className="card-body -mb-8">
-          <div className="font-semibold">Request</div>
+          <div className="font-semibold">Requests</div>
           <div className="flex">
             <div className="flex-none">
               <RoundedAvatar

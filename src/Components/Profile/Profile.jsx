@@ -16,6 +16,7 @@ export default function Profile() {
           Edit Profile/Following
         </button>
       </Link>
+      <div className="-mb-12"></div>
       <ActivityCard />
       <RequestCard />
     </>

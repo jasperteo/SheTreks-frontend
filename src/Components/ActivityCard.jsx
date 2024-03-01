@@ -22,14 +22,17 @@ export default function ActivityCard() {
             </div>
           </div>
           <div className="font-semibold">Hanoi, Vietnam</div>
+
+          <div className="font-semibold">Event Activity Title</div>
+
+          <div className="font-light italic">Date, General Time</div>
+          <div>Description</div>
           <div className="flex">
             <div className={`${dPinkIcon}`}>
               <iconify-icon inline icon="ri:plant-line" />
             </div>
-            <div className="ml-2 mt-1 font-semibold">Event Activity Title</div>
+            <div className="mt-2 text-xs"> Event Category</div>
           </div>
-          <div className="font-light italic">Date, General Time</div>
-          <div>Description</div>
         </div>
         <img
           className="-mt-2 object-none"
@@ -44,7 +47,7 @@ export default function ActivityCard() {
             JOIN NOW
           </button>
           {/* for oragniser view */}
-          <div className="-mt-2 font-semibold">Confirm Participants:</div>
+          <div className="-mt-2 font-semibold">Participants:</div>
           <div className="flex">
             <div className="flex-none">
               <RoundedAvatar

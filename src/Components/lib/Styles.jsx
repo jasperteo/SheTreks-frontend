@@ -33,14 +33,17 @@ export const greyButton =
 export const lgreyIcon = "content-center text-3xl text-grey";
 
 //Dark pink icon for activity
-export const dPinkIcon = "content-center text-3xl text-secondary";
+export const dPinkIcon = "content-center text-xl text-secondary";
 
 //Notification Icon
 export const notifIcon =
-  "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-3xl text-grey";
+  "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-2xl text-grey";
 
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
+
+//Titles text
+export const title = "mb-4 text-center text-xl font-bold text-dark-grey";
 
 //smallest  avatar
 export const RoundedAvatar = ({ image }) => {
