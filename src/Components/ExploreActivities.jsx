@@ -7,6 +7,7 @@ import {
   option,
   center,
   pinkButton,
+  title,
 } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
@@ -21,16 +22,15 @@ export default function ExploreActivities() {
 
   return (
     <div>
-      <h1 className="mb-4 text-center text-xl font-bold text-black/50 ">
-        Explore Activities
-      </h1>
-      <div className={center}>
+      <h1 className={title}>Explore Activities</h1>
+      <div className="my-4 flex w-80 items-center justify-center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
             label="Start Date"
             sx={{
               width: "100%",
               backgroundColor: "#F2F3F4",
+              marginRight: "10px",
 
               "*": {
                 fontFamily: "InterVariable !important",
@@ -41,6 +41,7 @@ export default function ExploreActivities() {
             }}
           />
         </LocalizationProvider>
+
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
             label="End Date"
@@ -102,15 +103,17 @@ export default function ExploreActivities() {
         />
       </div>
 
-      <div className=" mx-auto mt-4 flex h-12 w-80 max-w-[50rem] flex-row items-center rounded-md border-4 border-green bg-grey">
+      <div className={center}>
         <input
-          placeholder="Search keywords"
-          className=" ml-4 h-8  flex-1 rounded-md bg-grey p-4 text-center font-semibold outline-none"
           type="text"
+          placeholder="Search keywords"
+          className="input input-bordered input-accent w-full max-w-xs bg-grey"
         />
       </div>
       <div className={center}>
-        <button className={pinkButton}>Search</button>
+        <button className="focus:ring-green-500 btn btn-primary mt-3 justify-center  whitespace-nowrap focus:outline-none focus:ring-2">
+          Search
+        </button>
       </div>
     </div>
   );

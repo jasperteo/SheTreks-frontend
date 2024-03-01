@@ -1,36 +1,49 @@
 import FollowerRequest from "./UiComponents/FollowerRequest";
 import FollowBlock from "./UiComponents/FollowBlock";
-import { tab } from "./lib/Styles";
 import { useStaticPicker } from "@mui/x-date-pickers/internals";
 import { useState } from "react";
 
 export default function Following() {
-  const [toggle, setToggle] = useState(1);
+  const [activeTab, setActiveTab] = useState(1);
 
   function updateToggle(id) {
-    setToggle(id);
+    setActiveTab(id);
   }
 
   return (
     <div>
-      <button type="button" className={tab} onClick={() => updateToggle(1)}>
-        Follower
-      </button>
-      <button type="button" className={tab} onClick={() => updateToggle(2)}>
-        Following
-      </button>
-      <button type="button" className={tab} onClick={() => updateToggle(3)}>
-        Requests
-      </button>
+      <div role="tablist" className="tabs tabs-bordered">
+        <a
+          role="tab"
+          className={`tab ${activeTab === 1 ? "tab-active" : ""}`}
+          onClick={() => updateToggle(1)}
+        >
+          Followers
+        </a>
+        <a
+          role="tab"
+          className={`tab ${activeTab === 2 ? "tab-active" : ""}`}
+          onClick={() => updateToggle(2)}
+        >
+          Following
+        </a>
+        <a
+          role="tab"
+          className={`tab ${activeTab === 3 ? "tab-active" : ""}`}
+          onClick={() => updateToggle(3)}
+        >
+          Requests
+        </a>
+      </div>
 
-      <div className={toggle == 1 ? "block" : "hidden"}>
+      <div className={activeTab == 1 ? "block" : "hidden"}>
         <FollowBlock />
         <p>DIFFERENT</p>
       </div>
-      <div className={toggle == 2 ? "block" : "hidden"}>
+      <div className={activeTab == 2 ? "block" : "hidden"}>
         <FollowBlock />
       </div>
-      <div className={toggle == 3 ? "block" : "hidden"}>
+      <div className={activeTab == 3 ? "block" : "hidden"}>
         <FollowerRequest />
         <FollowerRequest />
       </div>

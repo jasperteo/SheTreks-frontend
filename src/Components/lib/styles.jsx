@@ -4,7 +4,7 @@ export const multiValue =
 
 //Form field box
 export const control =
-  "min-h-20 w-80 border-4  border-green rounded-md bg-grey";
+  "min-h-20 w-80 border-2  border-green rounded-md bg-grey";
 
 //Dropdown menu when dropdown is selected
 export const menu = "border border-green bg-grey ";
@@ -35,7 +35,8 @@ export const darkPinkButton =
 export const brGreenButton =
   "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
 
-export const tab = "tab-lg tab-lifted tab text-gray-400";
+//Titles text
+export const title = "mb-4 text-center text-xl font-bold text-dark-grey";
 
 //smallest  avatar
 export const RoundedAvatar = ({ image }) => {
