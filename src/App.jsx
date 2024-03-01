@@ -7,6 +7,9 @@ import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
 import Home from "./Components/Home";
 import Following from "./Components/Following";
+import NotificationMain from "./Components/Notification/NotificationMain";
+import UpcomingEvents from "./Components/UpcomingEvents";
+import Feed from "./Components/Feed/Feed";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -50,6 +53,33 @@ export default function App() {
           element: <Following />,
         },
       ],
+    },
+    {
+      path: "/notifications",
+      element: (
+        <>
+          <NotificationMain />
+          <NavBar />
+        </>
+      ),
+    },
+    {
+      path: "/feeds",
+      element: (
+        <>
+          <Feed />
+          <NavBar />
+        </>
+      ),
+    },
+    {
+      path: "/upcomingevents",
+      element: (
+        <>
+          <UpcomingEvents />
+          <NavBar />
+        </>
+      ),
     },
   ]);
   return (
