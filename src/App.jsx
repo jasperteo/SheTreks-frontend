@@ -25,7 +25,12 @@ export default function App() {
     },
     {
       path: "/activity",
-      element: <NavBar />,
+      element: (
+        <>
+          <NavBar />
+          <Outlet />
+        </>
+      ),
       children: [
         {
           path: "explore",

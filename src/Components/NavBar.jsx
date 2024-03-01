@@ -15,7 +15,7 @@ export default function NavBar() {
           ></iconify-icon>
         </button>
       </Link>
-      <Link to="/activity" className="bg-accent">
+      <Link to="/activity/add" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
