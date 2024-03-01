@@ -3,8 +3,8 @@ export const multiValue =
   "border border-green rounded-md bg-light-pink p-1 m-0.5";
 
 //Form field box
-export const control =
-  "min-h-20 w-80 border-2  border-green rounded-md bg-grey";
+export const controlForm =
+  "min-h-20 w-80 my-2 border-2  border-green rounded-md bg-grey";
 
 //Dropdown menu when dropdown is selected
 export const menu = "border border-green bg-grey ";
@@ -13,11 +13,11 @@ export const menu = "border border-green bg-grey ";
 export const option = "hover:bg-light-pink";
 
 //Center elements
-export const center = "flex justify-center items-center my-4";
+export const center = "flex justify-center items-center my-2 w-80";
 
 //Button background light pink
 export const pinkButton =
-  "mt-3 grow justify-center whitespace-nowrap btn btn-primary  focus:outline-none focus:ring-2 focus:ring-green-500";
+  "mt-3 mx-auto justify-center block whitespace-nowrap btn btn-primary  focus:outline-none focus:ring-2 focus:ring-green-500";
 
 export const darkPinkButton =
   "btn btn-secondary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";

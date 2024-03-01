@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { locations } from "../lib/Constants.js";
-import { control, menu, option } from "../lib/Styles";
+import { controlForm, menu, option } from "../lib/Styles";
 
 export default function EditProfile() {
   return (
@@ -11,7 +11,7 @@ export default function EditProfile() {
         // onChange={handleChange}
         unstyled
         classNames={{
-          control: () => control,
+          control: () => controlForm,
           menu: () => menu,
           option: () => option,
         }}
