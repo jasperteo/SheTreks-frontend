@@ -2,7 +2,7 @@ import Select from "react-select";
 import { useState } from "react";
 import {
   multiValue,
-  control,
+  controlForm,
   menu,
   option,
   center,
@@ -23,7 +23,7 @@ export default function ExploreActivities() {
   return (
     <div>
       <h1 className={title}>Explore Activities</h1>
-      <div className="my-4 flex w-80 items-center justify-center">
+      <div className="mx-auto my-4 flex w-80 items-center justify-center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
             label="Start Date"
@@ -67,7 +67,7 @@ export default function ExploreActivities() {
           onChange={handleChange}
           unstyled
           classNames={{
-            control: () => control,
+            control: () => controlForm,
             menu: () => menu,
             option: () => option,
           }}
@@ -82,7 +82,7 @@ export default function ExploreActivities() {
           onChange={handleChange}
           unstyled
           classNames={{
-            control: () => control,
+            control: () => controlForm,
             multiValue: () => multiValue,
             menu: () => menu,
             option: () => option,
@@ -96,7 +96,7 @@ export default function ExploreActivities() {
           onChange={handleChange}
           unstyled
           classNames={{
-            control: () => control,
+            control: () => controlForm,
             menu: () => menu,
             option: () => option,
           }}
