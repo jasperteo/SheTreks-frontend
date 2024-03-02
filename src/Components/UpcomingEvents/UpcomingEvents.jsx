@@ -16,14 +16,14 @@ export default function UpcomingEvents() {
       <div role="tablist" className={`tabs tabs-bordered text-neutral`}>
         <a
           role="tab"
-          className={`tab ${activeTab === 1 ? `tab tab-active ${activeTabColour}` : ""}`}
+          className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
           onClick={() => updateToggle(1)}
         >
           ORGANISED
         </a>
         <a
           role="tab"
-          className={`tab ${activeTab === 2 ? "tab-active " : ""}`}
+          className={`tab ${activeTab === 2 ? `${activeTabColour} tab-active` : ""}`}
           onClick={() => updateToggle(2)}
         >
           Joined
