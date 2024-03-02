@@ -11,6 +11,8 @@ import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import UpcomingEvents from "./Components/UpcomingEvents";
 import Feed from "./Components/Feed/Feed";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -96,7 +98,9 @@ export default function App() {
   ]);
   return (
     <>
-      <RouterProvider router={router} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RouterProvider router={router} />
+      </LocalizationProvider>
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );

@@ -11,15 +11,20 @@ import {
 } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
 
 export default function AddActivity() {
   const [selectedValues, setSelectedValues] = useState([]);
+  const tomorrow = dayjs().add(1, "day");
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const handleChange = (value) => {
     console.log(value);
@@ -66,73 +71,103 @@ export default function AddActivity() {
             ></textarea>
           </div>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimeField
-              {...register("date", { required: true })}
-              label="Date & Time"
-              sx={{
-                width: "20rem",
-                backgroundColor: "#F2F3F4",
-                marginTop: "0.5rem",
-                marginBottom: "0.5rem",
-
-                "*": {
-                  fontFamily: "InterVariable !important",
-                },
-                ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
-                  fontFamily: "InterVariable !important",
-                },
-              }}
-            />
-          </LocalizationProvider>
-
-          <Select
-            {...register("location", { required: true })}
-            placeholder="Location"
-            options={locations}
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <Controller
+            name="activityDate"
+            control={control}
+            defaultValue={tomorrow}
+            rules={{ required: "Enter Activity date and time" }}
+            render={({ field }) => (
+              <DateTimeField
+                {...field}
+                disablePast
+                label="Activity date and time"
+                defaultValue={tomorrow}
+                format={"DD/MM/YYYY hh:mm a"}
+                views={["year", "month", "day", "hours", "minutes"]}
+                sx={{
+                  width: "20rem",
+                  backgroundColor: "#F2F3F4",
+                  "*": {
+                    fontFamily: "InterVariable !important",
+                  },
+                }}
+              />
+            )}
           />
 
-          <Select
-            {...register("category", { required: true })}
-            placeholder="Category"
-            options={categories}
-            isMulti
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              multiValue: () => multiValue,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <Controller
+            name="locationId"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a location" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Location"
+                options={locations}
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
           />
 
-          <Select
-            {...register("groupSize", { required: true })}
-            placeholder="Group size"
-            options={groupSizes}
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <Controller
+            name="categoryId"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a category" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Category"
+                options={categories}
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
+          />
+
+          <Controller
+            name="groupSizes"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a group size" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Group size"
+                options={groupSizes}
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
           />
 
           <div>
-            <input
-              {...register("image")}
-              type="file"
-              accept="image/*"
-              className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+            <Controller
+              name="image"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="file"
+                  accept="image/*"
+                  className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+                />
+              )}
             />
           </div>
 
