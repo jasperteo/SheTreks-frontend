@@ -23,7 +23,7 @@ export default function Home() {
             <div className=" py-6 *:mx-3">
               <SignInButton mode="modal">
                 <button className="btn  btn-primary text-neutral">
-                  Sign In
+                  Sign In <iconify-icon icon="ri:login-box-line" />
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
