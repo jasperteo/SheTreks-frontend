@@ -28,7 +28,7 @@ export default function Home() {
               </SignInButton>
               <SignUpButton mode="modal">
                 <button className="btn btn-primary text-neutral">
-                  Sign Up
+                  Sign Up <iconify-icon icon="ri:user-add-line" />
                 </button>
               </SignUpButton>
             </div>
