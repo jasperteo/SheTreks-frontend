@@ -21,12 +21,12 @@ export default function Home() {
           </SignedIn>
           <SignedOut>
             <div className=" py-6 *:mx-3">
-              <SignInButton>
+              <SignInButton mode="modal">
                 <button className="btn  btn-primary text-neutral">
                   Sign In
                 </button>
               </SignInButton>
-              <SignUpButton>
+              <SignUpButton mode="modal">
                 <button className="btn btn-primary text-neutral">
                   Sign Up
                 </button>

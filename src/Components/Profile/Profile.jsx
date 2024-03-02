@@ -15,8 +15,6 @@ export default function Profile({ username }) {
           <div className="avatar w-24 flex-none">
             <div className="rounded-full">
               <UserButton
-                userProfileMode="navigation"
-                afterSignOutUrl="/"
                 appearance={{
                   elements: { avatarBox: "w-24 h-24" },
                 }}
