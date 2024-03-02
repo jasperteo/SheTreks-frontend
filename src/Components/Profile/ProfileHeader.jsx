@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { semiBoldTxCen } from "../lib/Styles";
+import { semiBoldTxCen } from "../lib/ClassesName.jsx";
 
 export default function ProfileHeader() {
   return (

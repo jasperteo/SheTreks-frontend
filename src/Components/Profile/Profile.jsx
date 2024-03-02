@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import ActivityCard from "../ActivityCard";
 import RequestCard from "../RequestCard";
-import { pinkButton } from "../lib/Styles";
+import { pinkButton } from "../lib/ClassesName.jsx";
 
 export default function Profile() {
   return (

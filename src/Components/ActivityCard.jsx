@@ -1,11 +1,11 @@
 import UserSummProfile from "./UiComponents/UserSummProfile";
-import { chatIcon } from "./lib/ClassesName";
 import {
+  chatIcon,
   RoundedAvatar,
   dPinkIcon,
   darkPinkButton,
   lgreyIcon,
-} from "./lib/Styles";
+} from "./lib/ClassesName";
 
 export default function ActivityCard() {
   return (

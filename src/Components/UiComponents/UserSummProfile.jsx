@@ -1,4 +1,4 @@
-import { RoundedAvatar } from "../lib/Styles";
+import { RoundedAvatar } from "../lib/ClassesName.jsx";
 
 export default function UserSummProfile() {
   return (

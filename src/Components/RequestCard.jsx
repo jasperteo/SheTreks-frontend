@@ -1,12 +1,12 @@
 import UserSummProfile from "./UiComponents/UserSummProfile";
-import { chatIcon } from "./lib/ClassesName";
 import {
+  chatIcon,
   RoundedAvatar,
   brGreenButton,
   darkPinkButton,
   greyButton,
   lgreyIcon,
-} from "./lib/Styles";
+} from "./lib/ClassesName";
 
 export default function RequestCard() {
   return (
@@ -23,7 +23,7 @@ export default function RequestCard() {
             <button className={`${brGreenButton} mr-2 mt-2 flex-auto`}>
               <iconify-icon icon="ri:check-line" class={lgreyIcon} />
             </button>
-            <button className="btn-grey focus:ring-green-500 btn mr-2 mt-2 flex-auto  focus:outline-none focus:ring-2">
+            <button className="btn-grey focus:ring-green-500 btn mr-2 mt-2 flex-auto focus:outline-none focus:ring-2">
               <iconify-icon
                 icon="ri:close-line"
                 class="content-center text-3xl text-neutral"

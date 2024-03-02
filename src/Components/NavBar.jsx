@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { RoundedAvatar, lgreyIcon } from "./lib/Styles";
+import { RoundedAvatar, lgreyIcon } from "./lib/ClassesName.jsx";
 
 export default function NavBar() {
   // use Link to instead of useNavigate

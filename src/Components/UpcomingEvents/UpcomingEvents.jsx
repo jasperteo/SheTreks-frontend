@@ -9,7 +9,6 @@ export default function UpcomingEvents() {
   function updateToggle(id) {
     setActiveTab(id);
   }
-  const activeTabColour = "hover:text-secondary font-semibold";
 
   return (
     <>
@@ -24,7 +23,7 @@ export default function UpcomingEvents() {
         </a>
         <a
           role="tab"
-          className={`tab ${activeTab === 2 ? "tab-active" : ""}`}
+          className={`tab ${activeTab === 2 ? "tab-active " : ""}`}
           onClick={() => updateToggle(2)}
         >
           Joined
