@@ -11,36 +11,28 @@ import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import UpcomingEvents from "./Components/UpcomingEvents";
 import Feed from "./Components/Feed/Feed";
-import { useEffect, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BACKEND_URL, getRequest } from "./Components/lib/Constants.js";
 
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
   const { user } = useUser();
-  const { isSignedIn, userId: clerkUid, getToken } = useAuth();
+  const { userId: clerkUid, getToken } = useAuth();
 
-  const { data: token } = useQuery({
-    queryKey: ["token", user],
-    queryFn: async () => await getToken(),
-    enabled: isSignedIn,
+  axios.interceptors.request.use(async (config) => {
+    config.headers.Authorization = `Bearer ${await getToken()}`;
+    return config;
   });
-
-  axios.defaults.headers.common["Authorization"] = token;
 
   const { data: userData } = useQuery({
     queryKey: ["user", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
     queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
-    enabled: !!clerkUid && !!token,
+    enabled: !!clerkUid,
   });
 
-  useEffect(() => {
-    setUserId(userData?.id);
-    setUsername(userData?.username);
-  }, [userData]);
+  const username = userData?.username;
+  const userId = userData?.id;
 
   const router = createBrowserRouter([
     {
