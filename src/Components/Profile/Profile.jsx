@@ -42,15 +42,15 @@ export default function Profile() {
             className={`tab ${activeTab === 2 ? `${activeTabColour} tab-active` : ""}`}
             onClick={() => updateToggle(2)}
           >
-            ORGANISED
+            PAST
           </a>
-          <a
+          {/* <a
             role="tab"
             className={`tab ${activeTab === 3 ? `${activeTabColour} tab-active` : ""}`}
             onClick={() => updateToggle(3)}
           >
             ATTENDED
-          </a>
+          </a> */}
         </div>
 
         <div className={activeTab == 1 ? "block" : "hidden"}>
