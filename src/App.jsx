@@ -34,7 +34,7 @@ export default function App() {
   const { data: userData } = useQuery({
     queryKey: ["user", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
     queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
-    enabled: !!clerkUid,
+    enabled: !!clerkUid && !!token,
   });
 
   useEffect(() => {
