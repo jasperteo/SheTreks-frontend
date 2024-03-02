@@ -7,22 +7,34 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex h-screen flex-col justify-center *:m-3 *:self-center">
-      <img src="./icons8-tourist-96.png" width="96" />
-      <h1 className="text-5xl font-bold">SheTreks</h1>
-      <SignedIn>
-        <div className="text-xl">You are signed in</div>
-      </SignedIn>
-      <SignedOut>
-        <div className="*:mx-3">
-          <SignInButton>
-            <button className="btn  btn-primary text-dark-grey">Sign In</button>
-          </SignInButton>
-          <SignUpButton>
-            <button className="btn btn-primary text-dark-grey">Sign Up</button>
-          </SignUpButton>
+    <div className="hero min-h-screen bg-base-200">
+      <div className="hero-content text-center">
+        <div className="max-w-md">
+          <img
+            className="mx-auto my-6"
+            src="./icons8-tourist-96.png"
+            width="96"
+          />
+          <h1 className="text-5xl font-bold text-neutral">SheTreks</h1>
+          <SignedIn>
+            <p className="py-6">You are signed in!</p>
+          </SignedIn>
+          <SignedOut>
+            <div className=" py-6 *:mx-3">
+              <SignInButton>
+                <button className="btn  btn-primary text-neutral">
+                  Sign In
+                </button>
+              </SignInButton>
+              <SignUpButton>
+                <button className="btn btn-primary text-neutral">
+                  Sign Up
+                </button>
+              </SignUpButton>
+            </div>
+          </SignedOut>
         </div>
-      </SignedOut>
+      </div>
     </div>
   );
 }

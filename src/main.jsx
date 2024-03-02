@@ -14,11 +14,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       publishableKey={PUBLISHABLE_KEY}
       appearance={{
         elements: {
-          card: "bg-beige",
-          formButtonPrimary: "bg-dark-pink",
-          footerActionLink: "text-dark-pink",
+          card: "bg-base-100",
+          formButtonPrimary: "bg-secondary",
+          footerActionLink: "text-secondary",
           formFieldInput: "bg-grey accent-transparent",
-          profileSectionPrimaryButton: "hover:bg-light-pink text-dark-pink",
+          profileSectionPrimaryButton: "hover:bg-primary text-secondary",
         },
       }}
     >
