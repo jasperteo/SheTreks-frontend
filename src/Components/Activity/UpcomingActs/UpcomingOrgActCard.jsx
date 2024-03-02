@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
-import UserSummProfile from "../UiComponents/UserSummProfile";
-import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
-import CancelEventPopUp from "../UiComponents/CancelEventPopUp";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
+import CancelEventPopUp from "../../UiComponents/CancelEventPopUp";
+import { RoundedAvatar, chatIcon } from "../../lib/ClassesName";
 
-export default function UpcomingJoinedActCard() {
-  const handleWithdrawEvent = () => {
-    console.log("Event withdraw!");
+export default function UpcomingOrgActCard() {
+  const handleDeleteEvent = () => {
+    console.log("Event deleted!");
     //close modal after clicking "ok"
-    const dialog = document.querySelector("#withdraw-event");
+    const dialog = document.querySelector("#delete-event");
     dialog.close();
   };
 
   return (
     <>
-      <div className="lg:card-sides card mt-8 bg-grey shadow-xl">
+      <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
         <div className="card-body">
           <div className="flex">
             <div className="flex-none">
@@ -42,7 +42,7 @@ export default function UpcomingJoinedActCard() {
               icon="ri:delete-bin-line"
               class="text-3xl text-neutral"
               onClick={() =>
-                document.getElementById("withdraw-event").showModal()
+                document.getElementById("delete-event").showModal()
               }
             />
           </div>
@@ -57,12 +57,13 @@ export default function UpcomingJoinedActCard() {
           <img src="/map.png" alt="map" />
         </figure>
       </div>
+      {/* pop up modal */}
       <CancelEventPopUp
-        id="withdraw-event"
-        option="Withdraw"
-        eventName="event123"
-        message="By agreeing, we will withdraw you from the event."
-        onConfirm={handleWithdrawEvent}
+        id="delete-event"
+        option="Delete"
+        eventName="anothereventXYZ"
+        message="By agreeing, the event will be permanently deleted."
+        onConfirm={handleDeleteEvent}
       />
     </>
   );

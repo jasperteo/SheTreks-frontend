@@ -10,7 +10,7 @@ import Home from "./Components/Home";
 import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
-import UpcomingEvents from "./Components/UpcomingEvents/UpcomingEvents";
+import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 
 export default function App() {
   const router = createBrowserRouter([

@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  title,
-  activeTabColour,
-  tabColour,
-  brGreenButton,
-  greyButton,
-} from "../lib/ClassesName";
+import { tabColour, title, activeTabColour } from "../../lib/ClassesName";
 import UpcomingOrgActCard from "./UpcomingOrgActCard";
 import UpcomingJoinedActCard from "./UpcomingJoinedActCard";
 
@@ -37,7 +31,6 @@ export default function UpcomingEvents() {
       </div>
 
       <div className={activeTab == 1 ? "block" : "hidden"}>
-        {" "}
         <UpcomingOrgActCard />
       </div>
       <div className={activeTab == 2 ? "block" : "hidden"}>

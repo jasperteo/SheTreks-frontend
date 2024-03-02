@@ -1,4 +1,4 @@
-import UserSummProfile from "./UiComponents/UserSummProfile";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
   chatIcon,
   RoundedAvatar,
@@ -6,7 +6,7 @@ import {
   darkPinkButton,
   greyButton,
   lgreyIcon,
-} from "./lib/ClassesName";
+} from "../../lib/ClassesName";
 
 export default function RequestCard() {
   return (
