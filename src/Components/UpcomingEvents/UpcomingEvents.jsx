@@ -5,9 +5,9 @@ import {
   tabColour,
   brGreenButton,
   greyButton,
-} from "./lib/ClassesName";
-import UpcomingOrgActCard from "./UiComponents/UpcomingOrgActCard";
-import UpcomingJoinedActCard from "./UiComponents/UpcomingJoinedActCard";
+} from "../lib/ClassesName";
+import UpcomingOrgActCard from "./UpcomingOrgActCard";
+import UpcomingJoinedActCard from "./UpcomingJoinedActCard";
 
 export default function UpcomingEvents() {
   const [activeTab, setActiveTab] = useState(1);

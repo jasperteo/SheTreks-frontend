@@ -1,6 +1,12 @@
 import { brGreenButton } from "../lib/ClassesName";
 
-export default function CancelEventPopUp({ title, message, onConfirm, id }) {
+export default function CancelEventPopUp({
+  option,
+  eventName,
+  message,
+  onConfirm,
+  id,
+}) {
   return (
     <div>
       <dialog id={id} className="modal ">
@@ -11,8 +17,8 @@ export default function CancelEventPopUp({ title, message, onConfirm, id }) {
               ✕
             </button>
           </form>
-          <div className="mt-4 text-center font-semibold ">
-            {title} this event?
+          <div className="mt-8 text-center font-semibold ">
+            {option} {eventName}?
           </div>
           <div className="text-center">{message}</div>
           <div className="-mb-4 flex justify-center">
