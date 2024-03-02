@@ -54,7 +54,7 @@ export default function Profile() {
         </div>
 
         <div className={activeTab == 1 ? "block" : "hidden"}>
-          <ActivityCard />
+          <ActivityCard title="(Attendee)" />
         </div>
         <div className={activeTab == 2 ? "block" : "hidden"}></div>
         <div className={activeTab == 3 ? "block" : "hidden"}></div>

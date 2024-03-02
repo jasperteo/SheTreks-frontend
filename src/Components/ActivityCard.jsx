@@ -19,6 +19,7 @@ export default function ActivityCard({ title }) {
                 size="8"
               />
             </div>
+            {/* to indicidate if user is an attendee */}
             <div className="ml-2 mt-1 flex-auto font-light italic">
               @userName {title}
             </div>
@@ -33,8 +34,11 @@ export default function ActivityCard({ title }) {
             <div className={`${dPinkIcon}`}>
               <iconify-icon inline icon="ri:plant-line" />
             </div>
-            <div className="mt-2 text-xs"> Event Category</div>
+            <div className="mb-4 mt-2 text-xs"> Event Category</div>
           </div>
+          {/* //only show this if user is not the organiser */}
+          <div className="-mt-2 font-semibold">Organiser:</div>
+          <UserSummProfile />
         </div>
         <img
           className="-mt-2 object-none"
@@ -44,17 +48,11 @@ export default function ActivityCard({ title }) {
         <figure>
           <img src="/map.png" alt="map" />
         </figure>
+        {/* do not show the join now button if user is an attendee */}
         <div className="card-body -mb-4">
           <button className={`${darkPinkButton} mb-4 text-grey`}>
             JOIN NOW
           </button>
-          {/* for oragniser view */}
-          {/* <div className="-mt-2 font-semibold">Participants:</div>
-          <UserSummProfile />
-          <button className={`${darkPinkButton} mb-4 text-grey`}>
-            <iconify-icon icon={chatIcon} class={lgreyIcon} />
-            DISCUSS PROGRAMME
-          </button> */}
         </div>
       </div>
     </>
