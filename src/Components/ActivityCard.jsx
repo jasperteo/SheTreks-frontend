@@ -7,7 +7,7 @@ import {
   lgreyIcon,
 } from "./lib/ClassesName";
 
-export default function ActivityCard() {
+export default function ActivityCard({ title }) {
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -20,7 +20,7 @@ export default function ActivityCard() {
               />
             </div>
             <div className="ml-2 mt-1 flex-auto font-light italic">
-              @userName
+              @userName {title}
             </div>
           </div>
           <div className="font-semibold">Hanoi, Vietnam</div>
@@ -49,12 +49,12 @@ export default function ActivityCard() {
             JOIN NOW
           </button>
           {/* for oragniser view */}
-          <div className="-mt-2 font-semibold">Participants:</div>
+          {/* <div className="-mt-2 font-semibold">Participants:</div>
           <UserSummProfile />
           <button className={`${darkPinkButton} mb-4 text-grey`}>
             <iconify-icon icon={chatIcon} class={lgreyIcon} />
             DISCUSS PROGRAMME
-          </button>
+          </button> */}
         </div>
       </div>
     </>

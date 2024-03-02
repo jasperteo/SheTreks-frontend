@@ -19,7 +19,7 @@ export default function Profile() {
       <div>Hello! I am a human.</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">
-          <button className={`${pinkButton} mr-8 mt-2`}>
+          <button className={`${pinkButton} mr-4 mt-2`}>
             Edit Profile/Following
           </button>
         </Link>
@@ -35,32 +35,30 @@ export default function Profile() {
             className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
             onClick={() => updateToggle(1)}
           >
-            CURRENT EVENTS
+            LATEST
           </a>
           <a
             role="tab"
             className={`tab ${activeTab === 2 ? `${activeTabColour} tab-active` : ""}`}
             onClick={() => updateToggle(2)}
           >
-            PAST EVENTS
+            ORGANISED
           </a>
           <a
             role="tab"
             className={`tab ${activeTab === 3 ? `${activeTabColour} tab-active` : ""}`}
             onClick={() => updateToggle(3)}
           >
-            PAST ATTENDANCES
+            ATTENDED
           </a>
         </div>
 
         <div className={activeTab == 1 ? "block" : "hidden"}>
-          <p>DIFFERENT</p>
+          <ActivityCard />
         </div>
         <div className={activeTab == 2 ? "block" : "hidden"}></div>
         <div className={activeTab == 3 ? "block" : "hidden"}></div>
       </div>
-      <ActivityCard />
-      <RequestCard />
     </>
   );
 }
