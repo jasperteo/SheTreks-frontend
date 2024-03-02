@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { title, activeTabColour } from "../lib/ClassesName";
-import UpOrgCard from "./UpOrgCard";
-import UpJoinCard from "./UpJoinCard";
+import { title, activeTabColour, tabColour } from "./lib/ClassesName";
+import UpcomingOrgActCard from "./UiComponents/UpcomingOrgActCard";
+import UpcomingJoinedActCard from "./UiComponents/UpcomingJoinedActCard";
 
 export default function UpcomingEvents() {
   const [activeTab, setActiveTab] = useState(1);
@@ -13,7 +13,7 @@ export default function UpcomingEvents() {
   return (
     <>
       <div className={`${title}`}>UPCOMING EVENTS</div>
-      <div role="tablist" className={`tabs tabs-bordered text-neutral`}>
+      <div role="tablist" className={`${tabColour}`}>
         <a
           role="tab"
           className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
@@ -32,10 +32,10 @@ export default function UpcomingEvents() {
 
       <div className={activeTab == 1 ? "block" : "hidden"}>
         {" "}
-        <UpOrgCard />
+        <UpcomingOrgActCard />
       </div>
       <div className={activeTab == 2 ? "block" : "hidden"}>
-        <UpJoinCard />
+        <UpcomingJoinedActCard />
       </div>
     </>
   );

@@ -55,4 +55,8 @@ export const RoundedAvatar = ({ image }) => {
 };
 
 //tabs: active font colour
-export const activeTabColour = "hover:text-secondary font-semibold";
+export const activeTabColour =
+  "hover:text-secondary text-secondary font-semibold";
+
+//tabs: original state
+export const tabColour = "tabs tabs-bordered text-neutral";

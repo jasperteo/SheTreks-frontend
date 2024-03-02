@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import UserSummProfile from "../UiComponents/UserSummProfile";
+import UserSummProfile from "./UserSummProfile";
 import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
 
 export default function UpOrgCard() {
@@ -17,6 +17,7 @@ export default function UpOrgCard() {
             <div className="ml-2 mt-1 flex-auto font-light italic">
               @organiser
             </div>
+            {/* to change URL link */}
             <Link to="/">
               <iconify-icon
                 icon={chatIcon}
