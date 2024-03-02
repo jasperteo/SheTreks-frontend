@@ -3,7 +3,7 @@ import UserSummProfile from "./UserSummProfile";
 import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
 import CancelEventPopUp from "./CancelEventPopUp";
 
-export default function UpcomingOrgActCard() {
+export default function UpcomingActCard() {
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
     //close modal after clicking "ok"
@@ -61,7 +61,7 @@ export default function UpcomingOrgActCard() {
       <CancelEventPopUp
         id="delete-event"
         title="Delete"
-        message="By agreeing, the event will be permanently deleted"
+        message="By agreeing, the event will be permanently deleted."
         onConfirm={handleDeleteEvent}
       />
     </>

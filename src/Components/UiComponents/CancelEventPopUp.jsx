@@ -11,10 +11,11 @@ export default function CancelEventPopUp({ title, message, onConfirm, id }) {
               ✕
             </button>
           </form>
-          <h3 className="mt-2 text-lg font-bold">Hello!</h3>
-          <div className="text-center font-semibold">{title} this event? </div>
+          <div className="mt-4 text-center font-semibold ">
+            {title} this event?
+          </div>
           <div className="text-center">{message}</div>
-          <div className="-mb-8 flex justify-center">
+          <div className="-mb-4 flex justify-center">
             <button
               className={`${brGreenButton} mr-4 mt-4 text-grey`}
               onClick={onConfirm}
