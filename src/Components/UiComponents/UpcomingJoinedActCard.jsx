@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "./UserSummProfile";
 import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
+import CancelEventPopUp from "./CancelEventPopUp";
 
 export default function UpcomingJoinedActCard() {
+  const handleWithdrawEvent = () => {
+    console.log("Event withdraw!");
+    //close modal after clicking "ok"
+    const dialog = document.querySelector("#withdraw-event");
+    dialog.close();
+  };
+
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-grey shadow-xl">
@@ -30,14 +38,14 @@ export default function UpcomingJoinedActCard() {
                 class="mr-2 text-3xl text-success"
               />
             </Link>
-            <Link to="/">
-              <iconify-icon
-                icon="ri:delete-bin-line"
-                class="text-3xl text-neutral"
-              />
-            </Link>
+            <iconify-icon
+              icon="ri:delete-bin-line"
+              class="text-3xl text-neutral"
+              onClick={() =>
+                document.getElementById("withdraw-event").showModal()
+              }
+            />
           </div>
-
           <div className="font-semibold">Hanoi, Vietnam</div>
           <div className="font-semibold">Event Activity Title</div>
           <div>Date, Exact Time</div>
@@ -49,6 +57,12 @@ export default function UpcomingJoinedActCard() {
           <img src="/map.png" alt="map" />
         </figure>
       </div>
+      <CancelEventPopUp
+        id="withdraw-event"
+        title="Withdraw"
+        message="By agreeing, we will withdraw you from the event."
+        onConfirm={handleWithdrawEvent}
+      />
     </>
   );
 }

@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "./UserSummProfile";
 import { chatIcon, RoundedAvatar } from "../lib/ClassesName";
+import CancelEventPopUp from "./CancelEventPopUp";
 
-export default function UpOrgCard() {
+export default function UpcomingOrgActCard() {
+  const handleDeleteEvent = () => {
+    console.log("Event deleted!");
+    //close modal after clicking "ok"
+    const dialog = document.querySelector("#delete-event");
+    dialog.close();
+  };
+
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -30,14 +38,14 @@ export default function UpOrgCard() {
                 class="mr-2 text-3xl text-success"
               />
             </Link>
-            <Link to="/">
-              <iconify-icon
-                icon="ri:delete-bin-line"
-                class="text-3xl text-neutral"
-              />
-            </Link>
+            <iconify-icon
+              icon="ri:delete-bin-line"
+              class="text-3xl text-neutral"
+              onClick={() =>
+                document.getElementById("delete-event").showModal()
+              }
+            />
           </div>
-
           <div className="font-semibold">Hanoi, Vietnam</div>
           <div className="font-semibold">Event Activity Title</div>
           <div>Date, Exact Time</div>
@@ -49,6 +57,13 @@ export default function UpOrgCard() {
           <img src="/map.png" alt="map" />
         </figure>
       </div>
+      {/* pop up modal */}
+      <CancelEventPopUp
+        id="delete-event"
+        title="Delete"
+        message="By agreeing, the event will be permanently deleted"
+        onConfirm={handleDeleteEvent}
+      />
     </>
   );
 }

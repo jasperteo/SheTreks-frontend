@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { title, activeTabColour, tabColour } from "./lib/ClassesName";
+import {
+  title,
+  activeTabColour,
+  tabColour,
+  brGreenButton,
+  greyButton,
+} from "./lib/ClassesName";
 import UpcomingOrgActCard from "./UiComponents/UpcomingOrgActCard";
 import UpcomingJoinedActCard from "./UiComponents/UpcomingJoinedActCard";
 
