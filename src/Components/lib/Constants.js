@@ -49,7 +49,7 @@ const groupSizes = [
   { value: "More than 8", label: "More than 8" },
 ];
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const getRequest = async (url) => (await axios.get(url)).data;
 const putRequest = async (url, data) => await axios.put(url, data);
@@ -60,7 +60,7 @@ export {
   locations,
   categories,
   groupSizes,
-  BASE_URL,
+  BACKEND_URL,
   getRequest,
   putRequest,
   postRequest,

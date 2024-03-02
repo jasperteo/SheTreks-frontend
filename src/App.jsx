@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BASE_URL, getRequest } from "./Components/lib/Constants.js";
+import { BACKEND_URL, getRequest } from "./Components/lib/Constants.js";
 
 export default function App() {
   const [username, setUsername] = useState("");
@@ -32,8 +32,8 @@ export default function App() {
   axios.defaults.headers.common["Authorization"] = token;
 
   const { data: userData } = useQuery({
-    queryKey: ["user", user, `${BASE_URL}/users/sync/${clerkUid}`],
-    queryFn: () => getRequest(`${BASE_URL}/users/sync/${clerkUid}`),
+    queryKey: ["user", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
+    queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
     enabled: !!clerkUid,
   });
 
@@ -67,7 +67,7 @@ export default function App() {
         },
         {
           path: "add",
-          element: <AddActivity />,
+          element: <AddActivity userId={userId} />,
         },
       ],
     },

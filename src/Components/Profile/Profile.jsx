@@ -11,27 +11,25 @@ export default function Profile({ username }) {
   if (params.username === username) {
     return (
       <>
-        <>
-          <div className="flex items-center">
-            <div className="avatar w-24 flex-none">
-              <div className="rounded-full">
-                <UserButton
-                  userProfileMode="navigation"
-                  afterSignOutUrl="/"
-                  appearance={{
-                    elements: { avatarBox: "w-24 h-24" },
-                  }}
-                />
-              </div>
-            </div>
-            <div className={`${semiBoldTxCen} w-32 flex-auto`}>
-              0 <br /> FOLLOWERS
-            </div>
-            <div className={`${semiBoldTxCen} w-32 flex-auto `}>
-              0 <br /> FOLLOWING
+        <div className="flex items-center">
+          <div className="avatar w-24 flex-none">
+            <div className="rounded-full">
+              <UserButton
+                userProfileMode="navigation"
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: { avatarBox: "w-24 h-24" },
+                }}
+              />
             </div>
           </div>
-        </>
+          <div className={`${semiBoldTxCen} w-32 flex-auto`}>
+            0 <br /> FOLLOWERS
+          </div>
+          <div className={`${semiBoldTxCen} w-32 flex-auto `}>
+            0 <br /> FOLLOWING
+          </div>
+        </div>
         <div className="mt-2 font-semibold">First Name Last Name</div>
         <div className="font-light italic">@userName</div>
         <div>Hello! I am a human.</div>
