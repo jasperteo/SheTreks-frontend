@@ -1,4 +1,5 @@
 import axios from "axios";
+import { createContext } from "react";
 
 const locations = [
   { value: "Singapore, Singapore", label: "Singapore, Singapore" },
@@ -51,6 +52,8 @@ const groupSizes = [
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+const CurrentUserContext = createContext(null);
+
 const getRequest = async (url) => (await axios.get(url)).data;
 const putRequest = async (url, data) => await axios.put(url, data);
 const postRequest = async (url, data) => await axios.post(url, data);
@@ -61,6 +64,7 @@ export {
   categories,
   groupSizes,
   BACKEND_URL,
+  CurrentUserContext,
   getRequest,
   putRequest,
   postRequest,

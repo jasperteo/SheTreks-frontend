@@ -5,19 +5,22 @@ import { pinkButton, semiBoldTxCen } from "../lib/Styles";
 import { useParams } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import { getRequest, BACKEND_URL } from "../lib/Constants";
+import { getRequest, BACKEND_URL, CurrentUserContext } from "../lib/Constants";
+import { useContext } from "react";
 
-export default function Profile({ userData }) {
+export default function Profile() {
   const params = useParams();
+  const currentUser = useContext(CurrentUserContext);
 
-  const { data: profileData } = useQuery({
+  const profile = useQuery({
     queryKey: [
       "profile",
-      userData,
+      currentUser,
       `${BACKEND_URL}/users/profile/${params.username}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/users/profile/${params.username}`),
+    enabled: params.username !== currentUser?.username,
   });
 
   const ProfileHeader = () => {
@@ -25,14 +28,14 @@ export default function Profile({ userData }) {
       <div className="flex items-center">
         <div className="avatar w-24 flex-none">
           <div className="rounded-full">
-            {params.username === userData?.username ? (
+            {params.username === currentUser?.username ? (
               <UserButton
                 appearance={{
                   elements: { avatarBox: "w-24 h-24" },
                 }}
               />
             ) : (
-              <img src={profileData?.imageUrl} />
+              <img src={profile.data?.imageUrl} />
             )}
           </div>
         </div>
@@ -50,10 +53,13 @@ export default function Profile({ userData }) {
     <>
       <ProfileHeader />
       <div className="mt-2 font-semibold">
-        {profileData?.firstName} {profileData?.lastName}
+        {profile.data?.firstName ?? currentUser?.firstName}{" "}
+        {profile.data?.lastName ?? currentUser?.lastName}
       </div>
-      <div className="font-light italic">@{profileData?.username}</div>
-      <div>{profileData?.about}</div>
+      <div className="font-light italic">
+        @{profile.data?.username ?? currentUser?.username}
+      </div>
+      <div>{profile.data?.about}</div>
       <Link to="/profile/setting">
         <button className={`${pinkButton} -mb-2 mt-2`}>
           Edit Profile/Following

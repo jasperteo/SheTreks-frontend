@@ -14,7 +14,11 @@ import Feed from "./Components/Feed/Feed";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BACKEND_URL, getRequest } from "./Components/lib/Constants.js";
+import {
+  BACKEND_URL,
+  getRequest,
+  CurrentUserContext,
+} from "./Components/lib/Constants.js";
 
 export default function App() {
   const { user } = useUser();
@@ -32,13 +36,11 @@ export default function App() {
     return config;
   });
 
-  const { data: userData } = useQuery({
-    queryKey: ["syncUser", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
     queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
     enabled: !!clerkUid,
   });
-
-  const username = userData?.username;
 
   const router = createBrowserRouter([
     {
@@ -46,7 +48,7 @@ export default function App() {
       element: (
         <>
           <Home />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
     },
@@ -55,7 +57,7 @@ export default function App() {
       element: (
         <>
           <Outlet />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
       children: [
@@ -75,13 +77,13 @@ export default function App() {
       element: (
         <>
           <Outlet />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
       children: [
         {
           path: `:username`,
-          element: <Profile userData={userData} />,
+          element: <Profile />,
         },
         {
           path: "setting",
@@ -98,7 +100,7 @@ export default function App() {
       element: (
         <>
           <NotificationMain />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
     },
@@ -107,7 +109,7 @@ export default function App() {
       element: (
         <>
           <Feed />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
     },
@@ -116,14 +118,16 @@ export default function App() {
       element: (
         <>
           <UpcomingEvents />
-          <NavBar username={username} />
+          <NavBar />
         </>
       ),
     },
   ]);
   return (
     <>
-      <RouterProvider router={router} />
+      <CurrentUserContext.Provider value={currentUser}>
+        <RouterProvider router={router} />
+      </CurrentUserContext.Provider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
   );
