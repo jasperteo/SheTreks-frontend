@@ -11,15 +11,42 @@ import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import UpcomingEvents from "./Components/UpcomingEvents";
 import Feed from "./Components/Feed/Feed";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { BACKEND_URL, getRequest } from "./Components/lib/Constants.js";
 
 export default function App() {
+  const { user } = useUser();
+  const { userId: clerkUid, getToken } = useAuth();
+
+  // const { data: token } = useQuery({
+  //   queryKey: ["token", user],
+  //   queryFn: async () => await getToken(),
+  // });
+
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  axios.interceptors.request.use(async (config) => {
+    config.headers.Authorization = `Bearer ${await getToken()}`;
+    return config;
+  });
+
+  const { data: userData } = useQuery({
+    queryKey: ["syncUser", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
+    queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
+    enabled: !!clerkUid,
+  });
+
+  const username = userData?.username;
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
         <>
           <Home />
-          <NavBar />
+          <NavBar username={username} />
         </>
       ),
     },
@@ -27,8 +54,8 @@ export default function App() {
       path: "/activity",
       element: (
         <>
-          <NavBar />
           <Outlet />
+          <NavBar username={username} />
         </>
       ),
       children: [
@@ -47,14 +74,14 @@ export default function App() {
       path: `/profile`,
       element: (
         <>
-          <NavBar />
           <Outlet />
+          <NavBar username={username} />
         </>
       ),
       children: [
         {
-          path: "username",
-          element: <Profile />,
+          path: `:username`,
+          element: <Profile userData={userData} />,
         },
         {
           path: "setting",
@@ -71,7 +98,7 @@ export default function App() {
       element: (
         <>
           <NotificationMain />
-          <NavBar />
+          <NavBar username={username} />
         </>
       ),
     },
@@ -80,7 +107,7 @@ export default function App() {
       element: (
         <>
           <Feed />
-          <NavBar />
+          <NavBar username={username} />
         </>
       ),
     },
@@ -89,7 +116,7 @@ export default function App() {
       element: (
         <>
           <UpcomingEvents />
-          <NavBar />
+          <NavBar username={username} />
         </>
       ),
     },
@@ -97,7 +124,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={router} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
   );
 }
