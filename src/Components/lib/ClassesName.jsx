@@ -39,6 +39,8 @@ export const dPinkIcon = "content-center text-xl text-secondary";
 export const notifIcon =
   "flex h-12 w-12 items-center justify-center  rounded-full bg-secondary text-2xl text-grey";
 
+export const chatIcon = "ri:chat-4-line";
+
 //Semi bold text in container
 export const semiBoldTxCen = "text-center font-semibold";
 
@@ -51,3 +53,16 @@ export const RoundedAvatar = ({ image }) => {
     <img className="avatar mb-2 w-8 rounded-full" src={image} alt="Avatar" />
   );
 };
+
+//tabs: active font colour
+export const activeTabColour =
+  "hover:text-secondary text-secondary font-semibold";
+
+//tabs: original state
+export const tabColour = "tabs tabs-bordered text-neutral";
+
+//notifications icons name - Activity Icon
+export const notifActicityIcon = "ri:walk-line";
+
+//notifications icons name - Follower Icon
+export const notifFollowerIcon = "ri:user-settings-line";

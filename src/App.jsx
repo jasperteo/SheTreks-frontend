@@ -9,7 +9,6 @@ import EditProfile from "./Components/Profile/EditProfile";
 import Home from "./Components/Home";
 import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
-import UpcomingEvents from "./Components/UpcomingEvents";
 import Feed from "./Components/Feed/Feed";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,6 +20,8 @@ import {
   getRequest,
   CurrentUserContext,
 } from "./Components/lib/Constants.js";
+import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
+import SingleAct from "./Components/Activity/Individual/SingleAct";
 
 export default function App() {
   const { user } = useUser();
@@ -70,6 +71,10 @@ export default function App() {
         {
           path: "add",
           element: <AddActivity />,
+        },
+        {
+          path: "request",
+          element: <SingleAct />,
         },
       ],
     },
