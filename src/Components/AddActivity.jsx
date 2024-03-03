@@ -18,7 +18,6 @@ import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import supabase from "./lib/Supabase";
-import { supabaseActivity } from "./lib/Supabase";
 
 export default function AddActivity() {
   const [imageUrl, setImageUrl] = useState("");
@@ -54,7 +53,9 @@ export default function AddActivity() {
       .from("activity")
       .upload("test.jpg", file);
 
-    setImageUrl(`SUPABASE_URL/${data.path}`);
+    // console.log("path", data);
+
+    // setImageUrl(`SUPABASE_URL/${data.path}`);
 
     // Check for upload error
     if (error) {
@@ -91,6 +92,7 @@ export default function AddActivity() {
       const response = await axios.post(`${BACKEND_URL}/activity`, {
         hostId: 1,
         title: value.title,
+        cost: value.cost,
         description: value.description,
         address: value.address,
         eventDate: value.activityDate.$d,
@@ -142,6 +144,15 @@ export default function AddActivity() {
               className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
               placeholder="Address"
             ></textarea>
+          </div>
+
+          <div className={center}>
+            <input
+              {...register("cost", { required: true })}
+              type="number"
+              placeholder="Cost in local currency"
+              className="input input-bordered input-accent w-full max-w-xs bg-grey"
+            />
           </div>
 
           <Controller
@@ -231,19 +242,12 @@ export default function AddActivity() {
           />
 
           <div>
-            <Controller
+            <input
+              {...register("image")}
+              type="file"
+              accept="image/*"
               name="image"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="file"
-                  accept="image/*"
-                  className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
-                  onChange={handleFileUpload}
-                />
-              )}
+              className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
             />
           </div>
 
