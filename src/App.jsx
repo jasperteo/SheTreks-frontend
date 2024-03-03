@@ -11,6 +11,7 @@ import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
+import SingleAct from "./Components/Activity/Individual/SingleAct";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -39,6 +40,10 @@ export default function App() {
         {
           path: "add",
           element: <AddActivity />,
+        },
+        {
+          path: "request",
+          element: <SingleAct />,
         },
       ],
     },

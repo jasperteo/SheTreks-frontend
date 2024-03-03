@@ -5,8 +5,8 @@ export default function Following() {
   return (
     <div>
       <TwoTabs
-        leftTitle="Followers"
-        rightTitle="Followings"
+        leftTitle="FOLLOWERS"
+        rightTitle="FOLLOWINGS"
         leftContent={<FollowBlock />}
         rightContent={<FollowBlock />}
       />

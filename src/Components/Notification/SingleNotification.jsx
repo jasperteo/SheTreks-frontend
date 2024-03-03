@@ -19,7 +19,7 @@ export default function ActivityNotification() {
           09:47AM
         </div>
       </div>
-      This is for follow Request
+      This is to update "Someone follows u"
       <div className={`${notifIcon}`}>
         <iconify-icon icon="ri:user-settings-line" />
       </div>

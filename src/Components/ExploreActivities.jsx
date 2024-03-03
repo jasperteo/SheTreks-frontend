@@ -22,7 +22,7 @@ export default function ExploreActivities() {
 
   return (
     <div>
-      <h1 className={title}>Explore Activities</h1>
+      <h1 className={title}>ACTIVITIES</h1>
       <div className="mx-auto my-4 flex w-80 items-center justify-center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField

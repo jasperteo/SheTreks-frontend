@@ -19,7 +19,7 @@ export default function NavBar() {
         <button className="bg-accent">
           <iconify-icon
             inline
-            icon="ri:function-add-line"
+            icon="ri:file-search-line"
             class={lgreyIcon}
           ></iconify-icon>
         </button>

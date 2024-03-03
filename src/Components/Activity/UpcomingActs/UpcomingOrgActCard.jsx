@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import CancelEventPopUp from "../../UiComponents/CancelEventPopUp";
-import { RoundedAvatar, chatIcon } from "../../lib/ClassesName";
+import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
 
 export default function UpcomingOrgActCard() {
   const handleDeleteEvent = () => {
@@ -52,6 +52,13 @@ export default function UpcomingOrgActCard() {
           <div>Address</div>
           <div className="font-semibold">Participants:</div>
           <UserSummProfile />
+          <Link to="/activity/request">
+            <button
+              className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+            >
+              VIEW REQUEST
+            </button>
+          </Link>
         </div>
         <figure>
           <img src="/map.png" alt="map" />

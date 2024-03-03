@@ -1,16 +1,12 @@
 import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import ActivityCard from "../ActivityCard";
-import RequestCard from "../Activity/Individual/RequestCard.jsx";
-import { pinkButton, tabColour, activeTabColour } from "../lib/ClassesName.jsx";
-import { useState } from "react";
+
+import { pinkButton } from "../lib/ClassesName.jsx";
+
+import TwoTabs from "../UiComponents/TwoTabs.jsx";
 
 export default function Profile() {
-  const [activeTab, setActiveTab] = useState(1);
-
-  function updateToggle(id) {
-    setActiveTab(id);
-  }
   return (
     <>
       <ProfileHeader />
@@ -19,6 +15,7 @@ export default function Profile() {
       <div>Hello! I am a human.</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">
+          {/* view for non-account holder - button to show Follow or Following */}
           <button className={`${pinkButton} mr-4 mt-2`}>
             Edit Profile/Following
           </button>
@@ -28,37 +25,12 @@ export default function Profile() {
         </Link>
       </div>
       <div className="mb-8" />
-      <div>
-        <div role="tablist" className={`${tabColour}`}>
-          <a
-            role="tab"
-            className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
-            onClick={() => updateToggle(1)}
-          >
-            LATEST
-          </a>
-          <a
-            role="tab"
-            className={`tab ${activeTab === 2 ? `${activeTabColour} tab-active` : ""}`}
-            onClick={() => updateToggle(2)}
-          >
-            PAST
-          </a>
-          {/* <a
-            role="tab"
-            className={`tab ${activeTab === 3 ? `${activeTabColour} tab-active` : ""}`}
-            onClick={() => updateToggle(3)}
-          >
-            ATTENDED
-          </a> */}
-        </div>
-
-        <div className={activeTab == 1 ? "block" : "hidden"}>
-          <ActivityCard title="(Attendee)" />
-        </div>
-        <div className={activeTab == 2 ? "block" : "hidden"}></div>
-        <div className={activeTab == 3 ? "block" : "hidden"}></div>
-      </div>
+      <TwoTabs
+        leftTitle="CURRENT"
+        rightTitle="PAST"
+        leftContent={<ActivityCard title="(Attendee)" />}
+        rightContent={<ActivityCard />}
+      />
     </>
   );
 }
