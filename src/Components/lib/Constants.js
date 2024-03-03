@@ -51,3 +51,29 @@ export const groupSizes = [
 export const truncateText = (text, maxLength) => {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 };
+
+//activity category, sorted based on api id
+export const categoryIcon = (apiId) => {
+  switch (apiId) {
+    case 1:
+      return "ri:restaurant-2-line"; // Food and Culinary Experiences
+    case 2:
+      return "ri:plant-line"; // Outdoor Adventures and Nature
+    case 3:
+      return "ri:ancient-gate-line"; // Cultural Exploration and Heritage
+    case 4:
+      return "ri:riding-line"; // Adventure Sports and Recreation
+    case 5:
+      return "ri:user-heart-line"; // Wellness and Relaxation
+    case 6:
+      return "ri:building-2-line"; // Urban Exploration and City Tours
+    case 7:
+      return "ri:camera-3-line"; // Photography and Sightseeing
+    case 8:
+      return "ri:beer-line"; // Nightlife and Events
+    case 9:
+      return "ri:ghost-line"; // Special Interest and Niche Experiences
+    default:
+      return ""; //empty string
+  }
+};

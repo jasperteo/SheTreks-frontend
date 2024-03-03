@@ -41,6 +41,9 @@ export default function Profile() {
             organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
             organiserFirstName="Tay Tay"
             organiserUsername="swiftieeee"
+            activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+            categoryApiId={1}
+            catergoryName="Fooddd"
           />
         }
         rightContent={<PastActivityCard userStatus="(Attendee)" />}

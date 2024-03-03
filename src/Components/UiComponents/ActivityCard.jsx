@@ -1,5 +1,6 @@
 import UserSummProfile from "./UserSummProfile";
 import { RoundedAvatar, dPinkIcon, darkPinkButton } from "../lib/ClassesName";
+import { categoryIcon } from "../lib/Constants";
 
 export default function ActivityCard({
   accOwnerImage,
@@ -14,7 +15,12 @@ export default function ActivityCard({
   organiserImageURL,
   organiserFirstName,
   organiserUsername,
+  activityImageURL,
+  categoryApiId,
+  catergoryName,
 }) {
+  console.log(categoryApiId);
+  console.log(categoryIcon(categoryApiId));
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -38,11 +44,11 @@ export default function ActivityCard({
             {date}, {time}
           </div>
           <div>{activityDescription}</div>
-          <div className="gap flex flex-wrap items-center -space-y-1 space-x-1">
+          <div className="flex flex-wrap items-center space-x-1 ">
             <div className={`${dPinkIcon}`}>
-              <iconify-icon icon="ri:plant-line" />
+              <iconify-icon inline icon={`${categoryIcon(categoryApiId)}`} />
             </div>
-            <div className="mb-4 mt-2 text-xs">Cat 100 Tay tay concert</div>
+            <div className="text-xs">{catergoryName}</div>
           </div>
           {/* //only show this portion if user is not the organiser */}
           <div className="font-semibold">Organiser:</div>
@@ -54,7 +60,7 @@ export default function ActivityCard({
         </div>
         <img
           className="-mt-2 object-none"
-          src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+          src={activityImageURL}
           alt="Activity Image"
         />
         <figure>
