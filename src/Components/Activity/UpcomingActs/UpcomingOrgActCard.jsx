@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
-import CancelEventPopUp from "../../UiComponents/CancelEventPopUp";
+import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
 
 export default function UpcomingOrgActCard() {
@@ -65,10 +65,10 @@ export default function UpcomingOrgActCard() {
         </figure>
       </div>
       {/* pop up modal */}
-      <CancelEventPopUp
+      <PopUpConfirmation
         id="delete-event"
         option="Delete"
-        eventName="anothereventXYZ"
+        title="anothereventXYZ"
         message="By agreeing, the event will be permanently deleted."
         onConfirm={handleDeleteEvent}
       />

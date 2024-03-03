@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
-import CancelEventPopUp from "../../UiComponents/CancelEventPopUp";
+import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { RoundedAvatar, chatIcon } from "../../lib/ClassesName";
 
 export default function UpcomingJoinedActCard() {
@@ -57,10 +57,10 @@ export default function UpcomingJoinedActCard() {
           <img src="/map.png" alt="map" />
         </figure>
       </div>
-      <CancelEventPopUp
+      <PopUpConfirmation
         id="withdraw-event"
         option="Withdraw"
-        eventName="event123"
+        title="event123"
         message="By agreeing, we will withdraw you from the event."
         onConfirm={handleWithdrawEvent}
       />

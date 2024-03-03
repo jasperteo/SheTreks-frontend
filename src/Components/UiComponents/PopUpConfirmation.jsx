@@ -1,8 +1,8 @@
 import { brGreenButton } from "../lib/ClassesName";
 
-export default function CancelEventPopUp({
+export default function PopUpConfirmation({
   option,
-  eventName,
+  title,
   message,
   onConfirm,
   id,
@@ -18,7 +18,7 @@ export default function CancelEventPopUp({
             </button>
           </form>
           <div className="mt-8 text-center font-semibold ">
-            {option} {eventName}?
+            {option} {title}?
           </div>
           <div className="text-center">{message}</div>
           <div className="-mb-4 flex justify-center">
