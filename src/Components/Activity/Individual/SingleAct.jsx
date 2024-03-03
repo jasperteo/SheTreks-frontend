@@ -10,8 +10,16 @@ export default function SingleAct() {
       <div>Date, Exact Time</div>
       <div>Remaining Seat Count: </div>
       <div className="mb-2 font-semibold">Participants:</div>
-      <UserSummProfile />
-      <RequestCard />
+      <UserSummProfile
+        userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+        userSummFirstName="Dragon"
+        userSummUsername="@dragggonn"
+      />
+      <RequestCard
+        participantImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+        participantFirstName="Elsa"
+        participantUserName="@iceQueen"
+      />
     </div>
   );
 }

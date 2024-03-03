@@ -7,7 +7,11 @@ import {
   lgreyIcon,
 } from "../../lib/ClassesName";
 
-export default function RequestCard() {
+export default function RequestCard({
+  participantFirstName,
+  participantImageURL,
+  participantUserName,
+}) {
   const handleAcceptParticipant = () => {
     console.log("Accept User!");
     //close modal after clicking "ok"
@@ -26,7 +30,11 @@ export default function RequestCard() {
     <>
       <div className="lg:card-sides card card-body mt-4 bg-info shadow-xl">
         <div className="font-semibold">Requests</div>
-        <UserSummProfile />
+        <UserSummProfile
+          userSummImageURL={`${participantImageURL}`}
+          userSummFirstName={participantFirstName}
+          userSummUsername={participantUserName}
+        />
         <div>User is requesting to join the acitivty.</div>
         <div className="-mb-8 flex items-start">
           <button className={`${darkPinkButton}  mr-2 mt-2 flex-auto`}>

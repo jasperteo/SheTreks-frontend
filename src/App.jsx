@@ -10,10 +10,39 @@ import Home from "./Components/Home";
 import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import {
+  BACKEND_URL,
+  getRequest,
+  CurrentUserContext,
+} from "./Components/lib/Constants.js";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
 
 export default function App() {
+  const { user } = useUser();
+  const { userId: clerkUid, getToken } = useAuth();
+
+  // const { data: token } = useQuery({
+  //   queryKey: ["token", user],
+  //   queryFn: async () => await getToken(),
+  // });
+
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  axios.interceptors.request.use(async (config) => {
+    config.headers.Authorization = `Bearer ${await getToken()}`;
+    return config;
+  });
+
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser", user, `${BACKEND_URL}/users/sync/${clerkUid}`],
+    queryFn: () => getRequest(`${BACKEND_URL}/users/sync/${clerkUid}`),
+    enabled: !!clerkUid,
+  });
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -28,8 +57,8 @@ export default function App() {
       path: "/activity",
       element: (
         <>
-          <NavBar />
           <Outlet />
+          <NavBar />
         </>
       ),
       children: [
@@ -52,13 +81,13 @@ export default function App() {
       path: `/profile`,
       element: (
         <>
-          <NavBar />
           <Outlet />
+          <NavBar />
         </>
       ),
       children: [
         {
-          path: "username",
+          path: `:username`,
           element: <Profile />,
         },
         {
@@ -101,8 +130,10 @@ export default function App() {
   ]);
   return (
     <>
-      <RouterProvider router={router} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <CurrentUserContext.Provider value={currentUser}>
+        <RouterProvider router={router} />
+      </CurrentUserContext.Provider>
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
   );
 }
