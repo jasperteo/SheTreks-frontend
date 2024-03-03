@@ -1,4 +1,4 @@
-import { semiBoldTxCen } from "../lib/Styles";
+import { semiBoldTxCen } from "../lib/ClassesName";
 
 export default function ProfileHeader() {
   return (

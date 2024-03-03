@@ -4,7 +4,7 @@ import {
   dPinkIcon,
   darkPinkButton,
   lgreyIcon,
-} from "./lib/Styles";
+} from "./lib/ClassesName";
 
 export default function ActivityCard() {
   return (

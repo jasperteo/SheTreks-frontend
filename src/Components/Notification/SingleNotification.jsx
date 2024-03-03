@@ -1,4 +1,4 @@
-import { notifIcon } from "../lib/Styles";
+import { notifIcon } from "../lib/ClassesName";
 
 export default function SingleNotification() {
   return (

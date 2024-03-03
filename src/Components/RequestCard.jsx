@@ -5,7 +5,7 @@ import {
   darkPinkButton,
   greyButton,
   lgreyIcon,
-} from "./lib/Styles";
+} from "./lib/ClassesName";
 
 export default function RequestCard() {
   return (

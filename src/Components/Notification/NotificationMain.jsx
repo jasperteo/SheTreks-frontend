@@ -1,4 +1,4 @@
-import { title } from "../lib/Styles";
+import { title } from "../lib/ClassesName";
 import SingleNotification from "./SingleNotification";
 
 export default function NotificationMain() {

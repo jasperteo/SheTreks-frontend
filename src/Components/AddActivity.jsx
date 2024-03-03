@@ -8,7 +8,7 @@ import {
   pinkButton,
   title,
   multiValue,
-} from "./lib/Styles";
+} from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
