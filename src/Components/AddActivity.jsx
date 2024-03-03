@@ -8,7 +8,7 @@ import {
   center,
   pinkButton,
   title,
-} from "./lib/Styles";
+} from "./lib/ClassesName.jsx";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -27,8 +27,8 @@ export default function AddActivity() {
 
   return (
     <>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <h1 className={title}>Add Activity</h1>
+      <div className="-mt-16 flex h-screen flex-col items-center justify-center">
+        <h1 className={title}>ADD ACTIVITY</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
             <img

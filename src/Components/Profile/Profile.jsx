@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import ActivityCard from "../ActivityCard";
-import RequestCard from "../RequestCard";
-import { pinkButton, semiBoldTxCen } from "../lib/Styles";
+import ActivityCard from "../UiComponents/ActivityCard.jsx";
+import { pinkButton, semiBoldTxCen } from "../lib/ClassesName.jsx";
+import TwoTabs from "../UiComponents/TwoTabs.jsx";
+import PastActivityCard from "../UiComponents/PastActivityCard.jsx";
 import { useParams } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
@@ -60,14 +61,42 @@ export default function Profile() {
         @{profile.data?.username ?? currentUser?.username}
       </div>
       <div>{profile.data?.about}</div>
-      <Link to="/profile/setting">
-        <button className={`${pinkButton} -mb-2 mt-2`}>
-          Edit Profile/Following
-        </button>
-      </Link>
-      <div className="-mb-12"></div>
-      <ActivityCard />
-      <RequestCard />
+      <div className="flex justify-start">
+        <Link to="/profile/setting">
+          {/* view for non-account holder - button to show Follow or Following */}
+          <button className={`${pinkButton} mr-4 mt-2`}>
+            Edit Profile/Following
+          </button>
+        </Link>
+        <Link to="/activity/add">
+          <button className={`${pinkButton} mt-2`}>Add Activity</button>
+        </Link>
+      </div>
+      <div className="mb-6" />
+      <TwoTabs
+        leftTitle="CURRENT"
+        rightTitle="PAST"
+        leftContent={
+          <ActivityCard
+            accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            accOwnerUserName="Fiona"
+            accOwnerStatus="(Attendee)"
+            city="Hanoi"
+            country="Vietnam"
+            activityTitle="Fly Fly"
+            date="23 Jan 2023"
+            time="08:00AM"
+            activityDescription="Feel like a garbage bag!"
+            organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            organiserFirstName="Tay Tay"
+            organiserUsername="swiftieeee"
+            activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+            categoryApiId={1}
+            catergoryName="Fooddd"
+          />
+        }
+        rightContent={<PastActivityCard userStatus="(Attendee)" />}
+      />
     </>
   );
 }

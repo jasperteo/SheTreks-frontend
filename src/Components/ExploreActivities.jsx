@@ -8,12 +8,13 @@ import {
   center,
   pinkButton,
   title,
-} from "./lib/Styles";
+} from "./lib/ClassesName.jsx";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
+import ActivityCard from "./UiComponents/ActivityCard.jsx";
 
 export default function ExploreActivities() {
   const handleChange = (value) => {
@@ -22,7 +23,7 @@ export default function ExploreActivities() {
 
   return (
     <div>
-      <h1 className={title}>Explore Activities</h1>
+      <h1 className={title}>EXPLORE ACTIVITIES</h1>
       <div className="mx-auto my-4 flex w-80 items-center justify-center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
@@ -59,7 +60,6 @@ export default function ExploreActivities() {
           />
         </LocalizationProvider>
       </div>
-
       <div className={center}>
         <Select
           placeholder="Location"
@@ -73,7 +73,6 @@ export default function ExploreActivities() {
           }}
         />
       </div>
-
       <div className={center}>
         <Select
           placeholder="Category"
@@ -102,7 +101,6 @@ export default function ExploreActivities() {
           }}
         />
       </div>
-
       <div className={center}>
         <input
           type="text"
@@ -115,6 +113,24 @@ export default function ExploreActivities() {
           Search
         </button>
       </div>
+      <div className="-mb-2 font-semibold">RESULTS:</div>
+      <ActivityCard
+        accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+        accOwnerUserName="Fiona"
+        accOwnerStatus="(Attendee)"
+        city="Hanoi"
+        country="Vietnam"
+        activityTitle="Fly Fly"
+        date="23 Jan 2023"
+        time="08:00AM"
+        activityDescription="Feel like a garbage bag!"
+        organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+        organiserFirstName="Tay Tay"
+        organiserUsername="swiftieeee"
+        activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+        categoryApiId={1}
+        catergoryName="Fooddd"
+      />
     </div>
   );
 }

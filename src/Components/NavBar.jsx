@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { RoundedAvatar, lgreyIcon } from "./lib/Styles";
+import { RoundedAvatar, lgreyIcon } from "./lib/ClassesName.jsx";
 import { useContext } from "react";
 import { CurrentUserContext } from "./lib/Constants";
 
@@ -17,11 +17,11 @@ export default function NavBar() {
           ></iconify-icon>
         </button>
       </Link>
-      <Link to="/activity" className="bg-accent">
+      <Link to="/activity/explore" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
-            icon="ri:function-add-line"
+            icon="ri:file-search-line"
             class={lgreyIcon}
           ></iconify-icon>
         </button>
