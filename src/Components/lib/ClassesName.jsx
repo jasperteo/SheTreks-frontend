@@ -60,3 +60,8 @@ export const activeTabColour =
 
 //tabs: original state
 export const tabColour = "tabs tabs-bordered text-neutral";
+
+//notifications icons name
+
+export const notifActicityIcon = "ri:walk-line";
+export const notifFollowerIcon = "ri:user-settings-line";
