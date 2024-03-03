@@ -1,23 +1,32 @@
 import Select from "react-select";
 import { useState } from "react";
 import {
-  multiValue,
   controlForm,
   menu,
   option,
   center,
   pinkButton,
   title,
+  multiValue,
 } from "./lib/Styles";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import supabase from "./lib/Supabase";
+import { supabaseActivity } from "./lib/Supabase";
 
 export default function AddActivity() {
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
+
   const tomorrow = dayjs().add(1, "day");
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const SUPABASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/activity`;
 
   const {
     register,
@@ -26,8 +35,76 @@ export default function AddActivity() {
     formState: { errors },
   } = useForm();
 
-  const handleChange = (value) => {
+  // const useGeocode = (address) => {
+  //   const data = useQuery({
+  //     queryKey: ["geocode", address],
+  //     queryFn: async () => {
+  //       const response = await axios.get(
+  //         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
+  //       );
+  //       return response.data;
+  //     },
+  //   });
+  // };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    // Upload the file to Supabase storage
+    const { data, error } = await supabase.storage
+      .from("activity")
+      .upload("test.jpg", file);
+
+    setImageUrl(`SUPABASE_URL/${data.path}`);
+
+    // Check for upload error
+    if (error) {
+      console.error("Error uploading file:", error.message);
+      return;
+    }
+  };
+
+  const onSubmit = async (value) => {
     console.log(value);
+
+    let address = value.address.split(" ").join("+");
+    console.log(address);
+
+    let lat, long;
+
+    //Retrieve lat and long using geocoding based on address
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
+      );
+      console.log(response.data);
+
+      // Extract latitude and longitude from the response data
+      lat = response.data.results[0].geometry.location.lat;
+      long = response.data.results[0].geometry.location.lng;
+      console.log("data", lat, long);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+    //Post new activity to backend
+    try {
+      const response = await axios.post(`${BACKEND_URL}/activity`, {
+        hostId: 1,
+        title: value.title,
+        description: value.description,
+        address: value.address,
+        eventDate: value.activityDate.$d,
+        locationId: value.locationId.value,
+        categoryId: value.categoryId,
+        groupSizeId: value.groupSizeId.value,
+        latitude: lat,
+        longitude: long,
+        imageUrl: imageUrl,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
@@ -43,11 +120,7 @@ export default function AddActivity() {
             />
           </div>
         </div>
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-          })}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className={center}>
             <input
               {...register("title", { required: true })}
@@ -77,7 +150,7 @@ export default function AddActivity() {
             defaultValue={tomorrow}
             rules={{ required: "Enter Activity date and time" }}
             render={({ field }) => (
-              <DateTimeField
+              <DateTimePicker
                 {...field}
                 disablePast
                 label="Activity date and time"
@@ -125,9 +198,11 @@ export default function AddActivity() {
                 {...field}
                 placeholder="Category"
                 options={categories}
+                isMulti
                 unstyled
                 classNames={{
                   control: () => controlForm,
+                  multiValue: () => multiValue,
                   menu: () => menu,
                   option: () => option,
                 }}
@@ -136,7 +211,7 @@ export default function AddActivity() {
           />
 
           <Controller
-            name="groupSizes"
+            name="groupSizeId"
             control={control}
             defaultValue=""
             rules={{ required: "Select a group size" }}
@@ -166,6 +241,7 @@ export default function AddActivity() {
                   type="file"
                   accept="image/*"
                   className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+                  onChange={handleFileUpload}
                 />
               )}
             />

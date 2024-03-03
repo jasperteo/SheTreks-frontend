@@ -1,48 +1,48 @@
 export const locations = [
-  { value: "Singapore, Singapore", label: "Singapore, Singapore" },
-  { value: "Hanoi, Vietnam", label: "Hanoi, Vietnam" },
-  { value: "Ho Chi Minh City, Vietnam", label: "Ho Chi Minh City, Vietnam" },
-  { value: "Penang, Malaysia", label: "Penang, Malaysia" },
-  { value: "Kuala Lumpur, Malaysia", label: "Kuala Lumpur, Malaysia" },
+  { value: 1, label: "Kuala Lumpur, Malaysia" },
+  { value: 2, label: "Penang, Malaysia" },
+  { value: 3, label: "Ho Chi Minh City, Vietnam" },
+  { value: 4, label: "Hanoi, Vietnam" },
+  { value: 5, label: "Singapore, Singapore" },
 ];
 
 //Category for activities
 export const categories = [
   {
-    value: "Food and Culinary Experiences",
+    value: 1,
     label: "Food and Culinary Experiences",
   },
   {
-    value: "Outdoor Adventures and Nature",
+    value: 2,
     label: "Outdoor Adventures and Nature",
   },
   {
-    value: "Cultural Exploration and Heritage",
+    value: 3,
     label: "Cultural Exploration and Heritage",
   },
   {
-    value: "Adventure Sports and Recreation",
+    value: 4,
     label: "Adventure Sports and Recreation",
   },
-  { value: "Wellness and Relaxation", label: "Wellness and Relaxation" },
+  { value: 5, label: "Wellness and Relaxation" },
   {
-    value: "Urban Exploration and City Tours",
+    value: 6,
     label: "Urban Exploration and City Tours",
   },
   {
-    value: "Photography and Sightseeing",
+    value: 7,
     label: "Photography and Sightseeing",
   },
-  { value: "Nightlife and Events", label: "Nightlife and Events" },
+  { value: 8, label: "Nightlife and Events" },
   {
-    value: "Special Interest and Niche Experiences",
+    value: 9,
     label: "Special Interest and Niche Experiences",
   },
 ];
 
-  export const groupSizes = [ 
-    {value: "2 to 3", label: "2 to 3"},
-    {value: "4 to 6", label: "4 to 6"},
-    {value: "6 to 8", label: "6 to 8"},
-    {value: "More than 8", label: "More than 8"},
-  ]
+export const groupSizes = [
+  { value: 1, label: "2 to 3" },
+  { value: 2, label: "4 to 6" },
+  { value: 3, label: "6 to 8" },
+  { value: 4, label: "More than 8" },
+];
