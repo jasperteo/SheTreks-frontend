@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
-import ActivityCard from "../ActivityCard";
-
+import ActivityCard from "../UiComponents/ActivityCard.jsx";
 import { pinkButton } from "../lib/ClassesName.jsx";
-
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
+import PastActivityCard from "../UiComponents/PastActivityCard.jsx";
 
 export default function Profile() {
   return (
@@ -24,12 +23,27 @@ export default function Profile() {
           <button className={`${pinkButton} mt-2`}>Add Activity</button>
         </Link>
       </div>
-      <div className="mb-8" />
+      <div className="mb-6" />
       <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
-        leftContent={<ActivityCard title="(Attendee)" />}
-        rightContent={<ActivityCard />}
+        leftContent={
+          <ActivityCard
+            accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            accOwnerUserName="Fiona"
+            accOwnerStatus="(Attendee)"
+            city="Hanoi"
+            country="Vietnam"
+            activityTitle="Fly Fly"
+            date="23 Jan 2023"
+            time="08:00AM"
+            activityDescription="Feel like a garbage bag!"
+            organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            organiserFirstName="Tay Tay"
+            organiserUsername="swiftieeee"
+          />
+        }
+        rightContent={<PastActivityCard userStatus="(Attendee)" />}
       />
     </>
   );

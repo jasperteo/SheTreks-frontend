@@ -14,6 +14,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
+import ActivityCard from "./UiComponents/ActivityCard.jsx";
 
 export default function ExploreActivities() {
   const handleChange = (value) => {
@@ -22,7 +23,7 @@ export default function ExploreActivities() {
 
   return (
     <div>
-      <h1 className={title}>ACTIVITIES</h1>
+      <h1 className={title}>EXPLORE ACTIVITIES</h1>
       <div className="mx-auto my-4 flex w-80 items-center justify-center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
@@ -59,7 +60,6 @@ export default function ExploreActivities() {
           />
         </LocalizationProvider>
       </div>
-
       <div className={center}>
         <Select
           placeholder="Location"
@@ -73,7 +73,6 @@ export default function ExploreActivities() {
           }}
         />
       </div>
-
       <div className={center}>
         <Select
           placeholder="Category"
@@ -102,7 +101,6 @@ export default function ExploreActivities() {
           }}
         />
       </div>
-
       <div className={center}>
         <input
           type="text"
@@ -115,6 +113,8 @@ export default function ExploreActivities() {
           Search
         </button>
       </div>
+      <div className="-mb-2 font-semibold">RESULTS:</div>
+      <ActivityCard />
     </div>
   );
 }

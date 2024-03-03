@@ -1,16 +1,16 @@
-import UserSummProfile from "./UiComponents/UserSummProfile";
+import UserSummProfile from "./UserSummProfile";
 import {
   chatIcon,
   RoundedAvatar,
   dPinkIcon,
   darkPinkButton,
   lgreyIcon,
-} from "./lib/ClassesName";
+} from "../lib/ClassesName";
 
-export default function ActivityCard({ title }) {
+export default function PastActivityCard({ title }) {
   return (
     <>
-      <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
+      <div className="lg:card-sides card mt-8 bg-grey shadow-xl">
         <div className="card-body">
           <div className="flex">
             <div className="flex-none">
@@ -28,7 +28,7 @@ export default function ActivityCard({ title }) {
 
           <div className="font-semibold">Event Activity Title</div>
 
-          <div className="font-light italic">Date, General Time</div>
+          <div className="font-light italic">Date, Exact Time</div>
           <div>Description</div>
           <div className="flex">
             <div className={`${dPinkIcon}`}>
@@ -36,24 +36,25 @@ export default function ActivityCard({ title }) {
             </div>
             <div className="mb-4 mt-2 text-xs"> Event Category</div>
           </div>
-          {/* //only show this if user is not the organiser */}
+          {/* remove organiser section if user is the organiser */}
           <div className="-mt-2 font-semibold">Organiser:</div>
-          <UserSummProfile />
+          <UserSummProfile
+            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            userSummFirstName="FirstName"
+            userSummUsername="@userName"
+          />
+          <div className="mt-2 font-semibold">Participants:</div>
+          <UserSummProfile
+            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            userSummFirstName="FirstName"
+            userSummUsername="@userName"
+          />
         </div>
-        <img
-          className="-mt-2 object-none"
-          src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-          alt="Activity Image"
-        />
+
         <figure>
           <img src="/map.png" alt="map" />
         </figure>
         {/* do not show the join now button if user is an attendee */}
-        <div className="card-body -mb-4">
-          <button className={`${darkPinkButton} mb-4 text-grey`}>
-            JOIN NOW
-          </button>
-        </div>
       </div>
     </>
   );

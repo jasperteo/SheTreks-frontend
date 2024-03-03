@@ -51,7 +51,11 @@ export default function UpcomingOrgActCard() {
           <div>Date, Exact Time</div>
           <div>Address</div>
           <div className="font-semibold">Participants:</div>
-          <UserSummProfile />
+          <UserSummProfile
+            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            userSummFirstName="FirstName"
+            userSummUsername="@userName"
+          />
           <Link to="/activity/request">
             <button
               className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
