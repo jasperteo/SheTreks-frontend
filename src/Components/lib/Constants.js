@@ -1,4 +1,7 @@
-export const locations = [
+import axios from "axios";
+import { createContext } from "react";
+
+const locations = [
   { value: 1, label: "Kuala Lumpur, Malaysia" },
   { value: 2, label: "Penang, Malaysia" },
   { value: 3, label: "Ho Chi Minh City, Vietnam" },
@@ -7,7 +10,7 @@ export const locations = [
 ];
 
 //Category for activities
-export const categories = [
+const categories = [
   {
     value: 1,
     label: "Food and Culinary Experiences",
@@ -40,9 +43,30 @@ export const categories = [
   },
 ];
 
-export const groupSizes = [
+const groupSizes = [
   { value: 1, label: "2 to 3" },
   { value: 2, label: "4 to 6" },
   { value: 3, label: "6 to 8" },
   { value: 4, label: "More than 8" },
 ];
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+const CurrentUserContext = createContext(null);
+
+const getRequest = async (url) => (await axios.get(url)).data;
+const putRequest = async (url, data) => await axios.put(url, data);
+const postRequest = async (url, data) => await axios.post(url, data);
+const deleteRequest = async (url) => await axios.delete(url);
+
+export {
+  locations,
+  categories,
+  groupSizes,
+  BACKEND_URL,
+  CurrentUserContext,
+  getRequest,
+  putRequest,
+  postRequest,
+  deleteRequest,
+};
