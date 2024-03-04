@@ -52,7 +52,7 @@ export default function RequestCard({
           >
             <iconify-icon
               icon="ri:close-line"
-              class="content-center text-3xl text-neutral"
+              class="content-center text-3xl text-warning"
             />
           </button>
         </div>

@@ -9,7 +9,6 @@ export default function TwoTabs({
 }) {
   const [activeTab, setActiveTab] = useState(1);
 
-
   return (
     <div>
       <div role="tablist" className={`${tabColour}`}>
