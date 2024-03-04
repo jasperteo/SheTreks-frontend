@@ -1,10 +1,9 @@
-import { RoundedAvatar } from "../lib/ClassesName";
+import { RoundedAvatar } from "../lib/ClassesName.jsx";
 
 export default function UserSummProfile({
   userSummImageURL,
   userSummFirstName,
   userSummUsername,
-  activityCardup,
 }) {
   return (
     <div className="flex">

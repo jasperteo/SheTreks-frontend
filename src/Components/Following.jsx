@@ -3,7 +3,7 @@ import TwoTabs from "./UiComponents/TwoTabs";
 
 export default function Following() {
   return (
-    <div className="mx-auto flex max-w-80 items-center justify-center">
+    <div>
       <TwoTabs
         leftTitle="FOLLOWERS"
         rightTitle="FOLLOWINGS"

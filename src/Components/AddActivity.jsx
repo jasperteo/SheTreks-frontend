@@ -1,112 +1,33 @@
 import Select from "react-select";
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import {
+  multiValue,
   controlForm,
   menu,
   option,
   center,
   pinkButton,
   title,
-  multiValue,
-} from "./lib/ClassesName";
+} from "./lib/ClassesName.jsx";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import { useForm, Controller } from "react-hook-form";
-import { APIProvider, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import supabase from "./lib/Supabase";
-import { BACKEND_URL, CurrentUserContext } from "./lib/Constants";
 
 export default function AddActivity() {
-  const [imageUrl, setImageUrl] = useState("");
-  const currentUser = useContext(CurrentUserContext);
+  const [selectedValues, setSelectedValues] = useState([]);
 
-  const tomorrow = dayjs().add(1, "day");
+  const { register, handleSubmit } = useForm();
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const SUPABASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/activity`;
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    // Upload the file to Supabase storage
-    const { data, error } = await supabase.storage
-      .from("activity")
-      .upload(file.name, file);
-
-    setImageUrl(`${SUPABASE_URL}/${file.name}`);
-
-    // Check for upload error
-    if (error) {
-      console.error("Error uploading file:", error.message);
-      return;
-    }
-    console.log("Uploaded file name:", imageUrl);
-  };
-
-  const onSubmit = async (value) => {
+  const handleChange = (value) => {
     console.log(value);
-    console.log("user", currentUser.id);
-
-    const categories = value.categoryId.map((option) => option.value);
-    console.log(categories);
-
-    const parsedCost = parseFloat(value.cost);
-    console.log("cost", parsedCost, Number(parsedCost));
-
-    // let address = value.address.split(" ").join("+");
-    // console.log(address);
-
-    // let lat, long;
-
-    // //Retrieve lat and long using geocoding based on address
-    // try {
-    //   const response = await axios.get(
-    //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
-    //   );
-    //   console.log(response.data);
-
-    //   // Extract latitude and longitude from the response data
-    //   lat = response.data.results[0].geometry.location.lat;
-    //   long = response.data.results[0].geometry.location.lng;
-    //   console.log("data", lat, long);
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    // }
-
-    //Post new activity to backend
-    try {
-      const response = await axios.post(`${BACKEND_URL}/activities`, {
-        hostId: currentUser.id,
-        title: value.title,
-        cost: parsedCost,
-        description: value.description,
-        address: value.address,
-        eventDate: value.activityDate.$d,
-        locationId: value.locationId.value,
-        selectedCategoryIds: categories,
-        groupSizeId: value.groupSizeId.value,
-        latitude: 1.2838,
-        longitude: 103.8591,
-        imageUrl: imageUrl,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
   };
 
   return (
     <>
-      <div className="mt-3 flex h-screen flex-col items-center justify-center">
+      <div className="-mt-16 flex h-screen flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
@@ -117,7 +38,11 @@ export default function AddActivity() {
             />
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+          })}
+        >
           <div className={center}>
             <input
               {...register("title", { required: true })}
@@ -141,99 +66,65 @@ export default function AddActivity() {
             ></textarea>
           </div>
 
-          <div className={center}>
-            <input
-              {...register("cost", { required: true })}
-              type="number"
-              placeholder="Cost in local currency"
-              className="input input-bordered input-accent w-full max-w-xs bg-grey"
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimeField
+              {...register("date", { required: true })}
+              label="Date & Time"
+              sx={{
+                width: "20rem",
+                backgroundColor: "#F2F3F4",
+                marginTop: "0.5rem",
+                marginBottom: "0.5rem",
+
+                "*": {
+                  fontFamily: "InterVariable !important",
+                },
+                ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
+                  fontFamily: "InterVariable !important",
+                },
+              }}
             />
-          </div>
+          </LocalizationProvider>
 
-          <Controller
-            name="activityDate"
-            control={control}
-            defaultValue={tomorrow}
-            rules={{ required: "Enter Activity date and time" }}
-            render={({ field }) => (
-              <DateTimePicker
-                {...field}
-                disablePast
-                label="Activity date and time"
-                defaultValue={tomorrow}
-                format={"DD/MM/YYYY hh:mm a"}
-                views={["year", "month", "day", "hours", "minutes"]}
-                sx={{
-                  width: "20rem",
-                  backgroundColor: "#F2F3F4",
-                  "*": {
-                    fontFamily: "InterVariable !important",
-                  },
-                }}
-              />
-            )}
+          <Select
+            {...register("location", { required: true })}
+            placeholder="Location"
+            options={locations}
+            // onChange={handleChange}
+            unstyled
+            classNames={{
+              control: () => controlForm,
+              menu: () => menu,
+              option: () => option,
+            }}
           />
 
-          <Controller
-            name="locationId"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Select a location" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                placeholder="Location"
-                options={locations}
-                unstyled
-                classNames={{
-                  control: () => controlForm,
-                  menu: () => menu,
-                  option: () => option,
-                }}
-              />
-            )}
+          <Select
+            {...register("category", { required: true })}
+            placeholder="Category"
+            options={categories}
+            isMulti
+            // onChange={handleChange}
+            unstyled
+            classNames={{
+              control: () => controlForm,
+              multiValue: () => multiValue,
+              menu: () => menu,
+              option: () => option,
+            }}
           />
 
-          <Controller
-            name="categoryId"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Select a category" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                placeholder="Category"
-                options={categories}
-                isMulti
-                unstyled
-                classNames={{
-                  control: () => controlForm,
-                  multiValue: () => multiValue,
-                  menu: () => menu,
-                  option: () => option,
-                }}
-              />
-            )}
-          />
-
-          <Controller
-            name="groupSizeId"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Select a group size" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                placeholder="Group size"
-                options={groupSizes}
-                unstyled
-                classNames={{
-                  control: () => controlForm,
-                  menu: () => menu,
-                  option: () => option,
-                }}
-              />
-            )}
+          <Select
+            {...register("groupSize", { required: true })}
+            placeholder="Group size"
+            options={groupSizes}
+            // onChange={handleChange}
+            unstyled
+            classNames={{
+              control: () => controlForm,
+              menu: () => menu,
+              option: () => option,
+            }}
           />
 
           <div>
@@ -241,9 +132,7 @@ export default function AddActivity() {
               {...register("image")}
               type="file"
               accept="image/*"
-              name="image"
               className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
-              onChange={handleFileUpload}
             />
           </div>
 
