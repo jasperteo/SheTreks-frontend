@@ -1,6 +1,7 @@
 import UserSummProfile from "./UserSummProfile";
 import { RoundedAvatar, dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import { categoryIcon } from "../lib/Constants";
+import { categoryIcon, BACKEND_URL, postRequest } from "../lib/Constants";
+import { useMutation } from "@tanstack/react-query";
 
 export default function ActivityCard({
   accOwnerImage,
@@ -18,9 +19,24 @@ export default function ActivityCard({
   activityImageURL,
   categoryApiId,
   catergoryName,
+  currentUser,
+  activityId,
 }) {
-  console.log(categoryApiId);
-  console.log(categoryIcon(categoryApiId));
+  //Request to post request to join to backend
+  const createRequestMutation = useMutation({
+    mutationFn: (data) =>
+      postRequest(`${BACKEND_URL}/activities/${activityId}/participants`, data),
+  });
+
+  //Handles the click event for the join now button
+  //Posts requests to the backend to join the activity
+  const handleClick = () => {
+    console.log("clicked", currentUser);
+    createRequestMutation.mutate({
+      userId: currentUser.id,
+    });
+  };
+
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -68,7 +84,10 @@ export default function ActivityCard({
         </figure>
         {/* do not show the join now button if user is an attendee */}
         <div className="card-body -mb-4">
-          <button className={`${darkPinkButton} mb-4 text-grey`}>
+          <button
+            className={`${darkPinkButton} mb-4 text-grey`}
+            onClick={handleClick}
+          >
             JOIN NOW
           </button>
         </div>
