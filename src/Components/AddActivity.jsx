@@ -18,25 +18,32 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import supabase from "./lib/Supabase";
 import { BACKEND_URL, CurrentUserContext } from "./lib/Constants";
+
 export default function AddActivity() {
   const [imageUrl, setImageUrl] = useState("");
   const currentUser = useContext(CurrentUserContext);
+
   const tomorrow = dayjs().add(1, "day");
+
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const SUPABASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/activity`;
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     // Upload the file to Supabase storage
     const { data, error } = await supabase.storage
       .from("activity")
       .upload(file.name, file);
+
     setImageUrl(`${SUPABASE_URL}/${file.name}`);
+
     // Check for upload error
     if (error) {
       console.error("Error uploading file:", error.message);
@@ -44,11 +51,14 @@ export default function AddActivity() {
     }
     console.log("Uploaded file name:", imageUrl);
   };
+
   const onSubmit = async (value) => {
     console.log(value);
     console.log("user", currentUser.id);
+
     const categories = value.categoryId.map((option) => option.value);
     console.log(categories);
+
     const parsedCost = parseFloat(value.cost);
     console.log("cost", parsedCost, Number(parsedCost));
 
@@ -73,9 +83,10 @@ export default function AddActivity() {
       console.error("Error fetching data:", error);
     }
   };
+
   return (
     <>
-      <div className="mt-3 flex h-screen flex-col items-center justify-center">
+      <div className="mt-3 flex flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
@@ -109,6 +120,7 @@ export default function AddActivity() {
               placeholder="Address"
             ></textarea>
           </div>
+
           <div className={center}>
             <input
               {...register("cost", { required: true })}
@@ -117,6 +129,7 @@ export default function AddActivity() {
               className="input input-bordered input-accent w-full max-w-xs bg-grey"
             />
           </div>
+
           <Controller
             name="activityDate"
             control={control}
@@ -140,6 +153,7 @@ export default function AddActivity() {
               />
             )}
           />
+
           <Controller
             name="locationId"
             control={control}
@@ -159,6 +173,7 @@ export default function AddActivity() {
               />
             )}
           />
+
           <Controller
             name="categoryId"
             control={control}
@@ -180,6 +195,7 @@ export default function AddActivity() {
               />
             )}
           />
+
           <Controller
             name="groupSizeId"
             control={control}
@@ -199,6 +215,7 @@ export default function AddActivity() {
               />
             )}
           />
+
           <div>
             <input
               {...register("image")}
@@ -209,6 +226,7 @@ export default function AddActivity() {
               onChange={handleFileUpload}
             />
           </div>
+
           <button className={pinkButton}>Submit</button>
         </form>
       </div>

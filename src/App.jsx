@@ -20,6 +20,8 @@ import {
 } from "./Components/lib/Constants.js";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function App() {
   const { user } = useUser();
@@ -131,7 +133,9 @@ export default function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <RouterProvider router={router} />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
       </CurrentUserContext.Provider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
