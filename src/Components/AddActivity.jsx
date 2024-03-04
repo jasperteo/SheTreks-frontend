@@ -62,6 +62,26 @@ export default function AddActivity() {
     const parsedCost = parseFloat(value.cost);
     console.log("cost", parsedCost, Number(parsedCost));
 
+    // let address = value.address.split(" ").join("+");
+    // console.log(address);
+
+    // let lat, long;
+
+    // //Retrieve lat and long using geocoding based on address
+    // try {
+    //   const response = await axios.get(
+    //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
+    //   );
+    //   console.log(response.data);
+
+    //   // Extract latitude and longitude from the response data
+    //   lat = response.data.results[0].geometry.location.lat;
+    //   long = response.data.results[0].geometry.location.lng;
+    //   console.log("data", lat, long);
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
+
     //Post new activity to backend
     try {
       const response = await axios.post(`${BACKEND_URL}/activities`, {
@@ -74,8 +94,8 @@ export default function AddActivity() {
         locationId: value.locationId.value,
         selectedCategoryIds: categories,
         groupSizeId: value.groupSizeId.value,
-        // latitude: 1.2838,
-        // longitude: 103.8591,
+        latitude: 1.2838,
+        longitude: 103.8591,
         imageUrl: imageUrl,
       });
       console.log(response.data);
