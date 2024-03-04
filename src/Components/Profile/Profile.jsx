@@ -40,12 +40,16 @@ export default function Profile() {
             )}
           </div>
         </div>
-        <div className={`${semiBoldTxCen} w-32 flex-auto`}>
-          0 <br /> FOLLOWERS
-        </div>
-        <div className={`${semiBoldTxCen} w-32 flex-auto `}>
-          0 <br /> FOLLOWING
-        </div>
+        <Link to="/profile/follow" className="flex-auto">
+          <div className="flex w-full justify-between">
+            <div className={`${semiBoldTxCen} w-1/2`}>
+              0 <br /> FOLLOWERS
+            </div>
+            <div className={`${semiBoldTxCen} w-1/2  `}>
+              0 <br /> FOLLOWING
+            </div>
+          </div>
+        </Link>
       </div>
     );
   };
