@@ -10,8 +10,6 @@ import Home from "./Components/Home";
 import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -133,9 +131,7 @@ export default function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <RouterProvider router={router} />
-        </LocalizationProvider>
+        <RouterProvider router={router} />
       </CurrentUserContext.Provider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
