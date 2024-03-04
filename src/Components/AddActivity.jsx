@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   controlForm,
   menu,
@@ -22,6 +22,9 @@ import {
   getRequest,
   postRequest,
 } from "./lib/Constants";
+import axios from "axios";
+
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export default function AddActivity() {
   const currentUser = useContext(CurrentUserContext);
@@ -39,20 +42,26 @@ export default function AddActivity() {
   }); // on success navigate to newly created activity page?
 
   const onSubmit = async (formData) => {
+    const { data: mapData } = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(formData.address)}&key=${GOOGLE_API_KEY}`,
+    );
+    const { lat, lng } = mapData.results[0].geometry.location;
     await supabase.storage
       .from("activity")
       .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
-    const { data } = supabase.storage
+    const { data: imageData } = supabase.storage
       .from("activity")
       .getPublicUrl(formData.imageUrl[0].name);
     mutate({
       ...formData,
       hostId: currentUser.id,
-      imageUrl: data.publicUrl,
+      imageUrl: imageData.publicUrl,
       eventDate: formData.eventDate.$d,
       selectedCategoryIds: formData.selectedCategoryIds.map((id) => id.value),
       groupSizeId: formData.groupSizeId.value,
       locationId: formData.locationId.value,
+      latitude: lat,
+      longitude: lng,
     });
   };
 
@@ -109,7 +118,28 @@ export default function AddActivity() {
           <div className={center}>
             <label className="form-control w-full max-w-xs">
               <textarea
-                {...register("address", { required: "Enter Address" })}
+                {...register("address", {
+                  required: "Enter Address",
+                  validate: {
+                    validateAddress: async (value) => {
+                      const { data: mapData } = await axios.get(
+                        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=${GOOGLE_API_KEY}`,
+                      );
+                      return mapData.results.length > 0 || "Invalid Address";
+                    },
+                    //this API is more 3.4 times expensive
+                    // validateAddressV2: async (value) => {
+                    //   const res = await axios.post(
+                    //     `https://addressvalidation.googleapis.com/v1:validateAddress?key=${GOOGLE_API_KEY}`,
+                    //     { address: { addressLines: [value] } },
+                    //   );
+                    //   return (
+                    //     res?.data.result.verdict.inputGranularity ===
+                    //       "PREMISE" || "Invalid Address"
+                    //   );
+                    // },
+                  },
+                })}
                 className={`textarea ${errors.address ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
                 placeholder="Address"
               />

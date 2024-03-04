@@ -16,6 +16,7 @@ import axios from "axios";
 import {
   BACKEND_URL,
   getRequest,
+  axiosAuth,
   CurrentUserContext,
 } from "./Components/lib/Constants.js";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
@@ -28,7 +29,7 @@ export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
-  axios.interceptors.request.use(async (config) => {
+  axiosAuth.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${await getToken()}`;
     return config;
   });
@@ -67,7 +68,7 @@ export default function App() {
               element: <AddActivity />,
             },
             {
-              path: "request",
+              path: ":/activityId/request",
               element: <SingleAct />,
             },
           ],
