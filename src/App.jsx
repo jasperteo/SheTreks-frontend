@@ -25,6 +25,8 @@ export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
+  console.log(user);
+
   // const { data: token } = useQuery({
   //   queryKey: ["token", user],
   //   queryFn: async () => await getToken(),

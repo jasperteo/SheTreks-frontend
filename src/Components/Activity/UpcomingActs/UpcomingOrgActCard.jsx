@@ -3,7 +3,7 @@ import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
 
-export default function UpcomingOrgActCard() {
+export default function UpcomingOrgActCard({ title }) {
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
     //close modal after clicking "ok"
@@ -47,7 +47,7 @@ export default function UpcomingOrgActCard() {
             />
           </div>
           <div className="font-semibold">Hanoi, Vietnam</div>
-          <div className="font-semibold">Event Activity Title</div>
+          <div className="font-semibold">{title}</div>
           <div>Date, Exact Time</div>
           <div>Address</div>
           <div className="font-semibold">Participants:</div>
