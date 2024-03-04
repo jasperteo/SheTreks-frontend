@@ -4,7 +4,7 @@ export const multiValue =
 
 //Form field box
 export const controlForm =
-  "min-h-20 w-80 my-2 border-2  border-green rounded-md bg-grey";
+  "min-h-20 w-80 my-4 border-2  border-green rounded-md bg-grey";
 
 //Dropdown menu when dropdown is selected
 export const menu = "border border-green bg-grey ";
@@ -13,7 +13,7 @@ export const menu = "border border-green bg-grey ";
 export const option = "hover:bg-light-pink";
 
 //Center elements
-export const center = "flex justify-center items-center my-2 w-80";
+export const center = "flex justify-center items-center my-4 w-80";
 
 //Button background light pink
 export const pinkButton =
@@ -66,3 +66,11 @@ export const notifActicityIcon = "ri:walk-line";
 
 //notifications icons name - Follower Icon
 export const notifFollowerIcon = "ri:user-settings-line";
+
+//Center for explore Activity page
+export const exploreCenter =
+  "mx-auto flex w-80  my-3 items-center justify-center";
+
+//Form field box for explore
+export const exploreForm =
+  "min-h-20 w-80 border-2  border-green rounded-md bg-grey";
