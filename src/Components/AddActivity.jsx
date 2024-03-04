@@ -36,8 +36,7 @@ export default function AddActivity() {
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       postRequest(`${BACKEND_URL}/activities`, formData),
-    onSuccess: () => console.log("make this navigate to new activity page idk"),
-  });
+  }); // on success navigate to newly created activity page?
 
   const onSubmit = async (formData) => {
     await supabase.storage

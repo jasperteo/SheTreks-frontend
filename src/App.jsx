@@ -22,6 +22,7 @@ import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { SignedOut, SignedIn } from "@clerk/clerk-react";
 
 export default function App() {
   const { user } = useUser();
@@ -43,85 +44,65 @@ export default function App() {
       path: "/",
       element: (
         <>
-          <Home />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/activity",
-      element: (
-        <>
-          <Outlet />
-          <NavBar />
+          <SignedOut>
+            <Home />
+          </SignedOut>
+          <SignedIn>
+            <Outlet />
+            <NavBar />
+          </SignedIn>
         </>
       ),
       children: [
+        { index: true, element: <Home /> },
         {
-          path: "explore",
-          element: <ExploreActivities />,
+          path: "activity",
+          children: [
+            {
+              path: "explore",
+              element: <ExploreActivities />,
+            },
+            {
+              path: "add",
+              element: <AddActivity />,
+            },
+            {
+              path: "request",
+              element: <SingleAct />,
+            },
+          ],
         },
         {
-          path: "add",
-          element: <AddActivity />,
+          path: `profile`,
+          children: [
+            { index: true, element: <Profile /> },
+            {
+              path: `:username`,
+              element: <Profile />,
+            },
+            {
+              path: "setting",
+              element: <EditProfile />,
+            },
+            {
+              path: "follow",
+              element: <Following />,
+            },
+          ],
         },
         {
-          path: "request",
-          element: <SingleAct />,
+          path: "notifications",
+          element: <NotificationMain />,
+        },
+        {
+          path: "feeds",
+          element: <Feed />,
+        },
+        {
+          path: "upcomingevents",
+          element: <UpcomingEvents />,
         },
       ],
-    },
-
-    {
-      path: `/profile`,
-      element: (
-        <>
-          <Outlet />
-          <NavBar />
-        </>
-      ),
-      children: [
-        { index: true, element: <Profile /> },
-        {
-          path: `:username`,
-          element: <Profile />,
-        },
-        {
-          path: "setting",
-          element: <EditProfile />,
-        },
-        {
-          path: "follow",
-          element: <Following />,
-        },
-      ],
-    },
-    {
-      path: "/notifications",
-      element: (
-        <>
-          <NotificationMain />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/feeds",
-      element: (
-        <>
-          <Feed />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/upcomingevents",
-      element: (
-        <>
-          <UpcomingEvents />
-          <NavBar />
-        </>
-      ),
     },
   ]);
   return (
