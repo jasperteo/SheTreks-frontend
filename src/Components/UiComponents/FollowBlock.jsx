@@ -1,4 +1,4 @@
-import { greyButton, brGreenButton } from "../lib/ClassesName.jsx";
+import { greyButton, brGreenButton } from "../lib/ClassesName";
 
 export default function FollowBlock() {
   return (

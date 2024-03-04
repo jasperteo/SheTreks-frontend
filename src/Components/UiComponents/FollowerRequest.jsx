@@ -1,4 +1,4 @@
-import { pinkButton, greyButton } from "../lib/ClassesName.jsx";
+import { pinkButton, greyButton } from "../lib/ClassesName";
 
 export default function FollowerRequest() {
   return (
