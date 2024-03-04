@@ -88,6 +88,7 @@ export default function App() {
         </>
       ),
       children: [
+        { index: true, element: <Profile /> },
         {
           path: `:username`,
           element: <Profile />,
