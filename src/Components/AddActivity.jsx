@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   controlForm,
   menu,
@@ -11,16 +11,17 @@ import {
 } from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
-import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
-import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import { APIProvider, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import supabase from "./lib/Supabase";
+import { BACKEND_URL, CurrentUserContext } from "./lib/Constants";
 
 export default function AddActivity() {
   const [imageUrl, setImageUrl] = useState("");
+  const currentUser = useContext(CurrentUserContext);
 
   const tomorrow = dayjs().add(1, "day");
 
@@ -34,73 +35,67 @@ export default function AddActivity() {
     formState: { errors },
   } = useForm();
 
-  // const useGeocode = (address) => {
-  //   const data = useQuery({
-  //     queryKey: ["geocode", address],
-  //     queryFn: async () => {
-  //       const response = await axios.get(
-  //         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
-  //       );
-  //       return response.data;
-  //     },
-  //   });
-  // };
-
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     // Upload the file to Supabase storage
     const { data, error } = await supabase.storage
       .from("activity")
-      .upload("test.jpg", file);
+      .upload(file.name, file);
 
-    // console.log("path", data);
-
-    // setImageUrl(`SUPABASE_URL/${data.path}`);
+    setImageUrl(`${SUPABASE_URL}/${file.name}`);
 
     // Check for upload error
     if (error) {
       console.error("Error uploading file:", error.message);
       return;
     }
+    console.log("Uploaded file name:", imageUrl);
   };
 
   const onSubmit = async (value) => {
     console.log(value);
+    console.log("user", currentUser.id);
 
-    let address = value.address.split(" ").join("+");
-    console.log(address);
+    const categories = value.categoryId.map((option) => option.value);
+    console.log(categories);
 
-    let lat, long;
+    const parsedCost = parseFloat(value.cost);
+    console.log("cost", parsedCost, Number(parsedCost));
 
-    //Retrieve lat and long using geocoding based on address
-    try {
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
-      );
-      console.log(response.data);
+    // let address = value.address.split(" ").join("+");
+    // console.log(address);
 
-      // Extract latitude and longitude from the response data
-      lat = response.data.results[0].geometry.location.lat;
-      long = response.data.results[0].geometry.location.lng;
-      console.log("data", lat, long);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    // let lat, long;
+
+    // //Retrieve lat and long using geocoding based on address
+    // try {
+    //   const response = await axios.get(
+    //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
+    //   );
+    //   console.log(response.data);
+
+    //   // Extract latitude and longitude from the response data
+    //   lat = response.data.results[0].geometry.location.lat;
+    //   long = response.data.results[0].geometry.location.lng;
+    //   console.log("data", lat, long);
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
 
     //Post new activity to backend
     try {
-      const response = await axios.post(`${BACKEND_URL}/activity`, {
-        hostId: 1,
+      const response = await axios.post(`${BACKEND_URL}/activities`, {
+        hostId: currentUser.id,
         title: value.title,
-        cost: value.cost,
+        cost: parsedCost,
         description: value.description,
         address: value.address,
         eventDate: value.activityDate.$d,
         locationId: value.locationId.value,
-        categoryId: value.categoryId,
+        selectedCategoryIds: categories,
         groupSizeId: value.groupSizeId.value,
-        latitude: lat,
-        longitude: long,
+        latitude: 1.2838,
+        longitude: 103.8591,
         imageUrl: imageUrl,
       });
       console.log(response.data);
@@ -111,7 +106,7 @@ export default function AddActivity() {
 
   return (
     <>
-      <div className="-mt-16 flex h-screen flex-col items-center justify-center">
+      <div className="mt-3 flex h-screen flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
@@ -248,6 +243,7 @@ export default function AddActivity() {
               accept="image/*"
               name="image"
               className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+              onChange={handleFileUpload}
             />
           </div>
 

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import { title } from "../lib/ClassesName";
-=======
 import {
   chatIcon,
   notifActicityIcon,
   notifFollowerIcon,
   title,
 } from "../lib/ClassesName";
->>>>>>> 7fe8de3c5905807203cd0e7c95523c8b31eb8e2a
 import SingleNotification from "./SingleNotification";
 
 export default function NotificationMain() {

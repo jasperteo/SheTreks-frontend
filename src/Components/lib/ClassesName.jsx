@@ -66,3 +66,11 @@ export const notifActicityIcon = "ri:walk-line";
 
 //notifications icons name - Follower Icon
 export const notifFollowerIcon = "ri:user-settings-line";
+
+//Center for explore Activity page
+export const exploreCenter =
+  "mx-auto flex w-80  my-3 items-center justify-center";
+
+//Form field box for explore
+export const exploreForm =
+  "min-h-20 w-80 border-2  border-green rounded-md bg-grey";
