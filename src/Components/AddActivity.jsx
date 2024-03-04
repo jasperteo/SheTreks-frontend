@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import {
   controlForm,
   menu,
@@ -10,23 +10,21 @@ import {
   multiValue,
 } from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
 import { APIProvider, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import supabase from "./lib/Supabase";
-import { BACKEND_URL, CurrentUserContext } from "./lib/Constants";
+import {
+  BACKEND_URL,
+  CurrentUserContext,
+  getRequest,
+  postRequest,
+} from "./lib/Constants";
 
 export default function AddActivity() {
-  const [imageUrl, setImageUrl] = useState("");
   const currentUser = useContext(CurrentUserContext);
-
-  const tomorrow = dayjs().add(1, "day");
-
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const SUPABASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/activity`;
 
   const {
     register,
@@ -35,53 +33,28 @@ export default function AddActivity() {
     formState: { errors },
   } = useForm();
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    // Upload the file to Supabase storage
-    const { data, error } = await supabase.storage
+  const { mutate } = useMutation({
+    mutationFn: (formData) =>
+      postRequest(`${BACKEND_URL}/activities`, formData),
+    onSuccess: () => console.log("make this navigate to new activity page idk"),
+  });
+
+  const onSubmit = async (formData) => {
+    await supabase.storage
       .from("activity")
-      .upload(file.name, file);
-
-    setImageUrl(`${SUPABASE_URL}/${file.name}`);
-
-    // Check for upload error
-    if (error) {
-      console.error("Error uploading file:", error.message);
-      return;
-    }
-    console.log("Uploaded file name:", imageUrl);
-  };
-
-  const onSubmit = async (value) => {
-    console.log(value);
-    console.log("user", currentUser.id);
-
-    const categories = value.categoryId.map((option) => option.value);
-    console.log(categories);
-
-    const parsedCost = parseFloat(value.cost);
-    console.log("cost", parsedCost, Number(parsedCost));
-
-    //Post new activity to backend
-    try {
-      const response = await axios.post(`${BACKEND_URL}/activities`, {
-        hostId: currentUser.id,
-        title: value.title,
-        cost: parsedCost,
-        description: value.description,
-        address: value.address,
-        eventDate: value.activityDate.$d,
-        locationId: value.locationId.value,
-        selectedCategoryIds: categories,
-        groupSizeId: value.groupSizeId.value,
-        // latitude: 1.2838,
-        // longitude: 103.8591,
-        imageUrl: imageUrl,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+      .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
+    const { data } = supabase.storage
+      .from("activity")
+      .getPublicUrl(formData.imageUrl[0].name);
+    mutate({
+      ...formData,
+      hostId: currentUser.id,
+      imageUrl: data.publicUrl,
+      eventDate: formData.eventDate.$d,
+      selectedCategoryIds: formData.selectedCategoryIds.map((id) => id.value),
+      groupSizeId: formData.groupSizeId.value,
+      locationId: formData.locationId.value,
+    });
   };
 
   return (
@@ -97,52 +70,89 @@ export default function AddActivity() {
             />
           </div>
         </div>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={center}>
-            <input
-              {...register("title", { required: true })}
-              type="text"
-              placeholder="Title"
-              className="input input-bordered input-accent w-full max-w-xs bg-grey"
-            />
-          </div>
-          <div className={center}>
-            <textarea
-              {...register("description")}
-              className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
-              placeholder="Description"
-            ></textarea>
-          </div>
-          <div className={center}>
-            <textarea
-              {...register("address", { required: true })}
-              className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
-              placeholder="Address"
-            ></textarea>
+            <label className="form-control w-full max-w-xs">
+              <input
+                {...register("title", { required: "Enter Title" })}
+                className={`input ${errors.title ? "input-error" : "input-accent"} w-full max-w-xs bg-grey`}
+                type="text"
+                placeholder="Title"
+              />
+              {!!errors.title && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.title?.message}
+                  </span>
+                </div>
+              )}
+            </label>
           </div>
 
           <div className={center}>
-            <input
-              {...register("cost", { required: true })}
-              type="number"
-              placeholder="Cost in local currency"
-              className="input input-bordered input-accent w-full max-w-xs bg-grey"
-            />
+            <label className="form-control w-full max-w-xs">
+              <textarea
+                {...register("description", { required: "Enter Description" })}
+                className={`textarea ${errors.description ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
+                placeholder="Description"
+              />
+              {!!errors.description && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.description?.message}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <div className={center}>
+            <label className="form-control w-full max-w-xs">
+              <textarea
+                {...register("address", { required: "Enter Address" })}
+                className={`textarea ${errors.address ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
+                placeholder="Address"
+              />
+              {!!errors.address && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.address?.message}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <div className={center}>
+            <label className="form-control w-full max-w-xs">
+              <input
+                {...register("cost", {
+                  required: "Enter cost",
+                  pattern: { value: /^[0-9]*$/, message: "Enter integer" },
+                })}
+                type="text"
+                placeholder="Cost in local currency"
+                className={`input ${errors.cost ? "input-error" : "input-accent"} w-full max-w-xs bg-grey`}
+              />
+              {!!errors.cost && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.cost?.message}
+                  </span>
+                </div>
+              )}
+            </label>
           </div>
 
           <Controller
-            name="activityDate"
+            name="eventDate"
             control={control}
-            defaultValue={tomorrow}
+            defaultValue={dayjs().add(1, "day")}
             rules={{ required: "Enter Activity date and time" }}
             render={({ field }) => (
               <DateTimePicker
                 {...field}
-                disablePast
-                label="Activity date and time"
-                defaultValue={tomorrow}
-                format={"DD/MM/YYYY hh:mm a"}
-                views={["year", "month", "day", "hours", "minutes"]}
                 sx={{
                   width: "20rem",
                   backgroundColor: "#F2F3F4",
@@ -150,6 +160,10 @@ export default function AddActivity() {
                     fontFamily: "InterVariable !important",
                   },
                 }}
+                disablePast
+                label="Activity date and time"
+                format="DD/MM/YYYY hh:mm a"
+                error={!!errors.eventDate}
               />
             )}
           />
@@ -175,7 +189,7 @@ export default function AddActivity() {
           />
 
           <Controller
-            name="categoryId"
+            name="selectedCategoryIds"
             control={control}
             defaultValue=""
             rules={{ required: "Select a category" }}
@@ -216,18 +230,16 @@ export default function AddActivity() {
             )}
           />
 
-          <div>
-            <input
-              {...register("image")}
-              type="file"
-              accept="image/*"
-              name="image"
-              className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
-              onChange={handleFileUpload}
-            />
-          </div>
+          <input
+            {...register("imageUrl")}
+            type="file"
+            accept="image/*, image/avif"
+            className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+          />
 
-          <button className={pinkButton}>Submit</button>
+          <button type="submit" className={pinkButton}>
+            Submit
+          </button>
         </form>
       </div>
     </>

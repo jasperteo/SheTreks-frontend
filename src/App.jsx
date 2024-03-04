@@ -27,13 +27,6 @@ export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
-  // const { data: token } = useQuery({
-  //   queryKey: ["token", user],
-  //   queryFn: async () => await getToken(),
-  // });
-
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
   axios.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${await getToken()}`;
     return config;
