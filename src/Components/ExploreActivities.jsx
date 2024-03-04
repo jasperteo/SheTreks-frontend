@@ -21,6 +21,7 @@ export default function ExploreActivities() {
   const handleChange = (value) => {
     console.log(value);
   };
+  //Upon load render out all activities and map it to cards
 
   const tomorrow = dayjs().add(1, "day");
 
