@@ -1,30 +1,31 @@
 import UserSummProfile from "./UserSummProfile";
 import { RoundedAvatar, dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import { categoryIcon, BACKEND_URL, postRequest } from "../lib/Constants";
+import {
+  categoryIcon,
+  BACKEND_URL,
+  postRequest,
+  CurrentUserContext,
+} from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
-export default function ActivityCard({ currentUser, activity, date }) {
+export default function ActivityCard({ activity, date }) {
+  const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
 
   //Request to post request to join to backend
-  const createRequestMutation = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data) =>
       postRequest(
         `${BACKEND_URL}/activities/${activity.id}/participants`,
         data,
       ),
+    onSuccess: () => setRequestSent(true),
   });
 
   //Handles the click event for the join now button
   //Posts requests to the backend to join the activity
-  const handleClick = () => {
-    console.log("clicked", currentUser);
-    createRequestMutation.mutate({
-      userId: currentUser.id,
-    });
-    setRequestSent(true);
-  };
+  const handleClick = () => mutate({ userId: currentUser.id });
 
   return (
     <>
@@ -40,9 +41,9 @@ export default function ActivityCard({ currentUser, activity, date }) {
             </div> */}
           </div>
           <div className="font-semibold">
-            {activity.location.country}, {activity.location.city}
+            {activity?.location?.country}, {activity?.location?.city}
           </div>
-          <div className="font-semibold">{activity.title}</div>
+          <div className="font-semibold">{activity?.title}</div>
           <div className="font-light italic">
             {date}
             {/* {time} */}
@@ -53,23 +54,23 @@ export default function ActivityCard({ currentUser, activity, date }) {
               <div className={`${dPinkIcon}`}>
                 <iconify-icon
                   inline
-                  icon={`${categoryIcon(category.activity_categories.categoryId)}`}
+                  icon={`${categoryIcon(category?.activity_categories?.categoryId)}`}
                 />
-                <p className="text-xs">{category.categoryName}</p>
+                <p className="text-xs">{category?.categoryName}</p>
               </div>
             ))}
           </div>
 
           <div className="font-semibold">Organiser:</div>
           <UserSummProfile
-            userSummImageURL={activity.user.imageUrl}
-            userSummFirstName={activity.user.firstName}
-            userSummUsername={activity.user.username}
+            userSummImageURL={activity?.user?.imageUrl}
+            userSummFirstName={activity?.user?.firstName}
+            userSummUsername={activity?.user?.username}
           />
         </div>
         <img
           className="-mt-2 object-none"
-          src={activity.imageUrl}
+          src={activity?.imageUrl}
           alt="Activity Image"
         />
         <figure>

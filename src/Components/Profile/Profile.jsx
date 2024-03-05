@@ -55,7 +55,7 @@ export default function Profile() {
         </Link>
       </div>
       <div className="mb-6" />
-      <TwoTabs
+      {/* <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
         leftContent={
@@ -78,7 +78,7 @@ export default function Profile() {
           />
         }
         rightContent={<PastActivityCard userStatus="(Attendee)" />}
-      />
+      /> */}
     </>
   );
 }

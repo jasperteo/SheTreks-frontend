@@ -42,20 +42,27 @@ export default function AddActivity() {
   }); // on success navigate to newly created activity page?
 
   const onSubmit = async (formData) => {
+    // get latitude and longitude from address
     const { data: mapData } = await axios.get(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(formData.address)}&key=${GOOGLE_API_KEY}`,
     );
     const { lat, lng } = mapData.results[0].geometry.location;
-    await supabase.storage
-      .from("activity")
-      .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
-    const { data: imageData } = supabase.storage
-      .from("activity")
-      .getPublicUrl(formData.imageUrl[0].name);
+    // upload image to supabase storage
+    let imageData = {};
+    if (formData.imageUrl[0]) {
+      await supabase.storage
+        .from("activity")
+        .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
+      const { data } = supabase.storage
+        .from("activity")
+        .getPublicUrl(formData.imageUrl[0].name);
+      imageData = data;
+    }
+    // send form data to backend
     mutate({
       ...formData,
       hostId: currentUser.id,
-      imageUrl: imageData.publicUrl,
+      imageUrl: imageData?.publicUrl || "",
       eventDate: formData.eventDate.$d,
       selectedCategoryIds: formData.selectedCategoryIds.map((id) => id.value),
       groupSizeId: formData.groupSizeId.value,
@@ -127,17 +134,6 @@ export default function AddActivity() {
                       );
                       return mapData.results.length > 0 || "Invalid Address";
                     },
-                    //this API is more 3.4 times expensive
-                    // validateAddressV2: async (value) => {
-                    //   const res = await axios.post(
-                    //     `https://addressvalidation.googleapis.com/v1:validateAddress?key=${GOOGLE_API_KEY}`,
-                    //     { address: { addressLines: [value] } },
-                    //   );
-                    //   return (
-                    //     res?.data.result.verdict.inputGranularity ===
-                    //       "PREMISE" || "Invalid Address"
-                    //   );
-                    // },
                   },
                 })}
                 className={`textarea ${errors.address ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
@@ -220,7 +216,7 @@ export default function AddActivity() {
           <Controller
             name="selectedCategoryIds"
             control={control}
-            defaultValue=""
+            defaultValue={[]}
             rules={{ required: "Select a category" }}
             render={({ field }) => (
               <Select
