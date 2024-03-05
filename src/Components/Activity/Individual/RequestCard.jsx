@@ -7,7 +7,7 @@ import {
   darkPinkButton,
   lgreyIcon,
 } from "../../lib/ClassesName";
-import { BACKEND_URL, putRequest } from "../../lib/Constants";
+import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
 
 export default function RequestCard({
   participantId,
@@ -15,27 +15,24 @@ export default function RequestCard({
   participantImageURL,
   participantUserName,
 }) {
-  const handleAcceptParticipant = () => {
-    mutate();
-  };
-
-  const { mutate } = useMutation({
+  // console.log("ID", participantId);
+  const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
     onSuccess: () => {
       console.log("Accept User!");
-      const dialog = document.querySelector("#accept-user");
-      dialog.close();
       window.location.reload(); // refresh page
     },
   });
 
-  const handleDeclineParticipant = () => {
-    console.log("Decline User!");
-    //close modal after clicking "ok"
-    const dialog = document.querySelector("#decline-user");
-    dialog.close();
-  };
+  const { mutate: mutateDecline } = useMutation({
+    mutationFn: () =>
+      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      console.log("Decline User!");
+      window.location.reload(); // refresh page
+    },
+  });
 
   return (
     <>
@@ -73,14 +70,14 @@ export default function RequestCard({
         option="Accept"
         title="user participation?"
         message="By agreeing, user can participate in the activity."
-        onConfirm={handleAcceptParticipant}
+        onConfirm={mutateAccept}
       />
       <PopUpConfirmation
         id="decline-user"
         option="Decline"
         title="user participation?"
         message="By agreeing, user is unable to participate in the activity."
-        onConfirm={handleDeclineParticipant}
+        onConfirm={mutateDecline}
       />
     </>
   );

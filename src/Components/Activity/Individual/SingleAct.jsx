@@ -52,8 +52,9 @@ export default function SingleAct() {
         {singleActivity?.data?.participants.map((participant) =>
           participant.status === false ? (
             <RequestCard
-              key={participant?.user.id}
-              participantId={participant?.user.id}
+              key={participant?.id}
+              status={participant.status}
+              participantId={participant?.id}
               participantImageURL={participant?.user.imageUrl}
               participantFirstName={participant?.user.firstName}
               participantUserName={`@${participant?.user.username}`}
