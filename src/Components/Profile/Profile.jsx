@@ -48,9 +48,7 @@ export default function Profile() {
       <div className="flex justify-start">
         <Link to="/profile/setting">
           {/* view for non-account holder - button to show Follow or Following */}
-          <button className={`${pinkButton} mr-4 mt-2`}>
-            Edit Profile/Following
-          </button>
+          <button className={`${pinkButton} mr-4 mt-2`}>Edit Profile</button>
         </Link>
         <Link to="/activity/add">
           <button className={`${pinkButton} mt-2`}>Add Activity</button>
