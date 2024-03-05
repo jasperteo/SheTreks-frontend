@@ -3,21 +3,27 @@ import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
 import { useQuery } from "@tanstack/react-query";
-import { BACKEND_URL, getRequest } from "../../lib/Constants";
+import {
+  BACKEND_URL,
+  CurrentUserContext,
+  getRequest,
+} from "../../lib/Constants";
+import { useContext } from "react";
 
 export default function UpcomingOrgActCard() {
-  const currentUserId = 1;
+  const currentUser = useContext(CurrentUserContext);
 
   const upcomingOrgActivity = useQuery({
     queryKey: [
       "upcomingOrgActs",
-      `${BACKEND_URL}activities/includeHost/${currentUserId}`,
+      `${BACKEND_URL}/activities/includeHost/${currentUser?.id}`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}activities/includeHost/${currentUserId}`),
+      getRequest(`${BACKEND_URL}/activities/includeHost/${currentUser?.id}`),
+    enabled: !!currentUser?.id,
   });
 
-  console.log(upcomingOrgActivity.data);
+  // console.log(upcomingOrgActivity.data);
 
   //format date and time to DD MMM YYYY, HH:MM AM/PM
   function formatDateandTime(dateString) {
