@@ -98,7 +98,7 @@ export default function UpcomingOrgActCard() {
                 userSummFirstName="FirstName"
                 userSummUsername="@userName"
               />
-              <Link to="/activity/request">
+              <Link to={`../activity/${activity.id}/request`}>
                 <button
                   className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
                 >
