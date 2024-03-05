@@ -19,7 +19,7 @@ export default function UpcomingOrgActCard() {
 
   console.log(upcomingOrgActivity.data);
 
-  //format date and time ()
+  //format date and time to DD MMM YYYY, HH:MM AM/PM
   function formatDateandTime(dateString) {
     const eventDate = new Date(dateString);
     const formattedDate = eventDate.toLocaleDateString(undefined, {

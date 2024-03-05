@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
@@ -6,12 +7,24 @@ import {
   darkPinkButton,
   lgreyIcon,
 } from "../../lib/ClassesName";
+import { BACKEND_URL, getRequest } from "../../lib/Constants";
 
 export default function RequestCard({
   participantFirstName,
   participantImageURL,
   participantUserName,
 }) {
+  // const currentUserId = 1;
+
+  // const upcomingOrgActivity = useQuery({
+  //   queryKey: [
+  //     "upcomingOrgActs",
+  //     `${BACKEND_URL}activities/includeHost/${currentUserId}`,
+  //   ],
+  //   queryFn: () =>
+  //     getRequest(`${BACKEND_URL}activities/includeHost/${currentUserId}`),
+  // });
+
   const handleAcceptParticipant = () => {
     console.log("Accept User!");
     //close modal after clicking "ok"
