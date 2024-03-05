@@ -16,6 +16,7 @@ export default function RequestCard({
   participantUserName,
 }) {
   // console.log("ID", participantId);
+
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participantId}`),

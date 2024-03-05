@@ -53,7 +53,7 @@ export default function SingleAct() {
           participant.status === false ? (
             <RequestCard
               key={participant?.id}
-              status={participant.status}
+              status={participant?.status}
               participantId={participant?.id}
               participantImageURL={participant?.user.imageUrl}
               participantFirstName={participant?.user.firstName}

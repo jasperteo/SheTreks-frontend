@@ -25,10 +25,7 @@ export default function UpcomingOrgActCard() {
   });
 
   // console.log(currentUser);
-
   // console.log(upcomingOrgActivity.data);
-
-  //format date and time to DD MMM YYYY, HH:MM AM/PM
 
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
@@ -80,19 +77,36 @@ export default function UpcomingOrgActCard() {
               <div className="font-semibold">{activity.title}</div>
               <div>{formatDateandTime(activity.eventDate)}</div>
               <div>{activity.address}</div>
-              <div className="font-semibold">Participants:</div>
-              <UserSummProfile
-                userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                userSummFirstName="FirstName"
-                userSummUsername="@userName"
-              />
-              <Link to={`../activity/${activity.id}/request`}>
-                <button
-                  className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-                >
-                  VIEW REQUEST
-                </button>
-              </Link>
+              {/* list of confirmed participants */}
+              {activity.participants &&
+                activity.participants.map((participant) =>
+                  participant.status === true ? (
+                    <>
+                      <div className="font-semibold">Participants:</div>
+                      <UserSummProfile
+                        key={participant?.user.id}
+                        userSummImageURL={participant?.user.imageUrl}
+                        userSummFirstName={participant?.user.firstName}
+                        userSummUsername={`@ ${participant?.user.username}`}
+                      />
+                    </>
+                  ) : null,
+                )}
+              {/* if there is no request, do not show view request button */}
+              {activity.participants &&
+                activity.participants.map((participant) =>
+                  participant.status === false ? (
+                    <>
+                      <Link to={`../activity/${activity.id}/request`}>
+                        <button
+                          className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                        >
+                          VIEW REQUEST
+                        </button>
+                      </Link>
+                    </>
+                  ) : null,
+                )}
             </div>
             <figure>
               <img src="/map.png" alt="map" />
