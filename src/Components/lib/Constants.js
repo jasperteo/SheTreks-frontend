@@ -54,10 +54,11 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const CurrentUserContext = createContext(null);
 
-const getRequest = async (url) => (await axios.get(url)).data;
-const putRequest = async (url, data) => await axios.put(url, data);
-const postRequest = async (url, data) => await axios.post(url, data);
-const deleteRequest = async (url) => await axios.delete(url);
+const axiosAuth = axios.create();
+const getRequest = async (url) => (await axiosAuth.get(url)).data;
+const putRequest = async (url, data) => await axiosAuth.put(url, data);
+const postRequest = async (url, data) => await axiosAuth.post(url, data);
+const deleteRequest = async (url) => await axiosAuth.delete(url);
 
 export {
   locations,
@@ -65,6 +66,7 @@ export {
   groupSizes,
   BACKEND_URL,
   CurrentUserContext,
+  axiosAuth,
   getRequest,
   putRequest,
   postRequest,

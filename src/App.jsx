@@ -16,25 +16,20 @@ import axios from "axios";
 import {
   BACKEND_URL,
   getRequest,
+  axiosAuth,
   CurrentUserContext,
 } from "./Components/lib/Constants.js";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { SignedOut, SignedIn } from "@clerk/clerk-react";
 
 export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
-  // const { data: token } = useQuery({
-  //   queryKey: ["token", user],
-  //   queryFn: async () => await getToken(),
-  // });
-
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-  axios.interceptors.request.use(async (config) => {
+  axiosAuth.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${await getToken()}`;
     return config;
   });
@@ -50,84 +45,65 @@ export default function App() {
       path: "/",
       element: (
         <>
-          <Home />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/activity",
-      element: (
-        <>
-          <Outlet />
-          <NavBar />
+          <SignedOut>
+            <Home />
+          </SignedOut>
+          <SignedIn>
+            <Outlet />
+            <NavBar />
+          </SignedIn>
         </>
       ),
       children: [
+        { index: true, element: <Home /> },
         {
-          path: "explore",
-          element: <ExploreActivities />,
+          path: "activity",
+          children: [
+            {
+              path: "explore",
+              element: <ExploreActivities />,
+            },
+            {
+              path: "add",
+              element: <AddActivity />,
+            },
+            {
+              path: ":/activityId/request",
+              element: <SingleAct />,
+            },
+          ],
         },
         {
-          path: "add",
-          element: <AddActivity />,
+          path: `profile`,
+          children: [
+            { index: true, element: <Profile /> },
+            {
+              path: `:username`,
+              element: <Profile />,
+            },
+            {
+              path: "setting",
+              element: <EditProfile />,
+            },
+            {
+              path: "follow",
+              element: <Following />,
+            },
+          ],
         },
         {
-          path: "request",
-          element: <SingleAct />,
+          path: "notifications",
+          element: <NotificationMain />,
+        },
+        {
+          path: "feeds",
+          element: <Feed />,
+        },
+        {
+          path: "upcomingevents",
+          element: <UpcomingEvents />,
         },
       ],
-    },
-
-    {
-      path: `/profile`,
-      element: (
-        <>
-          <Outlet />
-          <NavBar />
-        </>
-      ),
-      children: [
-        {
-          path: `:username`,
-          element: <Profile />,
-        },
-        {
-          path: "setting",
-          element: <EditProfile />,
-        },
-        {
-          path: "follow",
-          element: <Following />,
-        },
-      ],
-    },
-    {
-      path: "/notifications",
-      element: (
-        <>
-          <NotificationMain />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/feeds",
-      element: (
-        <>
-          <Feed />
-          <NavBar />
-        </>
-      ),
-    },
-    {
-      path: "/upcomingevents",
-      element: (
-        <>
-          <UpcomingEvents />
-          <NavBar />
-        </>
-      ),
     },
   ]);
   return (
