@@ -2,8 +2,43 @@ import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import { useQuery } from "@tanstack/react-query";
+import {
+  BACKEND_URL,
+  CurrentUserContext,
+  getRequest,
+} from "../../lib/Constants";
+import { useContext } from "react";
 
 export default function UpcomingOrgActCard() {
+  const currentUser = useContext(CurrentUserContext);
+
+  const upcomingOrgActivity = useQuery({
+    queryKey: [
+      "upcomingOrgActs",
+      `${BACKEND_URL}/activities/includeHost/${currentUser?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/includeHost/${currentUser?.id}`),
+    enabled: !!currentUser?.id,
+  });
+
+  // console.log(upcomingOrgActivity.data);
+
+  //format date and time to DD MMM YYYY, HH:MM AM/PM
+  function formatDateandTime(dateString) {
+    const eventDate = new Date(dateString);
+    const formattedDate = eventDate.toLocaleDateString(undefined, {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return formattedDate;
+  }
+
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
     //close modal after clicking "ok"
@@ -13,61 +48,69 @@ export default function UpcomingOrgActCard() {
 
   return (
     <>
-      <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
-        <div className="card-body">
-          <div className="flex">
-            <div className="flex-none">
-              <RoundedAvatar
-                image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                size="8"
+      {upcomingOrgActivity.data &&
+        upcomingOrgActivity.data.map((activity) => (
+          <div
+            className="lg:card-sides card mt-8 bg-primary shadow-xl"
+            key={activity.id}
+          >
+            <div className="card-body">
+              <div className="flex">
+                <div className="flex-none">
+                  <RoundedAvatar
+                    image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    size="8"
+                  />
+                </div>
+                <div className="ml-2 mt-1 flex-auto font-light italic">
+                  @organiser
+                </div>
+                {/* to change URL link */}
+                <Link to="/">
+                  <iconify-icon
+                    icon={chatIcon}
+                    class="mr-2 text-3xl text-secondary"
+                  />
+                </Link>
+                <Link to="/">
+                  <iconify-icon
+                    icon="ri:calendar-check-line"
+                    class="mr-2 text-3xl text-success"
+                  />
+                </Link>
+                <iconify-icon
+                  icon="ri:delete-bin-line"
+                  class="text-3xl text-neutral"
+                  onClick={() =>
+                    document.getElementById("delete-event").showModal()
+                  }
+                />
+              </div>
+              <div className="font-semibold">
+                {activity.location.city}, {activity.location.country}
+              </div>
+              <div className="font-semibold">{activity.title}</div>
+              <div>{formatDateandTime(activity.eventDate)}</div>
+              <div>{activity.address}</div>
+              <div className="font-semibold">Participants:</div>
+              <UserSummProfile
+                userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                userSummFirstName="FirstName"
+                userSummUsername="@userName"
               />
+              <Link to={`../activity/${activity.id}/request`}>
+                <button
+                  className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                >
+                  VIEW REQUEST
+                </button>
+              </Link>
             </div>
-            <div className="ml-2 mt-1 flex-auto font-light italic">
-              @organiser
-            </div>
-            {/* to change URL link */}
-            <Link to="/">
-              <iconify-icon
-                icon={chatIcon}
-                class="mr-2 text-3xl text-secondary"
-              />
-            </Link>
-            <Link to="/">
-              <iconify-icon
-                icon="ri:calendar-check-line"
-                class="mr-2 text-3xl text-success"
-              />
-            </Link>
-            <iconify-icon
-              icon="ri:delete-bin-line"
-              class="text-3xl text-neutral"
-              onClick={() =>
-                document.getElementById("delete-event").showModal()
-              }
-            />
+            <figure>
+              <img src="/map.png" alt="map" />
+            </figure>
           </div>
-          <div className="font-semibold">Hanoi, Vietnam</div>
-          <div className="font-semibold">Event Activity Title</div>
-          <div>Date, Exact Time</div>
-          <div>Address</div>
-          <div className="font-semibold">Participants:</div>
-          <UserSummProfile
-            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            userSummFirstName="FirstName"
-            userSummUsername="@userName"
-          />
-          <Link to="/activity/request">
-            <button
-              className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-            >
-              VIEW REQUEST
-            </button>
-          </Link>
-        </div>
-        <figure>
-          <img src="/map.png" alt="map" />
-        </figure>
-      </div>
+        ))}
       {/* pop up modal */}
       <PopUpConfirmation
         id="delete-event"
