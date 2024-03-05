@@ -1,66 +1,75 @@
 import UserSummProfile from "./UserSummProfile";
 import { RoundedAvatar, dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import { categoryIcon } from "../lib/Constants";
+import { categoryIcon, BACKEND_URL, postRequest } from "../lib/Constants";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
-export default function ActivityCard({
-  accOwnerImage,
-  accOwnerUserName,
-  accOwnerStatus,
-  city,
-  country,
-  activityTitle,
-  date,
-  time,
-  activityDescription,
-  organiserImageURL,
-  organiserFirstName,
-  organiserUsername,
-  activityImageURL,
-  categoryApiId,
-  catergoryName,
-}) {
-  console.log(categoryApiId);
-  console.log(categoryIcon(categoryApiId));
+export default function ActivityCard({ currentUser, activity, date }) {
+  const [requestSent, setRequestSent] = useState(false);
+
+  //Request to post request to join to backend
+  const createRequestMutation = useMutation({
+    mutationFn: (data) =>
+      postRequest(
+        `${BACKEND_URL}/activities/${activity.id}/participants`,
+        data,
+      ),
+  });
+
+  //Handles the click event for the join now button
+  //Posts requests to the backend to join the activity
+  const handleClick = () => {
+    console.log("clicked", currentUser);
+    createRequestMutation.mutate({
+      userId: currentUser.id,
+    });
+    setRequestSent(true);
+  };
+
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
         <div className="card-body">
           <div className="flex">
-            <div className="flex-none">
+            {/* <div className="flex-none">
               <RoundedAvatar image={accOwnerImage} size="8" />
-            </div>
+            </div> */}
             {/* to indicidate if user is an attendee */}
-            <div className="ml-2 mt-1 flex-auto font-light italic">
+            {/* <div className="ml-2 mt-1 flex-auto font-light italic">
               {accOwnerUserName} {accOwnerStatus}
-            </div>
+            </div> */}
           </div>
           <div className="font-semibold">
-            {city}, {country}
+            {activity.location.country}, {activity.location.city}
           </div>
-
-          <div className="font-semibold">{activityTitle}</div>
-
+          <div className="font-semibold">{activity.title}</div>
           <div className="font-light italic">
-            {date}, {time}
+            {date}
+            {/* {time} */}
           </div>
-          <div>{activityDescription}</div>
-          <div className="flex flex-wrap items-center space-x-1 ">
-            <div className={`${dPinkIcon}`}>
-              <iconify-icon inline icon={`${categoryIcon(categoryApiId)}`} />
-            </div>
-            <div className="text-xs">{catergoryName}</div>
+          <div>{activity.description}</div>
+          <div className="items-left flex flex-col flex-wrap space-x-1 ">
+            {activity.categories.map((category) => (
+              <div className={`${dPinkIcon}`}>
+                <iconify-icon
+                  inline
+                  icon={`${categoryIcon(category.activity_categories.categoryId)}`}
+                />
+                <p className="text-xs">{category.categoryName}</p>
+              </div>
+            ))}
           </div>
-          {/* //only show this portion if user is not the organiser */}
+
           <div className="font-semibold">Organiser:</div>
           <UserSummProfile
-            userSummImageURL={organiserImageURL}
-            userSummFirstName={organiserFirstName}
-            userSummUsername={organiserUsername}
+            userSummImageURL={activity.user.imageUrl}
+            userSummFirstName={activity.user.firstName}
+            userSummUsername={activity.user.username}
           />
         </div>
         <img
           className="-mt-2 object-none"
-          src={activityImageURL}
+          src={activity.imageUrl}
           alt="Activity Image"
         />
         <figure>
@@ -68,9 +77,16 @@ export default function ActivityCard({
         </figure>
         {/* do not show the join now button if user is an attendee */}
         <div className="card-body -mb-4">
-          <button className={`${darkPinkButton} mb-4 text-grey`}>
-            JOIN NOW
-          </button>
+          {requestSent ? (
+            <h4 className="text-center">Request sent!</h4>
+          ) : (
+            <button
+              className={`${darkPinkButton} mb-4 text-grey`}
+              onClick={handleClick}
+            >
+              JOIN NOW
+            </button>
+          )}
         </div>
       </div>
     </>

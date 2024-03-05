@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   multiValue,
   controlForm,
@@ -13,16 +13,49 @@ import {
 } from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs, { Dayjs } from "dayjs";
-
 import { DateField } from "@mui/x-date-pickers/DateField";
 import ActivityCard from "./UiComponents/ActivityCard.jsx";
+import { useQuery } from "@tanstack/react-query";
+import {
+  BACKEND_URL,
+  getRequest,
+  CurrentUserContext,
+} from "./lib/Constants.js";
 
 export default function ExploreActivities() {
+  const currentUser = useContext(CurrentUserContext);
+  console.log("user", currentUser);
+
+  const { data } = useQuery({
+    queryKey: ["getActivities", currentUser],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/excludeHost/${currentUser.id}`),
+    enabled: !!currentUser,
+  });
+
+  console.log("data", data);
+
+  //format date and time to DD MMM YYYY, HH:MM AM/PM
+  function formatDateandTime(dateString) {
+    const eventDate = new Date(dateString);
+    const formattedDate = eventDate.toLocaleDateString(undefined, {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return formattedDate;
+  }
+
   const handleChange = (value) => {
     console.log(value);
   };
 
   const tomorrow = dayjs().add(1, "day");
+
+  /*show organizer, hide Attendee section (acc) */
 
   return (
     <div>
@@ -31,7 +64,7 @@ export default function ExploreActivities() {
         <DateField
           label="Start Date"
           disablePast
-          format={"DD/MM/YYYY hh:mm a"}
+          format={"DD/MM/YYYY"}
           defaultValue={tomorrow}
           sx={{
             width: "100%",
@@ -50,7 +83,7 @@ export default function ExploreActivities() {
         <DateField
           label="End Date"
           disablePast
-          format={"DD/MM/YYYY hh:mm a"}
+          format={"DD/MM/YYYY"}
           sx={{
             width: "100%",
             backgroundColor: "#F2F3F4",
@@ -118,23 +151,15 @@ export default function ExploreActivities() {
         </button>
       </div>
       <div className="-mb-2 font-semibold">RESULTS:</div>
-      <ActivityCard
-        accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-        accOwnerUserName="Fiona"
-        accOwnerStatus="(Attendee)"
-        city="Hanoi"
-        country="Vietnam"
-        activityTitle="Fly Fly"
-        date="23 Jan 2023"
-        time="08:00AM"
-        activityDescription="Feel like a garbage bag!"
-        organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-        organiserFirstName="Tay Tay"
-        organiserUsername="swiftieeee"
-        activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-        categoryApiId={1}
-        catergoryName="Fooddd"
-      />
+
+      {data?.map((activity) => (
+        <ActivityCard
+          key={activity.id}
+          currentUser={currentUser}
+          activity={activity}
+          date={formatDateandTime(activity.eventDate)}
+        />
+      ))}
     </div>
   );
 }
