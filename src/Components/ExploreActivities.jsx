@@ -41,10 +41,10 @@ export default function ExploreActivities() {
 
   const tomorrow = dayjs().add(1, "day");
 
-  // Function to convert ISO date to string format
-  const convertISOToString = (isoDate) => {
-    const dateObject = new Date(isoDate);
-    const formattedDate = dateObject.toLocaleDateString(undefined, {
+  //format date and time to DD MMM YYYY, HH:MM AM/PM
+  function formatDateandTime(dateString) {
+    const eventDate = new Date(dateString);
+    const formattedDate = eventDate.toLocaleDateString(undefined, {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -53,7 +53,7 @@ export default function ExploreActivities() {
       hour12: true,
     });
     return formattedDate;
-  };
+  }
   /*show organizer, hide Attendee section (acc) */
 
   return (
@@ -160,7 +160,7 @@ export default function ExploreActivities() {
           city={activity.location.city}
           country={activity.location.country}
           activityTitle={activity.title}
-          date={convertISOToString(activity.eventDate)}
+          date={formatDateandTime(activity.eventDate)}
           activityDescription={activity.description}
           organiserImageURL={activity.user.imageUrl}
           organiserFirstName={activity.user.firstName}
