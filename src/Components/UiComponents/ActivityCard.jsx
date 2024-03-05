@@ -57,7 +57,8 @@ export default function ActivityCard({
           <div className="font-semibold">{activityTitle}</div>
 
           <div className="font-light italic">
-            {date}, {time}
+            {date}
+            {time && time}
           </div>
           <div>{activityDescription}</div>
           <div className="flex flex-wrap items-center space-x-1 ">

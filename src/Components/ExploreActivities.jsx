@@ -41,6 +41,7 @@ export default function ExploreActivities() {
 
   const tomorrow = dayjs().add(1, "day");
 
+  /*show organizer, hide Attendee section (acc) */
   //format date and time to DD MMM YYYY, HH:MM AM/PM
   function formatDateandTime(dateString) {
     const eventDate = new Date(dateString);
@@ -54,7 +55,6 @@ export default function ExploreActivities() {
     });
     return formattedDate;
   }
-  /*show organizer, hide Attendee section (acc) */
 
   return (
     <div>
