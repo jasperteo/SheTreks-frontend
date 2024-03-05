@@ -22,7 +22,7 @@ export default function SingleAct() {
     queryFn: () => getRequest(`${BACKEND_URL}/activities/${params.activityId}`),
   });
 
-  // console.log("data", singleActivity?.data);
+  console.log("data", singleActivity?.data);
 
   // put a ? between data and property. if a?.b?.c if a, and b exists, and c does not. the line == null
 
@@ -35,12 +35,13 @@ export default function SingleAct() {
           {singleActivity?.data?.location.country}
         </div>
         <div>{formatDateandTime(singleActivity?.data?.eventDate)}</div>
-        {/* show participants list if confirmed participants' length is more than 0 */}
+        {/* confirmed participants' are true, request are false. Delete declined request*/}
         {singleActivity?.data?.participants.map((participant) =>
           participant.status === true ? (
             <>
               <div className="mb-2 font-semibold">Participants:</div>
               <UserSummProfile
+                key={participant?.user.id}
                 userSummImageURL={participant?.user.imageUrl}
                 userSummFirstName={participant?.user.firstName}
                 userSummUsername={`@${participant?.user.username}`}
@@ -51,8 +52,9 @@ export default function SingleAct() {
         {singleActivity?.data?.participants.map((participant) =>
           participant.status === false ? (
             <RequestCard
-              key={participant?.user.id} // Ensure you have a unique key for each component
-              participantImageURL={participant?.user.imageUrl} // Example: participant.imageURL is where you get the URL for each participant's image
+              key={participant?.user.id}
+              participantId={participant?.user.id}
+              participantImageURL={participant?.user.imageUrl}
               participantFirstName={participant?.user.firstName}
               participantUserName={`@${participant?.user.username}`}
             />

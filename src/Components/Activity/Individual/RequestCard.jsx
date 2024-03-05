@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
@@ -6,18 +7,28 @@ import {
   darkPinkButton,
   lgreyIcon,
 } from "../../lib/ClassesName";
+import { BACKEND_URL, putRequest } from "../../lib/Constants";
 
 export default function RequestCard({
+  participantId,
   participantFirstName,
   participantImageURL,
   participantUserName,
 }) {
   const handleAcceptParticipant = () => {
-    console.log("Accept User!");
-    //close modal after clicking "ok"
-    const dialog = document.querySelector("#accept-user");
-    dialog.close();
+    mutate();
   };
+
+  const { mutate } = useMutation({
+    mutationFn: () =>
+      putRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      console.log("Accept User!");
+      const dialog = document.querySelector("#accept-user");
+      dialog.close();
+      window.location.reload(); // refresh page
+    },
+  });
 
   const handleDeclineParticipant = () => {
     console.log("Decline User!");
