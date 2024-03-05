@@ -1,33 +1,73 @@
 import Select from "react-select";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
-  multiValue,
   controlForm,
   menu,
   option,
   center,
   pinkButton,
   title,
-} from "./lib/ClassesName.jsx";
+  multiValue,
+} from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
-import dayjs, { Dayjs } from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
+import dayjs from "dayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
+import { APIProvider, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import supabase from "./lib/Supabase";
+import {
+  BACKEND_URL,
+  CurrentUserContext,
+  getRequest,
+  postRequest,
+} from "./lib/Constants";
+import axios from "axios";
+
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export default function AddActivity() {
-  const [selectedValues, setSelectedValues] = useState([]);
+  const currentUser = useContext(CurrentUserContext);
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (value) => {
-    console.log(value);
+  const { mutate } = useMutation({
+    mutationFn: (formData) =>
+      postRequest(`${BACKEND_URL}/activities`, formData),
+  }); // on success navigate to newly created activity page?
+
+  const onSubmit = async (formData) => {
+    const { data: mapData } = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(formData.address)}&key=${GOOGLE_API_KEY}`,
+    );
+    const { lat, lng } = mapData.results[0].geometry.location;
+    await supabase.storage
+      .from("activity")
+      .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
+    const { data: imageData } = supabase.storage
+      .from("activity")
+      .getPublicUrl(formData.imageUrl[0].name);
+    mutate({
+      ...formData,
+      hostId: currentUser.id,
+      imageUrl: imageData.publicUrl,
+      eventDate: formData.eventDate.$d,
+      selectedCategoryIds: formData.selectedCategoryIds.map((id) => id.value),
+      groupSizeId: formData.groupSizeId.value,
+      locationId: formData.locationId.value,
+      latitude: lat,
+      longitude: lng,
+    });
   };
 
   return (
     <>
-      <div className="-mt-16 flex h-screen flex-col items-center justify-center">
+      <div className="mt-3 flex flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
         <div className=" carousel w-40 rounded-box">
           <div className="carousel-item w-full items-center justify-center">
@@ -38,105 +78,197 @@ export default function AddActivity() {
             />
           </div>
         </div>
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-          })}
-        >
+
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className={center}>
-            <input
-              {...register("title", { required: true })}
-              type="text"
-              placeholder="Title"
-              className="input input-bordered input-accent w-full max-w-xs bg-grey"
-            />
-          </div>
-          <div className={center}>
-            <textarea
-              {...register("description")}
-              className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
-              placeholder="Description"
-            ></textarea>
-          </div>
-          <div className={center}>
-            <textarea
-              {...register("address", { required: true })}
-              className="textarea textarea-accent textarea-md w-full max-w-xs bg-grey"
-              placeholder="Address"
-            ></textarea>
+            <label className="form-control w-full max-w-xs">
+              <input
+                {...register("title", { required: "Enter Title" })}
+                className={`input ${errors.title ? "input-error" : "input-accent"} w-full max-w-xs bg-grey`}
+                type="text"
+                placeholder="Title"
+              />
+              {!!errors.title && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.title?.message}
+                  </span>
+                </div>
+              )}
+            </label>
           </div>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimeField
-              {...register("date", { required: true })}
-              label="Date & Time"
-              sx={{
-                width: "20rem",
-                backgroundColor: "#F2F3F4",
-                marginTop: "0.5rem",
-                marginBottom: "0.5rem",
+          <div className={center}>
+            <label className="form-control w-full max-w-xs">
+              <textarea
+                {...register("description", { required: "Enter Description" })}
+                className={`textarea ${errors.description ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
+                placeholder="Description"
+              />
+              {!!errors.description && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.description?.message}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
 
-                "*": {
-                  fontFamily: "InterVariable !important",
-                },
-                ".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root": {
-                  fontFamily: "InterVariable !important",
-                },
-              }}
-            />
-          </LocalizationProvider>
+          <div className={center}>
+            <label className="form-control w-full max-w-xs">
+              <textarea
+                {...register("address", {
+                  required: "Enter Address",
+                  validate: {
+                    validateAddress: async (value) => {
+                      const { data: mapData } = await axios.get(
+                        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=${GOOGLE_API_KEY}`,
+                      );
+                      return mapData.results.length > 0 || "Invalid Address";
+                    },
+                    //this API is more 3.4 times expensive
+                    // validateAddressV2: async (value) => {
+                    //   const res = await axios.post(
+                    //     `https://addressvalidation.googleapis.com/v1:validateAddress?key=${GOOGLE_API_KEY}`,
+                    //     { address: { addressLines: [value] } },
+                    //   );
+                    //   return (
+                    //     res?.data.result.verdict.inputGranularity ===
+                    //       "PREMISE" || "Invalid Address"
+                    //   );
+                    // },
+                  },
+                })}
+                className={`textarea ${errors.address ? "textarea-error" : "textarea-accent"} textarea-md w-full max-w-xs bg-grey`}
+                placeholder="Address"
+              />
+              {!!errors.address && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.address?.message}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
 
-          <Select
-            {...register("location", { required: true })}
-            placeholder="Location"
-            options={locations}
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <div className={center}>
+            <label className="form-control w-full max-w-xs">
+              <input
+                {...register("cost", {
+                  required: "Enter cost",
+                  pattern: { value: /^[0-9]*$/, message: "Enter integer" },
+                })}
+                type="text"
+                placeholder="Cost in local currency"
+                className={`input ${errors.cost ? "input-error" : "input-accent"} w-full max-w-xs bg-grey`}
+              />
+              {!!errors.cost && (
+                <div className="label">
+                  <span className="label-text-alt text-error">
+                    {errors?.cost?.message}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <Controller
+            name="eventDate"
+            control={control}
+            defaultValue={dayjs().add(1, "day")}
+            rules={{ required: "Enter Activity date and time" }}
+            render={({ field }) => (
+              <DateTimePicker
+                {...field}
+                sx={{
+                  width: "20rem",
+                  backgroundColor: "#F2F3F4",
+                  "*": {
+                    fontFamily: "InterVariable !important",
+                  },
+                }}
+                disablePast
+                label="Activity date and time"
+                format="DD/MM/YYYY hh:mm a"
+                error={!!errors.eventDate}
+              />
+            )}
           />
 
-          <Select
-            {...register("category", { required: true })}
-            placeholder="Category"
-            options={categories}
-            isMulti
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              multiValue: () => multiValue,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <Controller
+            name="locationId"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a location" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Location"
+                options={locations}
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
           />
 
-          <Select
-            {...register("groupSize", { required: true })}
-            placeholder="Group size"
-            options={groupSizes}
-            // onChange={handleChange}
-            unstyled
-            classNames={{
-              control: () => controlForm,
-              menu: () => menu,
-              option: () => option,
-            }}
+          <Controller
+            name="selectedCategoryIds"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a category" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Category"
+                options={categories}
+                isMulti
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  multiValue: () => multiValue,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
           />
 
-          <div>
-            <input
-              {...register("image")}
-              type="file"
-              accept="image/*"
-              className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
-            />
-          </div>
+          <Controller
+            name="groupSizeId"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Select a group size" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Group size"
+                options={groupSizes}
+                unstyled
+                classNames={{
+                  control: () => controlForm,
+                  menu: () => menu,
+                  option: () => option,
+                }}
+              />
+            )}
+          />
 
-          <button className={pinkButton}>Submit</button>
+          <input
+            {...register("imageUrl")}
+            type="file"
+            accept="image/*, image/avif"
+            className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
+          />
+
+          <button type="submit" className={pinkButton}>
+            Submit
+          </button>
         </form>
       </div>
     </>
