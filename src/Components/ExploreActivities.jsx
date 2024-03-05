@@ -35,13 +35,6 @@ export default function ExploreActivities() {
 
   console.log("data", data);
 
-  const handleChange = (value) => {
-    console.log(value);
-  };
-
-  const tomorrow = dayjs().add(1, "day");
-
-  /*show organizer, hide Attendee section (acc) */
   //format date and time to DD MMM YYYY, HH:MM AM/PM
   function formatDateandTime(dateString) {
     const eventDate = new Date(dateString);
@@ -55,6 +48,14 @@ export default function ExploreActivities() {
     });
     return formattedDate;
   }
+
+  const handleChange = (value) => {
+    console.log(value);
+  };
+
+  const tomorrow = dayjs().add(1, "day");
+
+  /*show organizer, hide Attendee section (acc) */
 
   return (
     <div>
@@ -154,22 +155,9 @@ export default function ExploreActivities() {
       {data?.map((activity) => (
         <ActivityCard
           key={activity.id}
-          accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-          accOwnerUserName="Fiona"
-          accOwnerStatus="(Attendee)"
-          city={activity.location.city}
-          country={activity.location.country}
-          activityTitle={activity.title}
-          date={formatDateandTime(activity.eventDate)}
-          activityDescription={activity.description}
-          organiserImageURL={activity.user.imageUrl}
-          organiserFirstName={activity.user.firstName}
-          organiserUsername={activity.user.username}
-          activityImageURL={activity.imageUrl}
-          categoryApiId={activity.categories[0].id}
-          catergoryName={activity.categories[0].name}
           currentUser={currentUser}
-          activityId={activity.id}
+          activity={activity}
+          date={formatDateandTime(activity.eventDate)}
         />
       ))}
     </div>
