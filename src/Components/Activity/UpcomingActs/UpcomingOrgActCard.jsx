@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   CurrentUserContext,
+  formatDateandTime,
   getRequest,
 } from "../../lib/Constants";
 import { useContext } from "react";
@@ -20,24 +21,14 @@ export default function UpcomingOrgActCard() {
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/includeHost/${currentUser?.id}`),
-    enabled: !!currentUser?.id,
+    enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
+
+  // console.log(currentUser);
 
   // console.log(upcomingOrgActivity.data);
 
   //format date and time to DD MMM YYYY, HH:MM AM/PM
-  function formatDateandTime(dateString) {
-    const eventDate = new Date(dateString);
-    const formattedDate = eventDate.toLocaleDateString(undefined, {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-    return formattedDate;
-  }
 
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
@@ -57,13 +48,10 @@ export default function UpcomingOrgActCard() {
             <div className="card-body">
               <div className="flex">
                 <div className="flex-none">
-                  <RoundedAvatar
-                    image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                    size="8"
-                  />
+                  <RoundedAvatar image={`${currentUser?.imageUrl}`} size="8" />
                 </div>
                 <div className="ml-2 mt-1 flex-auto font-light italic">
-                  @organiser
+                  {`@${currentUser?.username}`}
                 </div>
                 {/* to change URL link */}
                 <Link to="/">

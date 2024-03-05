@@ -19,8 +19,8 @@ export default function ActivityCard({
   categoryApiId,
   catergoryName,
 }) {
-  console.log(categoryApiId);
-  console.log(categoryIcon(categoryApiId));
+  // console.log(categoryApiId);
+  // console.log(categoryIcon(categoryApiId));
   return (
     <>
       <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
