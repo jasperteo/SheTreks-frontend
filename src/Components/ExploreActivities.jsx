@@ -41,6 +41,21 @@ export default function ExploreActivities() {
 
   const tomorrow = dayjs().add(1, "day");
 
+  // Function to convert ISO date to string format
+  const convertISOToString = (isoDate) => {
+    const dateObject = new Date(isoDate);
+    const formattedDate = dateObject.toLocaleDateString(undefined, {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return formattedDate;
+  };
+  /*show organizer, hide Attendee section (acc) */
+
   return (
     <div>
       <h1 className={title}>EXPLORE ACTIVITIES</h1>
@@ -135,6 +150,7 @@ export default function ExploreActivities() {
         </button>
       </div>
       <div className="-mb-2 font-semibold">RESULTS:</div>
+
       {data?.map((activity) => (
         <ActivityCard
           key={activity.id}
@@ -144,7 +160,7 @@ export default function ExploreActivities() {
           city={activity.location.city}
           country={activity.location.country}
           activityTitle={activity.title}
-          date={activity.eventDate}
+          date={convertISOToString(activity.eventDate)}
           activityDescription={activity.description}
           organiserImageURL={activity.user.imageUrl}
           organiserFirstName={activity.user.firstName}
