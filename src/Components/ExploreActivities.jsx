@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import {
   multiValue,
   controlForm,
@@ -82,20 +82,6 @@ export default function ExploreActivities() {
         formData.selectedCategoryIds &&
         formData.selectedCategoryIds.map((id) => id.value),
     });
-  };
-
-  //format date and time to DD MMM YYYY, HH:MM AM/PM
-  const formatDateandTime = (dateString) => {
-    const eventDate = new Date(dateString);
-    const formattedDate = eventDate.toLocaleDateString(undefined, {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-    return formattedDate;
   };
 
   /*show organizer, hide Attendee section (acc) */
@@ -242,11 +228,7 @@ export default function ExploreActivities() {
       <div className="-mb-2 font-semibold">RESULTS:</div>
 
       {activitiesExcludeHost?.map((activity) => (
-        <ActivityCard
-          key={activity.id}
-          activity={activity}
-          date={formatDateandTime(activity.eventDate)}
-        />
+        <ActivityCard key={activity.id} activity={activity} />
       ))}
     </>
   );
