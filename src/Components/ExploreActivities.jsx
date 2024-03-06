@@ -155,7 +155,6 @@ export default function ExploreActivities() {
       {data?.map((activity) => (
         <ActivityCard
           key={activity.id}
-          currentUser={currentUser}
           activity={activity}
           date={formatDateandTime(activity.eventDate)}
         />

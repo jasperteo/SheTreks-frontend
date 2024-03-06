@@ -1,11 +1,19 @@
 import UserSummProfile from "./UserSummProfile";
 import { RoundedAvatar, dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import { categoryIcon, BACKEND_URL, postRequest } from "../lib/Constants";
+import {
+  categoryIcon,
+  BACKEND_URL,
+  postRequest,
+  CurrentUserContext,
+} from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
-export default function ActivityCard({ currentUser, activity, date }) {
+export default function ActivityCard({ activity, date }) {
   const [requestSent, setRequestSent] = useState(false);
+
+  const currentUser = useContext(CurrentUserContext);
+  console.log("user", currentUser);
 
   //Request to post request to join to backend
   const createRequestMutation = useMutation({
