@@ -12,7 +12,6 @@ import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import {
   BACKEND_URL,
   getRequest,
