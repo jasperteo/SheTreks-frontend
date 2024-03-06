@@ -89,7 +89,7 @@ export default function UpcomingOrgActCard() {
                     </>
                   ) : null,
                 )}
-              {/* if there is no request, do not show view request button */}
+              {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
               {activity?.participants && (
                 <>
                   {activity.participants.some(

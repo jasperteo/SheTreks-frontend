@@ -22,8 +22,8 @@ export default function SingleAct() {
     queryFn: () => getRequest(`${BACKEND_URL}/activities/${params.activityId}`),
   });
 
-  console.log("data", singleActivity?.data);
-  console.log("id", singleActivity?.data?.id);
+  // console.log("data", singleActivity?.data);
+  // console.log("id", singleActivity?.data?.id);
 
   // put a ? between data and property. if a?.b?.c if a, and b exists, and c does not. the line == null
 

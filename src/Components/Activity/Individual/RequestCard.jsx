@@ -10,7 +10,7 @@ import {
 import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
 
 export default function RequestCard({ participant }) {
-  console.log("ID", participant?.id);
+  // console.log("ID", participant?.id);
 
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
