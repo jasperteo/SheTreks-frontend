@@ -71,10 +71,12 @@ export {
   putRequest,
   postRequest,
   deleteRequest,
+  formatDateandTime,
+  truncateText,
 };
 
 //to reduce notification characters in notification page
-export const truncateText = (text, maxLength) => {
+const truncateText = (text, maxLength) => {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 };
 
@@ -102,4 +104,17 @@ export const categoryIcon = (apiId) => {
     default:
       return ""; //empty string
   }
+};
+
+const formatDateandTime = (dateString) => {
+  const eventDate = new Date(dateString);
+  const formattedDate = eventDate.toLocaleDateString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return formattedDate;
 };
