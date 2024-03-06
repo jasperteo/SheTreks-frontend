@@ -51,11 +51,7 @@ export default function UpcomingJoinedActCard() {
           <div>Date, Exact Time</div>
           <div>Address</div>
           <div className="font-semibold">Participants:</div>
-          <UserSummProfile
-            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            userSummFirstName="FirstName"
-            userSummUsername="@userName"
-          />
+          <UserSummProfile />
         </div>
         <figure>
           <img src="/map.png" alt="map" />

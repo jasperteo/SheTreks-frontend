@@ -9,17 +9,12 @@ import {
 } from "../../lib/ClassesName";
 import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
 
-export default function RequestCard({
-  participantId,
-  participantFirstName,
-  participantImageURL,
-  participantUserName,
-}) {
-  // console.log("ID", participantId);
+export default function RequestCard({ participant }) {
+  console.log("ID", participant?.id);
 
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
-      putRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+      putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
     onSuccess: () => {
       console.log("Accept User!");
       window.location.reload(); // refresh page
@@ -28,7 +23,9 @@ export default function RequestCard({
 
   const { mutate: mutateDecline } = useMutation({
     mutationFn: () =>
-      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+      deleteRequest(
+        `${BACKEND_URL}/activities/participants/${participant?.id}`,
+      ),
     onSuccess: () => {
       console.log("Decline User!");
       window.location.reload(); // refresh page
@@ -39,11 +36,7 @@ export default function RequestCard({
     <>
       <div className="lg:card-sides card card-body mt-4 bg-info shadow-xl">
         <div className="font-semibold">Requests</div>
-        <UserSummProfile
-          userSummImageURL={`${participantImageURL}`}
-          userSummFirstName={participantFirstName}
-          userSummUsername={participantUserName}
-        />
+        <UserSummProfile user={participant} />
         <div>User is requesting to join the acitivty.</div>
         <div className="-mb-8 flex items-start">
           <button className={`${darkPinkButton}  mr-2 mt-2 flex-auto`}>
