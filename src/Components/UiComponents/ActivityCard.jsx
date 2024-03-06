@@ -53,7 +53,7 @@ export default function ActivityCard({ activity, date }) {
           <div>{activity.description}</div>
           <div className="items-left flex flex-col flex-wrap space-x-1 ">
             {activity.categories.map((category) => (
-              <div className={`${dPinkIcon}`}>
+              <div className={`${dPinkIcon}`} key={activity.categories.id}>
                 <iconify-icon
                   inline
                   icon={`${categoryIcon(category?.activity_categories?.categoryId)}`}
