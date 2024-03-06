@@ -22,7 +22,8 @@ export default function SingleAct() {
     queryFn: () => getRequest(`${BACKEND_URL}/activities/${params.activityId}`),
   });
 
-  console.log("data", singleActivity?.data);
+  // console.log("data", singleActivity?.data);
+  // console.log("id", singleActivity?.data?.id);
 
   // put a ? between data and property. if a?.b?.c if a, and b exists, and c does not. the line == null
 
@@ -40,25 +41,13 @@ export default function SingleAct() {
           participant.status === true ? (
             <>
               <div className="mb-2 font-semibold">Participants:</div>
-              <UserSummProfile
-                key={participant?.user.id}
-                userSummImageURL={participant?.user.imageUrl}
-                userSummFirstName={participant?.user.firstName}
-                userSummUsername={`@${participant?.user.username}`}
-              />
+              <UserSummProfile user={participant} />
             </>
           ) : null,
         )}
         {singleActivity?.data?.participants.map((participant) =>
           participant.status === false ? (
-            <RequestCard
-              key={participant?.id}
-              status={participant?.status}
-              participantId={participant?.id}
-              participantImageURL={participant?.user.imageUrl}
-              participantFirstName={participant?.user.firstName}
-              participantUserName={`@${participant?.user.username}`}
-            />
+            <RequestCard participant={participant} key={participant?.id} />
           ) : null,
         )}
       </div>
