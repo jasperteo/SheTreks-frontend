@@ -79,7 +79,7 @@ export default function App() {
             { index: true, element: <Profile /> },
             {
               path: `:username`,
-              element: <Profile />,
+              element: <Profile />, //change to other profile
             },
             {
               path: "setting",
