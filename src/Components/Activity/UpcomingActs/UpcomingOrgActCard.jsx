@@ -72,15 +72,15 @@ export default function UpcomingOrgActCard() {
                 />
               </div>
               <div className="font-semibold">
-                {activity.location.city}, {activity.location.country}
+                {activity?.location.city}, {activity?.location.country}
               </div>
-              <div className="font-semibold">{activity.title}</div>
-              <div>{formatDateandTime(activity.eventDate)}</div>
-              <div>{activity.address}</div>
+              <div className="font-semibold">{activity?.title}</div>
+              <div>{formatDateandTime(activity?.eventDate)}</div>
+              <div>{activity?.address}</div>
               {/* list of confirmed participants */}
-              {activity.participants &&
-                activity.participants.map((participant) =>
-                  participant.status === true ? (
+              {activity?.participants &&
+                activity?.participants.map((participant) =>
+                  participant?.status === true ? (
                     <>
                       <div className="font-semibold">Participants:</div>
                       <UserSummProfile
@@ -93,9 +93,9 @@ export default function UpcomingOrgActCard() {
                   ) : null,
                 )}
               {/* if there is no request, do not show view request button */}
-              {activity.participants &&
-                activity.participants.map((participant) =>
-                  participant.status === false ? (
+              {activity?.participants &&
+                activity?.participants.map((participant) =>
+                  participant?.status === false ? (
                     <>
                       <Link to={`../activity/${activity.id}/request`}>
                         <button
