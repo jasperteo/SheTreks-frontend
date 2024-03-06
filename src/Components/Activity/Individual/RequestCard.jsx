@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
@@ -7,37 +7,33 @@ import {
   darkPinkButton,
   lgreyIcon,
 } from "../../lib/ClassesName";
-import { BACKEND_URL, getRequest } from "../../lib/Constants";
+import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
 
 export default function RequestCard({
+  participantId,
   participantFirstName,
   participantImageURL,
   participantUserName,
 }) {
-  // const currentUserId = 1;
+  // console.log("ID", participantId);
 
-  // const upcomingOrgActivity = useQuery({
-  //   queryKey: [
-  //     "upcomingOrgActs",
-  //     `${BACKEND_URL}activities/includeHost/${currentUserId}`,
-  //   ],
-  //   queryFn: () =>
-  //     getRequest(`${BACKEND_URL}activities/includeHost/${currentUserId}`),
-  // });
+  const { mutate: mutateAccept } = useMutation({
+    mutationFn: () =>
+      putRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      console.log("Accept User!");
+      window.location.reload(); // refresh page
+    },
+  });
 
-  const handleAcceptParticipant = () => {
-    console.log("Accept User!");
-    //close modal after clicking "ok"
-    const dialog = document.querySelector("#accept-user");
-    dialog.close();
-  };
-
-  const handleDeclineParticipant = () => {
-    console.log("Decline User!");
-    //close modal after clicking "ok"
-    const dialog = document.querySelector("#decline-user");
-    dialog.close();
-  };
+  const { mutate: mutateDecline } = useMutation({
+    mutationFn: () =>
+      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      console.log("Decline User!");
+      window.location.reload(); // refresh page
+    },
+  });
 
   return (
     <>
@@ -75,14 +71,14 @@ export default function RequestCard({
         option="Accept"
         title="user participation?"
         message="By agreeing, user can participate in the activity."
-        onConfirm={handleAcceptParticipant}
+        onConfirm={mutateAccept}
       />
       <PopUpConfirmation
         id="decline-user"
         option="Decline"
         title="user participation?"
         message="By agreeing, user is unable to participate in the activity."
-        onConfirm={handleDeclineParticipant}
+        onConfirm={mutateDecline}
       />
     </>
   );
