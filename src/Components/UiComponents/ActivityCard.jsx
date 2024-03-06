@@ -9,12 +9,16 @@ import {
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
+import {
+  APIProvider,
+  Map,
+  InfoWindow,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps";
 
 export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
-
-  console.log("user", currentUser);
 
   //Request to post request to join to backend
   const { mutate } = useMutation({
@@ -54,7 +58,7 @@ export default function ActivityCard({ activity }) {
           <div>{activity.description}</div>
           <div className="items-left flex flex-col flex-wrap space-x-1 ">
             {activity.categories.map((category) => (
-              <div className={`${dPinkIcon}`} key={activity.categories.id}>
+              <div className={`${dPinkIcon}`} key={activity.id}>
                 <iconify-icon
                   inline
                   icon={`${categoryIcon(category?.activity_categories?.categoryId)}`}
@@ -76,9 +80,31 @@ export default function ActivityCard({ activity }) {
           src={activity?.imageUrl}
           alt="Activity Image"
         />
-        <figure>
+        {/* <figure>
           <img src="/map.png" alt="map" />
-        </figure>
+        </figure> */}
+        <div id={activity.id} style={{ height: "40vh", width: "100%" }}>
+          <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+            <Map
+              center={{
+                lat: activity?.latitude,
+                lng: activity?.longitude,
+              }}
+              zoom={15}
+            >
+              {/* <AdvancedMarker
+                key={activity.id}
+                position={{
+                  lat: activity?.location?.latitude,
+                  lng: activity?.location?.longitude,
+                }}
+                offsetLeft={-20}
+                offsetTop={-10}
+              ></AdvancedMarker> */}
+            </Map>
+          </APIProvider>
+        </div>
+
         {/* do not show the join now button if user is an attendee */}
         <div className="card-body -mb-4">
           {requestSent ? (
