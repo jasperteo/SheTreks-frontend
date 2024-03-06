@@ -6,7 +6,7 @@ export default function Feed() {
     <div>
       <FeedHeader />
       {/* To display a list of events joined and organized by the account owner's followings. */}
-      <ActivityCard
+      {/* <ActivityCard
         accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
         accOwnerUserName="Fiona"
         accOwnerStatus="(Attendee)"
@@ -22,7 +22,7 @@ export default function Feed() {
         activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
         categoryApiId={1}
         catergoryName="Fooddd"
-      />
+      /> */}
     </div>
   );
 }
