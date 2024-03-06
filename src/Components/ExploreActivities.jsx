@@ -68,17 +68,6 @@ export default function ExploreActivities() {
         formData.selectedCategoryIds &&
         formData.selectedCategoryIds.map((id) => id.value),
     });
-    console.log({
-      ...formData,
-      currentUserId: currentUser.id,
-      startDate: formData.startDate?.$d || "",
-      endDate: formData.endDate?.$d || "",
-      groupSizeId: formData.groupSizeId?.value || "",
-      locationId: formData.locationId?.value || "",
-      selectedCategoryIds:
-        formData.selectedCategoryIds &&
-        formData.selectedCategoryIds.map((id) => id.value),
-    });
   };
 
   /*show organizer, hide Attendee section (acc) */

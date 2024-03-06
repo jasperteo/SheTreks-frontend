@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
@@ -8,17 +8,22 @@ import {
   lgreyIcon,
 } from "../../lib/ClassesName";
 import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
+import { useParams } from "react-router-dom";
 
 export default function RequestCard({ participant }) {
-  // console.log("ID", participant?.id);
+  const queryClient = useQueryClient();
+  const params = useParams();
 
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
-    onSuccess: () => {
-      console.log("Accept User!");
-      window.location.reload(); // refresh page
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [
+          "singleActivity",
+          `${BACKEND_URL}/activities/${params.activityId}`,
+        ],
+      }),
   });
 
   const { mutate: mutateDecline } = useMutation({
@@ -26,10 +31,13 @@ export default function RequestCard({ participant }) {
       deleteRequest(
         `${BACKEND_URL}/activities/participants/${participant?.id}`,
       ),
-    onSuccess: () => {
-      console.log("Decline User!");
-      window.location.reload(); // refresh page
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [
+          "singleActivity",
+          `${BACKEND_URL}/activities/${params.activityId}`,
+        ],
+      }),
   });
 
   return (

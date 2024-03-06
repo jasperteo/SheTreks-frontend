@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
+import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
 import { useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
@@ -95,7 +96,7 @@ export default function UpcomingOrgActCard() {
                   {activity.participants.some(
                     (participant) => !participant.status,
                   ) && (
-                    <Link to={`../activity/${activity.id}/request`}>
+                    <Link to={`/activity/${activity.id}/request`}>
                       <button
                         className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
                       >
