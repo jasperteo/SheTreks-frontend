@@ -5,11 +5,8 @@ import {
   controlForm,
   menu,
   option,
-  center,
-  pinkButton,
   title,
   exploreCenter,
-  exploreForm,
 } from "./lib/ClassesName";
 import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs from "dayjs";
