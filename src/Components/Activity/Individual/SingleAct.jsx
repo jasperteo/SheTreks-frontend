@@ -8,6 +8,7 @@ import {
 } from "../../lib/Constants";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Fragment } from "react";
 
 export default function SingleAct() {
   //extract :activityid
@@ -38,10 +39,10 @@ export default function SingleAct() {
       {/* confirmed participants' are true, request are false. Delete declined request*/}
       {singleActivity?.data?.participants.map((participant) =>
         participant.status === true ? (
-          <div key={participant?.id}>
+          <Fragment key={participant?.id}>
             <div className="mb-2 font-semibold">Participants:</div>
             <UserSummProfile user={participant} />
-          </div>
+          </Fragment>
         ) : participant.status === false ? (
           <RequestCard participant={participant} key={participant?.id} />
         ) : null,
