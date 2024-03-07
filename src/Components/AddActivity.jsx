@@ -13,7 +13,8 @@ import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { APIProvider, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import supabase from "./lib/Supabase";
 import {
   BACKEND_URL,
