@@ -15,8 +15,6 @@ export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
 
-  console.log("user", currentUser);
-
   //Request to post request to join to backend
   const { mutate } = useMutation({
     mutationFn: (data) =>
@@ -48,7 +46,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {formatDateandTime(date)}
+          {formatDateandTime(activity.eventDate)}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>
@@ -62,11 +60,7 @@ export default function ActivityCard({ activity }) {
         </div>
 
         <div className="font-semibold">Organiser:</div>
-        <UserSummProfile
-          userSummImageURL={activity?.user?.imageUrl}
-          userSummFirstName={activity?.user?.firstName}
-          userSummUsername={activity?.user?.username}
-        />
+        <UserSummProfile user={activity?.user} />
       </div>
       <img
         className="-mt-2 object-none"
