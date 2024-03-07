@@ -60,28 +60,12 @@ const putRequest = async (url, data) => await axiosAuth.put(url, data);
 const postRequest = async (url, data) => await axiosAuth.post(url, data);
 const deleteRequest = async (url) => await axiosAuth.delete(url);
 
-export {
-  locations,
-  categories,
-  groupSizes,
-  BACKEND_URL,
-  CurrentUserContext,
-  axiosAuth,
-  getRequest,
-  putRequest,
-  postRequest,
-  deleteRequest,
-  formatDateandTime,
-  truncateText,
-};
-
 //to reduce notification characters in notification page
-const truncateText = (text, maxLength) => {
-  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-};
+const truncateText = (text, maxLength) =>
+  text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 
 //activity category, sorted based on api id
-export const categoryIcon = (apiId) => {
+const categoryIcon = (apiId) => {
   switch (apiId) {
     case 1:
       return "ri:restaurant-2-line"; // Food and Culinary Experiences
@@ -117,4 +101,20 @@ const formatDateandTime = (dateString) => {
     hour12: true,
   });
   return formattedDate;
+};
+
+export {
+  locations,
+  categories,
+  groupSizes,
+  BACKEND_URL,
+  getRequest,
+  axiosAuth,
+  CurrentUserContext,
+  putRequest,
+  postRequest,
+  deleteRequest,
+  truncateText,
+  categoryIcon,
+  formatDateandTime,
 };

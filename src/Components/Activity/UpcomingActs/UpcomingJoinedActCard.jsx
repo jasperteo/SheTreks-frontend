@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { RoundedAvatar, chatIcon } from "../../lib/ClassesName";
+import { chatIcon } from "../../lib/ClassesName";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 
 export default function UpcomingJoinedActCard() {
   const handleWithdrawEvent = () => {
@@ -51,11 +52,7 @@ export default function UpcomingJoinedActCard() {
           <div>Date, Exact Time</div>
           <div>Address</div>
           <div className="font-semibold">Participants:</div>
-          <UserSummProfile
-            userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            userSummFirstName="FirstName"
-            userSummUsername="@userName"
-          />
+          <UserSummProfile />
         </div>
         <figure>
           <img src="/map.png" alt="map" />

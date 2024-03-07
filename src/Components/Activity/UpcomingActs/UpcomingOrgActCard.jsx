@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
+import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
 import { useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
@@ -39,8 +40,8 @@ export default function UpcomingOrgActCard() {
       {upcomingOrgActivity.data &&
         upcomingOrgActivity.data.map((activity) => (
           <div
-            className="lg:card-sides card mt-8 bg-primary shadow-xl"
             key={activity.id}
+            className="lg:card-sides card mt-8 bg-primary shadow-xl"
           >
             <div className="card-body">
               <div className="flex">
@@ -82,31 +83,29 @@ export default function UpcomingOrgActCard() {
                 activity?.participants.map((participant) =>
                   participant?.status === true ? (
                     <>
-                      <div className="font-semibold">Participants:</div>
-                      <UserSummProfile
-                        key={participant?.user.id}
-                        userSummImageURL={participant?.user.imageUrl}
-                        userSummFirstName={participant?.user.firstName}
-                        userSummUsername={`@ ${participant?.user.username}`}
-                      />
+                      <div className="font-semibold" key={participant?.user.id}>
+                        Participants:
+                      </div>
+                      <UserSummProfile user={participant} />
                     </>
                   ) : null,
                 )}
-              {/* if there is no request, do not show view request button */}
-              {activity?.participants &&
-                activity?.participants.map((participant) =>
-                  participant?.status === false ? (
-                    <>
-                      <Link to={`../activity/${activity.id}/request`}>
-                        <button
-                          className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-                        >
-                          VIEW REQUEST
-                        </button>
-                      </Link>
-                    </>
-                  ) : null,
-                )}
+              {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
+              {activity?.participants && (
+                <>
+                  {activity.participants.some(
+                    (participant) => !participant.status,
+                  ) && (
+                    <Link to={`/activity/${activity.id}/request`}>
+                      <button
+                        className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                      >
+                        VIEW REQUEST
+                      </button>
+                    </Link>
+                  )}
+                </>
+              )}
             </div>
             <figure>
               <img src="/map.png" alt="map" />

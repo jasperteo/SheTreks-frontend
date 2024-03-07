@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import ActivityCard from "../UiComponents/ActivityCard.jsx";
-import { pinkButton, semiBoldTxCen } from "../lib/ClassesName.jsx";
+import ActivityCard from "../UiComponents/ActivityCard";
+import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
-import PastActivityCard from "../UiComponents/PastActivityCard.jsx";
+import PastActivityCard from "../UiComponents/PastActivityCard";
 import { UserButton } from "@clerk/clerk-react";
 import { CurrentUserContext } from "../lib/Constants";
 import { useContext } from "react";
@@ -59,23 +59,23 @@ export default function Profile() {
         leftTitle="CURRENT"
         rightTitle="PAST"
         leftContent={
-          <ActivityCard
-            accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            accOwnerUserName="Fiona"
-            accOwnerStatus="(Attendee)"
-            city="Hanoi"
-            country="Vietnam"
-            activityTitle="Fly Fly"
-            date="23 Jan 2023"
-            time="08:00AM"
-            activityDescription="Feel like a garbage bag!"
-            organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            organiserFirstName="Tay Tay"
-            organiserUsername="swiftieeee"
-            activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-            categoryApiId={1}
-            catergoryName="Fooddd"
-          />
+          // <ActivityCard
+          //   accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+          //   accOwnerUserName="Fiona"
+          //   accOwnerStatus="(Attendee)"
+          //   city="Hanoi"
+          //   country="Vietnam"
+          //   activityTitle="Fly Fly"
+          //   date="23 Jan 2023"
+          //   time="08:00AM"
+          //   activityDescription="Feel like a garbage bag!"
+          //   organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+          //   organiserFirstName="Tay Tay"
+          //   organiserUsername="swiftieeee"
+          //   activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
+          //   categoryApiId={1}
+          //   catergoryName="Fooddd"
+          // />
         }
         rightContent={<PastActivityCard userStatus="(Attendee)" />}
       /> */}
