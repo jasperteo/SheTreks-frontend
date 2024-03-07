@@ -10,11 +10,18 @@ import {
   formatDateandTime,
   getRequest,
 } from "../../lib/Constants";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Fragment } from "react";
+import {
+  APIProvider,
+  Map,
+  InfoWindow,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useContext(CurrentUserContext);
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
   const upcomingOrgActivity = useQuery({
     queryKey: [
@@ -27,7 +34,7 @@ export default function UpcomingOrgActCard() {
   });
 
   // console.log(currentUser);
-  // console.log(upcomingOrgActivity.data);
+  console.log(upcomingOrgActivity.data);
 
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
@@ -38,6 +45,51 @@ export default function UpcomingOrgActCard() {
 
   return (
     <>
+      <div id="map" style={{ height: "40vh", width: "100%" }}>
+        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+          <Map
+            center={{
+              lat: 1.287953,
+              lng: 103.851784,
+            }}
+            zoom={12}
+            mapId="upcoming-map"
+          >
+            {upcomingOrgActivity.data &&
+              upcomingOrgActivity.data.map((activity) => (
+                <AdvancedMarker
+                  key={activity.id}
+                  position={{
+                    lat: activity?.latitude,
+                    lng: activity?.longitude,
+                  }}
+                  offsetLeft={-20}
+                  offsetTop={-10}
+                  title={activity?.title}
+                  onClick={() => {
+                    activity === selectedPlace
+                      ? setSelectedPlace(null)
+                      : setSelectedPlace(activity);
+                  }}
+                ></AdvancedMarker>
+              ))}
+            {selectedPlace && (
+              <InfoWindow
+                position={{
+                  lat: selectedPlace?.latitude,
+                  lng: selectedPlace?.longitude,
+                }}
+                onCloseClick={() => setSelectedPlace(null)}
+              >
+                <div>
+                  <p>{selectedPlace.title}</p>
+                </div>
+              </InfoWindow>
+            )}
+          </Map>
+        </APIProvider>
+      </div>
+
       {upcomingOrgActivity.data &&
         upcomingOrgActivity.data.map((activity) => (
           <div
@@ -106,9 +158,6 @@ export default function UpcomingOrgActCard() {
                 </>
               )}
             </div>
-            <figure>
-              <img src="/map.png" alt="map" />
-            </figure>
           </div>
         ))}
       {/* pop up modal */}
