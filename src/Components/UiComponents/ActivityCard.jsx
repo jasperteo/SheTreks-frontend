@@ -84,14 +84,14 @@ export default function ActivityCard({ activity }) {
             zoom={15}
           >
             {/* <AdvancedMarker
-                key={activity.id}
-                position={{
-                  lat: activity?.location?.latitude,
-                  lng: activity?.location?.longitude,
-                }}
-                offsetLeft={-20}
-                offsetTop={-10}
-              ></AdvancedMarker> */}
+              key={activity.id}
+              position={{
+                lat: activity?.latitude,
+                lng: activity?.longitude,
+              }}
+              offsetLeft={-20}
+              offsetTop={-10}
+            ></AdvancedMarker> */}
           </Map>
         </APIProvider>
       </div>
