@@ -1,28 +1,28 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useQuery } from "@tanstack/react-query";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { SignedOut, SignedIn, useAuth, useUser } from "@clerk/clerk-react";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "./App.css";
 import AddActivity from "./Components/AddActivity";
 import ExploreActivities from "./Components/ExploreActivities";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import NavBar from "./Components/NavBar";
 import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
+import ProfileOther from "./Components/Profile/ProfileOther";
 import Home from "./Components/Home";
 import Following from "./Components/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import { useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   getRequest,
   axiosAuth,
   CurrentUserContext,
-} from "./Components/lib/Constants.js";
+} from "./Components/lib/Constants";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { SignedOut, SignedIn } from "@clerk/clerk-react";
 
 export default function App() {
   const { user } = useUser();
@@ -56,21 +56,20 @@ export default function App() {
       children: [
         { index: true, element: <Home /> },
         {
-          path: "activity",
-          children: [
-            {
-              path: "explore",
-              element: <ExploreActivities />,
-            },
-            {
-              path: "add",
-              element: <AddActivity />,
-            },
-            {
-              path: ":activityId/request",
-              element: <SingleAct />,
-            },
-          ],
+          path: "feeds",
+          element: <Feed />,
+        },
+        {
+          path: "explore",
+          element: <ExploreActivities />,
+        },
+        {
+          path: "notifications",
+          element: <NotificationMain />,
+        },
+        {
+          path: "upcomingevents",
+          element: <UpcomingEvents />,
         },
         {
           path: `profile`,
@@ -78,7 +77,7 @@ export default function App() {
             { index: true, element: <Profile /> },
             {
               path: `:username`,
-              element: <Profile />, //change to other profile
+              element: <ProfileOther />,
             },
             {
               path: "setting",
@@ -91,16 +90,17 @@ export default function App() {
           ],
         },
         {
-          path: "notifications",
-          element: <NotificationMain />,
-        },
-        {
-          path: "feeds",
-          element: <Feed />,
-        },
-        {
-          path: "upcomingevents",
-          element: <UpcomingEvents />,
+          path: "activity",
+          children: [
+            {
+              path: "add",
+              element: <AddActivity />,
+            },
+            {
+              path: ":activityId/request",
+              element: <SingleAct />,
+            },
+          ],
         },
       ],
     },
