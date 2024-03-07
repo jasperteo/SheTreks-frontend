@@ -48,7 +48,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {date}
+          {formatDateandTime(date)}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>
