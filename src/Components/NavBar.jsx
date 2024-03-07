@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { RoundedAvatar, lgreyIcon } from "./lib/ClassesName.jsx";
+import { lgreyIcon } from "./lib/ClassesName";
+import RoundedAvatar from "./UiComponents/RoundedAvatar";
 
 export default function NavBar() {
   // use Link to instead of useNavigate
@@ -14,7 +15,7 @@ export default function NavBar() {
           ></iconify-icon>
         </button>
       </Link>
-      <Link to="/activity/explore" className="bg-accent">
+      <Link to="/explore" className="bg-accent">
         <button className="bg-accent">
           <iconify-icon
             inline
