@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { RoundedAvatar, chatIcon } from "../../lib/ClassesName";
+import { chatIcon } from "../../lib/ClassesName";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 
 export default function UpcomingJoinedActCard() {
   const handleWithdrawEvent = () => {

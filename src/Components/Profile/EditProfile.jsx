@@ -5,10 +5,10 @@ import {
   putRequest,
   CurrentUserContext,
 } from "../lib/Constants.js";
-import { controlForm, menu, option } from "../lib/ClassesName.jsx";
+import { controlForm, menu, option } from "../lib/ClassesName";
 import { useForm, Controller } from "react-hook-form";
 import { useContext } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function EditProfile() {

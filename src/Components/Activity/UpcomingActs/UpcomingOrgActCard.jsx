@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { RoundedAvatar, chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
+import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
 import { useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
@@ -10,6 +11,7 @@ import {
   getRequest,
 } from "../../lib/Constants";
 import { useContext } from "react";
+import { Fragment } from "react";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useContext(CurrentUserContext);
@@ -81,12 +83,10 @@ export default function UpcomingOrgActCard() {
               {activity?.participants &&
                 activity?.participants.map((participant) =>
                   participant?.status === true ? (
-                    <>
-                      <div className="font-semibold" key={participant?.user.id}>
-                        Participants:
-                      </div>
+                    <Fragment key={participant?.id}>
+                      <div className="font-semibold">Participants:</div>
                       <UserSummProfile user={participant} />
-                    </>
+                    </Fragment>
                   ) : null,
                 )}
               {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
@@ -95,7 +95,7 @@ export default function UpcomingOrgActCard() {
                   {activity.participants.some(
                     (participant) => !participant.status,
                   ) && (
-                    <Link to={`../activity/${activity.id}/request`}>
+                    <Link to={`/activity/${activity.id}/request`}>
                       <button
                         className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
                       >
