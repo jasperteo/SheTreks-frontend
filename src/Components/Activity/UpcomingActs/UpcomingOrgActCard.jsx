@@ -11,6 +11,7 @@ import {
   getRequest,
 } from "../../lib/Constants";
 import { useContext } from "react";
+import { Fragment } from "react";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useContext(CurrentUserContext);
@@ -82,12 +83,10 @@ export default function UpcomingOrgActCard() {
               {activity?.participants &&
                 activity?.participants.map((participant) =>
                   participant?.status === true ? (
-                    <>
-                      <div className="font-semibold" key={participant?.user.id}>
-                        Participants:
-                      </div>
+                    <Fragment key={participant?.id}>
+                      <div className="font-semibold">Participants:</div>
                       <UserSummProfile user={participant} />
-                    </>
+                    </Fragment>
                   ) : null,
                 )}
               {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
