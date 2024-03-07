@@ -8,7 +8,9 @@ export default function UserSummProfile({ user }) {
       </div>
       <div className="ml-2 mt-1 flex-auto">{user?.user.firstName}</div>
       <div className="ml-2 mt-1 flex-auto font-light italic">
-        {`@ ${user?.user.username}`}
+
+        {`@ ${user?.username}`}
+
       </div>
     </div>
   );
