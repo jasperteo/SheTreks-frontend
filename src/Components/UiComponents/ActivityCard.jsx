@@ -6,12 +6,11 @@ import {
   BACKEND_URL,
   postRequest,
   CurrentUserContext,
-  formatDateandTime,
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
 
-export default function ActivityCard({ activity }) {
+export default function ActivityCard({ activity, date }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
 
@@ -46,7 +45,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {formatDateandTime(activity.eventDate)}
+          {date}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>
@@ -60,7 +59,11 @@ export default function ActivityCard({ activity }) {
         </div>
 
         <div className="font-semibold">Organiser:</div>
-        <UserSummProfile user={activity?.user} />
+        <UserSummProfile
+          userSummImageURL={activity?.user?.imageUrl}
+          userSummFirstName={activity?.user?.firstName}
+          userSummUsername={activity?.user?.username}
+        />
       </div>
       <img
         className="-mt-2 object-none"
