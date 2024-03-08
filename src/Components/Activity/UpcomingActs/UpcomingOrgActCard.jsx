@@ -45,7 +45,7 @@ export default function UpcomingOrgActCard() {
 
   return (
     <>
-      <div id="map" style={{ height: "40vh", width: "100%" }}>
+      <div id="upcoming-map" style={{ height: "40vh", width: "100%" }}>
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
           <Map
             defaultCenter={{

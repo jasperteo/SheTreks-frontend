@@ -45,7 +45,7 @@ export default function UpcomingJoinedActCard() {
 
   return (
     <>
-      <div id="map" style={{ height: "40vh", width: "100%" }}>
+      <div id="joined-map" style={{ height: "40vh", width: "100%" }}>
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
           <Map
             defaultCenter={{
@@ -53,7 +53,7 @@ export default function UpcomingJoinedActCard() {
               lng: 103.851784,
             }}
             defaultZoom={12}
-            mapId="upcoming-map"
+            mapId="joined-map"
           >
             {upcomingJoinedActivity?.data &&
               upcomingJoinedActivity.data.map((activity) => (
