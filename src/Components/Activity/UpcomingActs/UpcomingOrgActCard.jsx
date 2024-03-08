@@ -45,17 +45,17 @@ export default function UpcomingOrgActCard() {
 
   return (
     <>
-      <div id="map" style={{ height: "40vh", width: "100%" }}>
+      <div id="upcoming-map" style={{ height: "40vh", width: "100%" }}>
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
           <Map
-            center={{
+            defaultCenter={{
               lat: 1.287953,
               lng: 103.851784,
             }}
-            zoom={12}
+            defaultZoom={12}
             mapId="upcoming-map"
           >
-            {upcomingOrgActivity.data &&
+            {upcomingOrgActivity?.data &&
               upcomingOrgActivity.data.map((activity) => (
                 <AdvancedMarker
                   key={activity.id}

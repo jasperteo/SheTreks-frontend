@@ -11,7 +11,7 @@ export default function TwoTabs({
 
   return (
     <div>
-      <div role="tablist" className={`${tabColour}`}>
+      <div role="tablist" className={`${tabColour} mb-8`}>
         <a
           role="tab"
           className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
