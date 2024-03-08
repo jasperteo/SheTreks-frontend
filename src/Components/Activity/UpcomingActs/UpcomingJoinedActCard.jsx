@@ -11,12 +11,7 @@ import {
   formatDateandTime,
   getRequest,
 } from "../../lib/Constants";
-import {
-  APIProvider,
-  Map,
-  InfoWindow,
-  AdvancedMarker,
-} from "@vis.gl/react-google-maps";
+import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
@@ -46,48 +41,46 @@ export default function UpcomingJoinedActCard() {
   return (
     <>
       <div id="joined-map" style={{ height: "40vh", width: "100%" }}>
-        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
-          <Map
-            defaultCenter={{
-              lat: 1.287953,
-              lng: 103.851784,
-            }}
-            defaultZoom={12}
-            mapId="joined-map"
-          >
-            {upcomingJoinedActivity?.data &&
-              upcomingJoinedActivity.data.map((activity) => (
-                <AdvancedMarker
-                  key={activity.id}
-                  position={{
-                    lat: activity?.latitude,
-                    lng: activity?.longitude,
-                  }}
-                  offsetLeft={-20}
-                  offsetTop={-10}
-                  title={activity?.title}
-                  onClick={() => {
-                    activity === selectedPlace
-                      ? setSelectedPlace(null)
-                      : setSelectedPlace(activity);
-                  }}
-                ></AdvancedMarker>
-              ))}
-            {selectedPlace && (
-              <InfoWindow
+        <Map
+          defaultCenter={{
+            lat: 1.287953,
+            lng: 103.851784,
+          }}
+          defaultZoom={12}
+          mapId="joined-map"
+        >
+          {upcomingJoinedActivity?.data &&
+            upcomingJoinedActivity.data.map((activity) => (
+              <AdvancedMarker
+                key={activity.id}
                 position={{
-                  lat: selectedPlace?.latitude,
-                  lng: selectedPlace?.longitude,
+                  lat: activity?.latitude,
+                  lng: activity?.longitude,
                 }}
-                onCloseClick={() => setSelectedPlace(null)}
-              >
-                <div>
-                  <p>{selectedPlace.title}</p>
-                </div>
-              </InfoWindow>
-            )}
-          </Map>
-        </APIProvider>
+                offsetLeft={-20}
+                offsetTop={-10}
+                title={activity?.title}
+                onClick={() => {
+                  activity === selectedPlace
+                    ? setSelectedPlace(null)
+                    : setSelectedPlace(activity);
+                }}
+              ></AdvancedMarker>
+            ))}
+          {selectedPlace && (
+            <InfoWindow
+              position={{
+                lat: selectedPlace?.latitude,
+                lng: selectedPlace?.longitude,
+              }}
+              onCloseClick={() => setSelectedPlace(null)}
+            >
+              <div>
+                <p>{selectedPlace.title}</p>
+              </div>
+            </InfoWindow>
+          )}
+        </Map>
       </div>
       {upcomingJoinedActivity.data &&
         upcomingJoinedActivity.data.map((activity) => (
