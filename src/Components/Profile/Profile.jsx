@@ -4,8 +4,9 @@ import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
 import PastActivityCard from "../UiComponents/PastActivityCard";
 import { UserButton } from "@clerk/clerk-react";
-import { CurrentUserContext } from "../lib/Constants";
+import { BACKEND_URL, CurrentUserContext, getRequest } from "../lib/Constants";
 import { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
@@ -36,6 +37,20 @@ export default function Profile() {
     );
   };
 
+  const pastActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/includeHost/${currentUser?.id}/past`,
+    ],
+    queryFn: () =>
+      getRequest(
+        `${BACKEND_URL}/activities/includeHost/${currentUser?.id}/past`,
+      ),
+    enabled: !!currentUser?.id,
+  });
+
+  console.log(pastActivities.data);
+
   return (
     <>
       <ProfileHeader />
@@ -55,30 +70,13 @@ export default function Profile() {
         </Link>
       </div>
       <div className="mb-6" />
-      {/* <TwoTabs
+      <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
-        leftContent={
-          // <ActivityCard
-          //   accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-          //   accOwnerUserName="Fiona"
-          //   accOwnerStatus="(Attendee)"
-          //   city="Hanoi"
-          //   country="Vietnam"
-          //   activityTitle="Fly Fly"
-          //   date="23 Jan 2023"
-          //   time="08:00AM"
-          //   activityDescription="Feel like a garbage bag!"
-          //   organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-          //   organiserFirstName="Tay Tay"
-          //   organiserUsername="swiftieeee"
-          //   activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-          //   categoryApiId={1}
-          //   catergoryName="Fooddd"
-          // />
-        }
-        rightContent={<PastActivityCard userStatus="(Attendee)" />}
-      /> */}
+        leftContent={<PastActivityCard userStatus="" />}
+        //passed in either joined or organised event props
+        rightContent={<PastActivityCard activities={pastActivities.data} />}
+      />
     </>
   );
 }
