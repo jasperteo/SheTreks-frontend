@@ -6,13 +6,16 @@ import {
   BACKEND_URL,
   postRequest,
   CurrentUserContext,
+  formatDateandTime,
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
 
-export default function ActivityCard({ activity, date }) {
+export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
+
+  console.log(activity);
 
   //Request to post request to join to backend
   const { mutate } = useMutation({
@@ -45,7 +48,7 @@ export default function ActivityCard({ activity, date }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {date}
+          {formatDateandTime(activity?.eventDate)}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>
@@ -59,20 +62,14 @@ export default function ActivityCard({ activity, date }) {
         </div>
 
         <div className="font-semibold">Organiser:</div>
-        <UserSummProfile
-          userSummImageURL={activity?.user?.imageUrl}
-          userSummFirstName={activity?.user?.firstName}
-          userSummUsername={activity?.user?.username}
-        />
+        <UserSummProfile user={activity} />
       </div>
       <img
         className="-mt-2 object-none"
         src={activity?.imageUrl}
         alt="Activity Image"
       />
-      <figure>
-        <img src="/map.png" alt="map" />
-      </figure>
+
       {/* do not show the join now button if user is an attendee */}
       <div className="card-body -mb-4">
         {requestSent ? (
