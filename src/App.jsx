@@ -23,6 +23,7 @@ import {
 } from "./Components/lib/Constants";
 import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 export default function App() {
   const { user } = useUser();
@@ -108,9 +109,11 @@ export default function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <RouterProvider router={router} />
-        </LocalizationProvider>
+        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <RouterProvider router={router} />
+          </LocalizationProvider>
+        </APIProvider>
       </CurrentUserContext.Provider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
