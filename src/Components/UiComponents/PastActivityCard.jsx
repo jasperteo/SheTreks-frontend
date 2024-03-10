@@ -1,17 +1,22 @@
 import UserSummProfile from "./UserSummProfile";
 import RoundedAvatar from "./RoundedAvatar";
 import { dPinkIcon } from "../lib/ClassesName";
-import { useContext } from "react";
-import { CurrentUserContext } from "../lib/Constants";
+import { Fragment, useContext } from "react";
+import {
+  CurrentUserContext,
+  categoryIcon,
+  formatDateandTime,
+} from "../lib/Constants";
 
 export default function PastActivityCard({ userStatus, activities }) {
   console.log(activities);
+
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <div>
       {activities &&
-        activities.map((event) => (
+        activities.map((activity) => (
           // <div key={event.id}>
           //   <h2>{event.title || event.activity.title}</h2>
           //   <p>
@@ -24,52 +29,62 @@ export default function PastActivityCard({ userStatus, activities }) {
           // </div>
           <div
             className="lg:card-sides card mt-8 bg-grey shadow-xl"
-            key={event.id}
+            key={activity.id}
           >
             <div className="card-body">
               <div className="flex">
                 <div className="flex-none">
-                  <RoundedAvatar
-                    image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                    size="8"
-                  />
+                  <RoundedAvatar image={currentUser?.imageUrl} size="8" />
                 </div>
                 {/* to indicidate if user is an attendee */}
                 <div className="ml-2 mt-1 flex-auto font-light italic">
-                  @userName
+                  {`@ ${currentUser.username}`}
+                  {activity?.hostId !== currentUser?.id
+                    ? " (Attendee)"
+                    : " (Organiser)"}
                 </div>
               </div>
-              <div className="font-semibold">Hanoi, Vietnam</div>
+              <div className="font-semibold">
+                {activity?.location?.city}, {activity?.location?.country}
+              </div>
 
-              <div className="font-semibold">Event Activity Title</div>
+              <div className="font-semibold">{activity?.title}</div>
 
-              <div className="font-light italic">Date, Exact Time</div>
-              <div>Description</div>
-              <div className="flex">
-                <div className={`${dPinkIcon}`}>
-                  <iconify-icon inline icon="ri:plant-line" />
-                </div>
-                <div className="mb-4 mt-2 text-xs"> Event Category</div>
+              <div className="font-light italic">
+                {formatDateandTime(activity.eventDate)}
+              </div>
+              <div>{activity.description}</div>
+              <div className="items-left flex flex-col flex-wrap space-x-1 ">
+                {activity.categories.map((category) => (
+                  <div className={`${dPinkIcon}`} key={category?.id}>
+                    <iconify-icon
+                      inline
+                      icon={`${categoryIcon(category?.id)}`}
+                    />
+                    <p className="text-xs">{category?.categoryName}</p>
+                  </div>
+                ))}
               </div>
               {/* remove organiser section if user is the organiser */}
-              <div className="-mt-2 font-semibold">Organiser:</div>
-              <UserSummProfile
-                userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                userSummFirstName="FirstName"
-                userSummUsername="@userName"
-              />
-              <div className="mt-2 font-semibold">Participants:</div>
-              <UserSummProfile
-                userSummImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                userSummFirstName="FirstName"
-                userSummUsername="@userName"
-              />
-            </div>
 
-            <figure>
-              <img src="/map.png" alt="map" />
-            </figure>
-            {/* do not show the join now button if user is an attendee */}
+              {activity?.hostId !== currentUser?.id ? (
+                <div className="font-semibold">
+                  Organiser:
+                  <Fragment key={activity?.user?.id}>
+                    <UserSummProfile user={activity} />
+                  </Fragment>
+                </div>
+              ) : null}
+              <div className="font-semibold">Participants:</div>
+              {activity?.participants &&
+                activity?.participants.map((participant) =>
+                  participant?.status === true ? (
+                    <Fragment key={participant?.id}>
+                      <UserSummProfile user={participant} />
+                    </Fragment>
+                  ) : null,
+                )}
+            </div>
           </div>
         ))}
     </div>

@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
+  console.log(currentUser?.id);
 
   const ProfileHeader = () => {
     return (
@@ -40,14 +41,14 @@ export default function Profile() {
   const pastActivities = useQuery({
     queryKey: [
       "pastActivities",
-      `${BACKEND_URL}/activities/includeHost/${currentUser?.id}/past`,
+      `${BACKEND_URL}/activities/past/${currentUser?.id}/`,
     ],
     queryFn: () =>
-      getRequest(
-        `${BACKEND_URL}/activities/includeHost/${currentUser?.id}/past`,
-      ),
+      getRequest(`${BACKEND_URL}/activities/past/${currentUser?.id}`),
     enabled: !!currentUser?.id,
   });
+
+  console.log(`${BACKEND_URL}/activities/past/${currentUser?.id}`);
 
   console.log(pastActivities.data);
 
