@@ -12,7 +12,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 
 export default function SocialActivityCard({ colour, activities, user }) {
-  // console.log(activities);
+  console.log(activities);
   // console.log(user);
 
   const currentUser = useContext(CurrentUserContext);
@@ -72,21 +72,32 @@ export default function SocialActivityCard({ colour, activities, user }) {
                 ))}
               </div>
               {/* remove organiser section if user is the organiser */}
-              <div className="font-semibold">Organiser:</div>
+
               {activity?.hostId !== user?.id ? (
-                <Fragment key={activity?.user?.id}>
-                  <UserSummProfile user={activity} />
-                </Fragment>
+                <>
+                  <div className="font-semibold">Organiser:</div>
+                  <Fragment key={activity?.user?.id}>
+                    <UserSummProfile user={activity} />
+                  </Fragment>
+                </>
               ) : null}
-              <div className="font-semibold">Participants:</div>
+              {/* for the current page */}
+              {/* show list of paricipants when the length of participants' status = true is more than 1 */}
               {activity?.participants &&
-                activity?.participants.map((participant) =>
-                  participant?.status === true ? (
-                    <Fragment key={participant?.id}>
-                      <UserSummProfile user={participant} />
-                    </Fragment>
-                  ) : null,
-                )}
+              activity?.participants.some(
+                (participant) => participant?.status === true,
+              ) ? (
+                <>
+                  <div className="font-semibold">Participants:</div>
+                  {activity.participants.map((participant) =>
+                    participant?.status === true ? (
+                      <Fragment key={participant?.id}>
+                        <UserSummProfile user={participant} />
+                      </Fragment>
+                    ) : null,
+                  )}
+                </>
+              ) : null}
               {/* When I view another person's account, 
               //the card should show the join button if i am not the host, participant.
               //button should not appear in my profile when i view my profile.
@@ -98,19 +109,18 @@ export default function SocialActivityCard({ colour, activities, user }) {
               new Date(activity?.eventDate) > new Date() ? (
                 <div className="card-body -mb-4">
                   {/* //Request was previosuly sent, but not approved or declined. Do not allow user to submit another request. */}
-                  {requestSent === false ? (
-                    <button
-                      className={`${greyButton} -mb-4 -mt-4 text-warning`}
-                      disabled={requestSent}
-                    >
-                      REQUEST SENT!
-                    </button>
-                  ) : (
+                  {activity?.participants?.some((participant) => {
+                    return (
+                      participant?.user.id === currentUser?.id &&
+                      participant?.status === false
+                    );
+                  }) ? null : (
                     <button
                       className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
                       onClick={() => handleClick(activity.id)}
+                      disabled={requestSent}
                     >
-                      JOIN NOW
+                      {requestSent ? "REQUEST SENT" : "JOIN NOW"}
                     </button>
                   )}
                 </div>
