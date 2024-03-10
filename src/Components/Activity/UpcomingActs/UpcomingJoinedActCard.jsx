@@ -36,7 +36,7 @@ export default function UpcomingJoinedActCard() {
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",
     mutationFn: () =>
-      deleteRequest(`${BACKEND_URL}/activities/withdraw/${participantId}`),
+      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
     onSuccess: () => {
       upcomingJoinedActivity.refetch();
       document.getElementById("withdraw-event").close();
