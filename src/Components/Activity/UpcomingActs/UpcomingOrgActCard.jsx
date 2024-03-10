@@ -52,7 +52,7 @@ export default function UpcomingOrgActCard() {
               lat: 1.287953,
               lng: 103.851784,
             }}
-            zoom={8}
+            zoom={12}
             mapId="upcoming-map"
           >
             {upcomingOrgActivity.data &&
