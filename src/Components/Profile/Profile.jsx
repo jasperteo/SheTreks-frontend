@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
-  console.log(currentUser?.id);
 
   const ProfileHeader = () => {
     return (
@@ -48,9 +47,19 @@ export default function Profile() {
     enabled: !!currentUser?.id,
   });
 
-  console.log(`${BACKEND_URL}/activities/past/${currentUser?.id}`);
+  // console.log(pastActivities.data);
 
-  console.log(pastActivities.data);
+  const currentActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
+    enabled: !!currentUser?.id,
+  });
+
+  console.log(currentActivities.data);
 
   return (
     <>
@@ -74,9 +83,16 @@ export default function Profile() {
       <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
-        leftContent={<PastActivityCard userStatus="" />}
-        //passed in either joined or organised event props
-        rightContent={<PastActivityCard activities={pastActivities.data} />}
+        leftContent={
+          <PastActivityCard
+            colour="primary"
+            activities={currentActivities.data}
+          />
+        }
+        // <ActivityCard key={activity.id} activity={activity} />
+        rightContent={
+          <PastActivityCard colour="grey" activities={pastActivities.data} />
+        }
       />
     </>
   );

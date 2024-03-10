@@ -8,27 +8,16 @@ import {
   formatDateandTime,
 } from "../lib/Constants";
 
-export default function PastActivityCard({ userStatus, activities }) {
+export default function PastActivityCard({ colour, activities }) {
   console.log(activities);
-
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <div>
       {activities &&
         activities.map((activity) => (
-          // <div key={event.id}>
-          //   <h2>{event.title || event.activity.title}</h2>
-          //   <p>
-          //     {
-          //       (event.isHosted =
-          //         event.hostId === currentUser?.id ? "Organiser" : "Member")
-          //     }
-          //   </p>
-          //   <p>{event.eventDate}</p>
-          // </div>
           <div
-            className="lg:card-sides card mt-8 bg-grey shadow-xl"
+            className={`lg:card-sides card mt-8 bg-${colour} shadow-xl`}
             key={activity.id}
           >
             <div className="card-body">
