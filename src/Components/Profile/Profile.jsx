@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ActivityCard from "../UiComponents/ActivityCard";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
-import PastActivityCard from "../UiComponents/PastActivityCard";
+import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
 import { UserButton } from "@clerk/clerk-react";
 import { BACKEND_URL, CurrentUserContext, getRequest } from "../lib/Constants";
 import { useContext } from "react";
@@ -59,7 +59,7 @@ export default function Profile() {
     enabled: !!currentUser?.id,
   });
 
-  console.log(currentActivities.data);
+  // console.log(currentActivities.data);
 
   return (
     <>
@@ -84,14 +84,18 @@ export default function Profile() {
         leftTitle="CURRENT"
         rightTitle="PAST"
         leftContent={
-          <PastActivityCard
+          <SocialActivityCard
             colour="primary"
+            user={currentUser}
             activities={currentActivities.data}
           />
         }
-        // <ActivityCard key={activity.id} activity={activity} />
         rightContent={
-          <PastActivityCard colour="grey" activities={pastActivities.data} />
+          <SocialActivityCard
+            colour="grey"
+            user={currentUser}
+            activities={pastActivities.data}
+          />
         }
       />
     </>
