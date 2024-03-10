@@ -214,7 +214,7 @@ export default function ExploreActivities() {
       <div className="-mb-2 font-semibold">RESULTS:</div>
 
       {activitiesExcludeHost?.map((activity) => (
-        <ActivityCard key={activity.id} activity={activity} />
+        <ActivityCard key={activity?.id} activity={activity} />
       ))}
     </>
   );

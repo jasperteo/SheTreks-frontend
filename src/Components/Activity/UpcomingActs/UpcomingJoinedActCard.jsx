@@ -25,7 +25,7 @@ export default function UpcomingJoinedActCard() {
       `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`),
+      getRequest(`${BACKEND_URL}/activities/joinedByUser/${currentUser?.id}`),
     enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
