@@ -4,7 +4,7 @@ import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import { chatIcon, brGreenButton } from "../../lib/ClassesName";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import { useContext, useState } from "react";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   CurrentUserContext,
@@ -53,10 +53,10 @@ export default function UpcomingJoinedActCard() {
     const { id } = activity.participants.find(
       (participant) => participant.userId === currentUser?.id,
     );
-    console.log("Participant ID:", id);
+    console.log("Participant ID:", activity);
     setParticipantId(id);
 
-    mutate();
+    // mutate();
   };
 
   return (
