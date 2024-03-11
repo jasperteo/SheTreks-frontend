@@ -16,7 +16,7 @@ export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
 
-  console.log(activity);
+  // console.log(activity);
 
   //Request to post request to join to backend
   const { mutate } = useMutation({
