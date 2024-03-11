@@ -26,6 +26,9 @@ export default function RequestCard({ participant }) {
       }),
   });
 
+  console.log(`${BACKEND_URL}/activities/participants/${participant?.id}`);
+  console.log(participant.id);
+
   const { mutate: mutateDecline } = useMutation({
     mutationFn: () =>
       deleteRequest(
