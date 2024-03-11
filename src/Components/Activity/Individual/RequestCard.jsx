@@ -55,13 +55,21 @@ export default function RequestCard({ participant }) {
           </button>
           <button
             className={`${brGreenButton} mr-2 mt-2 flex-auto`}
-            onClick={() => document.getElementById("accept-user").showModal()}
+            onClick={() =>
+              document
+                .getElementById(`accept-user${participant?.id}`)
+                .showModal()
+            }
           >
             <iconify-icon icon="ri:check-line" class={lgreyIcon} />
           </button>
           <button
             className="btn-grey focus:ring-green-500 btn mr-2 mt-2 flex-auto focus:outline-none focus:ring-2"
-            onClick={() => document.getElementById("decline-user").showModal()}
+            onClick={() =>
+              document
+                .getElementById(`decline-user${participant?.id}`)
+                .showModal()
+            }
           >
             <iconify-icon
               icon="ri:close-line"
@@ -71,14 +79,14 @@ export default function RequestCard({ participant }) {
         </div>
       </div>
       <PopUpConfirmation
-        id="accept-user"
+        id={`accept-user${participant?.id}`}
         option="Accept"
         title="user participation?"
         message="By agreeing, user can participate in the activity."
         onConfirm={mutateAccept}
       />
       <PopUpConfirmation
-        id="decline-user"
+        id={`decline-user${participant?.id}`}
         option="Decline"
         title="user participation?"
         message="By agreeing, user is unable to participate in the activity."
