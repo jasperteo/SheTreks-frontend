@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import ActivityCard from "../UiComponents/ActivityCard";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
 import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
