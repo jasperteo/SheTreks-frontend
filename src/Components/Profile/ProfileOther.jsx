@@ -72,6 +72,9 @@ export default function ProfileOther() {
         {userInfo?.data?.firstName} {userInfo?.data?.lastName}
       </div>
       <div className="font-light italic">@{userInfo?.data?.username}</div>
+      <div>
+        📍 {userInfo?.data?.location.city}, {userInfo?.data?.location.country}
+      </div>
       <div>{userInfo?.data?.about}</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">

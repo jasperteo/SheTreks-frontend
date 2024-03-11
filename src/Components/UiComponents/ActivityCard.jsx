@@ -6,7 +6,7 @@ import {
   BACKEND_URL,
   postRequest,
   CurrentUserContext,
-  formatDateandTime,
+  formatDateMaskedTime,
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
@@ -16,7 +16,7 @@ export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
 
-  console.log(activity);
+  // console.log(activity);
 
   //Request to post request to join to backend
   const { mutate } = useMutation({
@@ -49,7 +49,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {formatDateandTime(activity?.eventDate)}
+          {formatDateMaskedTime(activity?.eventDate)}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>
