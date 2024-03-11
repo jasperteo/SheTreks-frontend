@@ -1,21 +1,23 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { chatIcon } from "../../lib/ClassesName";
+import { chatIcon, brGreenButton } from "../../lib/ClassesName";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import { useContext, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   CurrentUserContext,
   formatDateandTime,
   getRequest,
+  deleteRequest,
 } from "../../lib/Constants";
 import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [participantId, setParticipantId] = useState(null);
 
   console.log("user", currentUser);
 
@@ -25,17 +27,32 @@ export default function UpcomingJoinedActCard() {
       `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`),
+      getRequest(`${BACKEND_URL}/activities/joinedByUser/${currentUser?.id}`),
     enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
   console.log(upcomingJoinedActivity.data);
 
-  const handleWithdrawEvent = () => {
-    console.log("Event withdraw!");
-    //close modal after clicking "ok"
-    const dialog = document.querySelector("#withdraw-event");
-    dialog.close();
+  const { mutate } = useMutation({
+    mutationKey: "withdrawEvent",
+    mutationFn: () =>
+      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      upcomingJoinedActivity.refetch();
+      document.getElementById("withdraw-event").close();
+    },
+  });
+
+  const handleWithdrawEvent = (activity) => {
+    console.log("activity", activity);
+    // Find the participant whose userId matches currentUserId
+    const { id } = activity.participants.find(
+      (participant) => participant.userId === currentUser?.id,
+    );
+    console.log("Participant ID:", id);
+    setParticipantId(id);
+
+    mutate();
   };
 
   return (
@@ -129,13 +146,35 @@ export default function UpcomingJoinedActCard() {
               ))}
             </div>
 
-            <PopUpConfirmation
-              id="withdraw-event"
-              option="Withdraw"
-              title="event123"
-              message="By agreeing, we will withdraw you from the event."
-              onConfirm={handleWithdrawEvent}
-            />
+            <dialog id="withdraw-event" className="modal ">
+              <div className="modal-box">
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn btn-ghost btn-sm absolute right-2 top-2">
+                    <iconify-icon icon="ri:close-large-fill" />
+                  </button>
+                </form>
+                <div className="mt-8 text-center font-semibold ">
+                  Withdraw from {activity?.title}?
+                </div>
+                <div className="text-center">
+                  By agreeing, we will withdraw you from the event.
+                </div>
+                <div className="-mb-4 flex justify-center">
+                  <button
+                    className={`${brGreenButton} mr-4 mt-4 text-grey`}
+                    onClick={() => handleWithdrawEvent(activity)}
+                  >
+                    OK
+                  </button>
+                  <form method="dialog">
+                    <button className="btn-grey focus:ring-green-500 btn mt-4 focus:outline-none focus:ring-2">
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
           </div>
         ))}
     </>

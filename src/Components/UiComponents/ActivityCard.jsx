@@ -10,6 +10,7 @@ import {
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
+import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 
 export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
@@ -69,6 +70,27 @@ export default function ActivityCard({ activity }) {
         src={activity?.imageUrl}
         alt="Activity Image"
       />
+      <div style={{ height: "40vh", width: "100%" }}>
+        <Map
+          defaultCenter={{
+            lat: activity?.latitude,
+            lng: activity?.longitude,
+          }}
+          defaultZoom={12}
+          mapId={activity?.id}
+        >
+          <AdvancedMarker
+            key={activity?.id}
+            position={{
+              lat: activity?.latitude,
+              lng: activity?.longitude,
+            }}
+            offsetLeft={-20}
+            offsetTop={-10}
+            title={activity?.title}
+          ></AdvancedMarker>
+        </Map>
+      </div>
 
       {/* do not show the join now button if user is an attendee */}
       <div className="card-body -mb-4">
