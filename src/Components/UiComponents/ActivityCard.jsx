@@ -52,7 +52,7 @@ export default function ActivityCard({ activity }) {
           {formatDateandTime(activity?.eventDate)}
           {/* {time} */}
         </div>
-        <div>{activity.description}</div>
+        <div>{activity?.description}</div>
         <div className="items-left flex flex-col flex-wrap space-x-1 ">
           {activity.categories.map((category) => (
             <div className={`${dPinkIcon}`} key={category?.id}>

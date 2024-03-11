@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
-import { chatIcon, darkPinkButton, brGreenButton } from "../../lib/ClassesName";
+import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   CurrentUserContext,
   formatDateandTime,
   getRequest,
+  deleteRequest,
 } from "../../lib/Constants";
 import { useContext, useState } from "react";
 import { Fragment } from "react";
@@ -32,11 +33,22 @@ export default function UpcomingOrgActCard() {
   // console.log(currentUser);
   console.log(upcomingOrgActivity.data);
 
+  const { mutate } = useMutation({
+    mutationKey: "deleteEvent",
+    mutationFn: (activity) =>
+      deleteRequest(`${BACKEND_URL}/activities/delete/${activity.id}`),
+    onSuccess: () =>
+      queryClient.invalidateQueries([
+        "upcomingOrgActs",
+        `${BACKEND_URL}/activities/includeHost/${currentUser?.id}`,
+      ]),
+  });
+
   const handleDeleteEvent = (activity) => {
     console.log("Event deleted!", activity);
-    //close modal after clicking "ok"
-    // const dialog = document.querySelector("#delete-event");
-    // dialog.close();
+
+    mutate();
+    document.getElementById(`delete-event-${activity.id}`).close();
   };
 
   return (
@@ -115,7 +127,9 @@ export default function UpcomingOrgActCard() {
                   icon="ri:delete-bin-line"
                   class="text-3xl text-neutral"
                   onClick={() =>
-                    document.getElementById("delete-event").showModal()
+                    document
+                      .getElementById(`delete-event-${activity.id}`)
+                      .showModal()
                   }
                 />
               </div>
@@ -124,6 +138,7 @@ export default function UpcomingOrgActCard() {
               </div>
               <div className="font-semibold">{activity?.title}</div>
               <div>{formatDateandTime(activity?.eventDate)}</div>
+              <div>{activity?.description}</div>
               <div>{activity?.address}</div>
               {/* list of confirmed participants */}
               {activity?.participants &&
@@ -152,35 +167,14 @@ export default function UpcomingOrgActCard() {
                 </>
               )}
             </div>
-            <dialog id="delete-event" className="modal ">
-              <div className="modal-box">
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn btn-ghost btn-sm absolute right-2 top-2">
-                    <iconify-icon icon="ri:close-large-fill" />
-                  </button>
-                </form>
-                <div className="mt-8 text-center font-semibold ">
-                  Delete {activity?.title}?
-                </div>
-                <div className="text-center">
-                  By agreeing, the event will be permanently deleted.
-                </div>
-                <div className="-mb-4 flex justify-center">
-                  <button
-                    className={`${brGreenButton} mr-4 mt-4 text-grey`}
-                    onClick={() => handleDeleteEvent(activity)}
-                  >
-                    OK
-                  </button>
-                  <form method="dialog">
-                    <button className="btn-grey focus:ring-green-500 btn mt-4 focus:outline-none focus:ring-2">
-                      Cancel
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </dialog>
+            {/* pop up modal */}
+            <PopUpConfirmation
+              id={`delete-event-${activity.id}`}
+              option="Delete"
+              title={activity.title}
+              message="By agreeing, the event will be permanently deleted."
+              onConfirm={() => handleDeleteEvent(activity)}
+            />
           </div>
         ))}
     </>

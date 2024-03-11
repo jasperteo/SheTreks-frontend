@@ -36,15 +36,13 @@ export default function UpcomingJoinedActCard() {
 
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",
-    mutationFn: () =>
-      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
-    onSuccess: () => {
-      queryClient.setQueryData([
+    mutationFn: (id) =>
+      deleteRequest(`${BACKEND_URL}/activities/participants/${id}`),
+    onSuccess: () =>
+      queryClient.invalidateQueries([
         "upcomingJoinedActs",
         `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
-      ]);
-      document.getElementById("withdraw-event").close();
-    },
+      ]),
   });
 
   const handleWithdrawEvent = (activity) => {
@@ -56,7 +54,7 @@ export default function UpcomingJoinedActCard() {
     console.log("Participant ID:", activity);
     setParticipantId(id);
 
-    // mutate();
+    mutate(id);
   };
 
   return (
@@ -134,7 +132,9 @@ export default function UpcomingJoinedActCard() {
                   icon="ri:delete-bin-line"
                   class="text-3xl text-neutral"
                   onClick={() =>
-                    document.getElementById("withdraw-event").showModal()
+                    document
+                      .getElementById(`withdraw-event-${activity.id}`)
+                      .showModal()
                   }
                 />
               </div>
@@ -149,36 +149,13 @@ export default function UpcomingJoinedActCard() {
                 <UserSummProfile key={participant?.id} user={participant} />
               ))}
             </div>
-
-            <dialog id="withdraw-event" className="modal ">
-              <div className="modal-box">
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn btn-ghost btn-sm absolute right-2 top-2">
-                    <iconify-icon icon="ri:close-large-fill" />
-                  </button>
-                </form>
-                <div className="mt-8 text-center font-semibold ">
-                  Withdraw from {activity?.title}?
-                </div>
-                <div className="text-center">
-                  By agreeing, we will withdraw you from the event.
-                </div>
-                <div className="-mb-4 flex justify-center">
-                  <button
-                    className={`${brGreenButton} mr-4 mt-4 text-grey`}
-                    onClick={() => handleWithdrawEvent(activity)}
-                  >
-                    OK
-                  </button>
-                  <form method="dialog">
-                    <button className="btn-grey focus:ring-green-500 btn mt-4 focus:outline-none focus:ring-2">
-                      Cancel
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </dialog>
+            <PopUpConfirmation
+              id={`withdraw-event-${activity.id}`}
+              option="Withdraw"
+              title={activity.title}
+              message="By agreeing, we will withdraw you from the event."
+              onConfirm={() => handleWithdrawEvent(activity)}
+            />
           </div>
         ))}
     </>
