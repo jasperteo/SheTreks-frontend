@@ -1,6 +1,10 @@
 import FeedHeader from "./FeedHeader";
 
 export default function Feed() {
+  //extract all "to follow" id - user id
+  //map into all getAllCurrent
+  //pass into prop
+
   return (
     <>
       <FeedHeader />
