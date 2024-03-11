@@ -20,7 +20,7 @@ export default function UpcomingJoinedActCard() {
   const [participantId, setParticipantId] = useState(null);
   const queryClient = useQueryClient();
 
-  console.log("user", currentUser);
+  // console.log("user", currentUser);
 
   const upcomingJoinedActivity = useQuery({
     queryKey: [
@@ -32,7 +32,7 @@ export default function UpcomingJoinedActCard() {
     enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
-  console.log(upcomingJoinedActivity.data);
+  // console.log(upcomingJoinedActivity.data);
 
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",

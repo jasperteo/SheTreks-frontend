@@ -103,6 +103,41 @@ const formatDateandTime = (dateString) => {
   return formattedDate;
 };
 
+const formatDateMaskedTime = (dateString) => {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+  // get hours, hours is in 24-hour format
+  const hours = date.getHours();
+
+  let maskedTime = "";
+  switch (true) {
+    case hours >= 0 && hours < 4:
+      maskedTime = "Starts from the early morning";
+      break;
+    case hours >= 4 && hours < 12:
+      maskedTime = "Starts from the morning";
+      break;
+    case hours >= 12 && hours < 15:
+      maskedTime = "Starts from the early afternoon";
+      break;
+    case hours >= 15 && hours < 18:
+      maskedTime = "Starts from the late afternoon";
+      break;
+    case hours >= 18 && hours < 21:
+      maskedTime = "Starts from the evening";
+      break;
+    default:
+      maskedTime = "Starts from the night";
+  }
+
+  return `${formattedDate}, ${maskedTime}`;
+};
+
 export {
   locations,
   categories,
@@ -117,4 +152,5 @@ export {
   truncateText,
   categoryIcon,
   formatDateandTime,
+  formatDateMaskedTime,
 };

@@ -31,7 +31,7 @@ export default function UpcomingOrgActCard() {
   });
 
   // console.log(currentUser);
-  console.log(upcomingOrgActivity.data);
+  // console.log(upcomingOrgActivity.data);
 
   const { mutate } = useMutation({
     mutationKey: "deleteEvent",
@@ -141,15 +141,24 @@ export default function UpcomingOrgActCard() {
               <div>{activity?.description}</div>
               <div>{activity?.address}</div>
               {/* list of confirmed participants */}
-              {activity?.participants &&
-                activity?.participants.map((participant) =>
-                  participant?.status === true ? (
-                    <Fragment key={participant?.id}>
-                      <div className="font-semibold">Participants:</div>
-                      <UserSummProfile user={participant} />
-                    </Fragment>
-                  ) : null,
-                )}
+
+              {activity?.participants.some(
+                (participant) => participant?.status === true,
+              ) && <div className="font-semibold">Participants:</div>}
+              {activity?.participants
+                .filter((participant) => participant?.status === true)
+                .map((participant) => (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ))}
+
+              {activity?.participants.some(
+                (participant) => participant?.status === false,
+              ) && <div className="font-semibold">Pending Confirmation:</div>}
+              {activity?.participants
+                .filter((participant) => participant?.status === false)
+                .map((participant) => (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ))}
               {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
               {activity?.participants && (
                 <>
