@@ -30,6 +30,8 @@ export default function UpcomingJoinedActCard() {
     enabled: !!currentUser, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
+  console.log(upcomingJoinedActivity.data);
+
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",
     mutationFn: () =>

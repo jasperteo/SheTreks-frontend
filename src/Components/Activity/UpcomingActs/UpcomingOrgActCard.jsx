@@ -29,7 +29,7 @@ export default function UpcomingOrgActCard() {
   });
 
   // console.log(currentUser);
-  console.log(upcomingOrgActivity.data);
+  // console.log(upcomingOrgActivity.data);
 
   const handleDeleteEvent = () => {
     console.log("Event deleted!");
@@ -126,13 +126,33 @@ export default function UpcomingOrgActCard() {
             <div>{formatDateandTime(activity?.eventDate)}</div>
             <div>{activity?.address}</div>
             {/* list of confirmed participants */}
-            {activity?.participants.map(
+            {/* {activity?.participants.map(
               (participant) =>
                 !!participant?.status && (
                   <Fragment key={participant?.id}>
                     <div className="font-semibold">Participants:</div>
                     <UserSummProfile user={participant} />
                   </Fragment>
+                ),
+            )} */}
+
+            {activity?.participants.some(
+              (participant) => participant?.status,
+            ) && <div className="font-semibold">Participants:</div>}
+            {activity?.participants.map(
+              (participant) =>
+                participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ),
+            )}
+
+            {activity?.participants.some(
+              (participant) => !participant?.status,
+            ) && <div className="font-semibold">Pending Confirmation:</div>}
+            {activity?.participants.map(
+              (participant) =>
+                !participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
                 ),
             )}
             {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}

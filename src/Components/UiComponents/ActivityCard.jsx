@@ -6,7 +6,7 @@ import {
   BACKEND_URL,
   postRequest,
   CurrentUserContext,
-  formatDateandTime,
+  formatDateMaskedTime,
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState, useContext } from "react";
@@ -47,7 +47,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div className="font-semibold">{activity?.title}</div>
         <div className="font-light italic">
-          {formatDateandTime(activity?.eventDate)}
+          {formatDateMaskedTime(activity?.eventDate)}
           {/* {time} */}
         </div>
         <div>{activity.description}</div>

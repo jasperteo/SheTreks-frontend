@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import ActivityCard from "../UiComponents/ActivityCard";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
 import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
@@ -10,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
+  // console.log(currentUser);
 
   const followers = useQuery({
     queryKey: [
@@ -92,6 +92,7 @@ export default function Profile() {
         {currentUser?.lastName}
       </div>
       <div className="font-light italic">@{currentUser?.username}</div>
+      <div>📍</div>
       <div>{currentUser?.about}</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">

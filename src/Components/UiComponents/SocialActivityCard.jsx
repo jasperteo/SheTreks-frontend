@@ -6,6 +6,7 @@ import {
   BACKEND_URL,
   CurrentUserContext,
   categoryIcon,
+  formatDateMaskedTime,
   formatDateandTime,
   postRequest,
 } from "../lib/Constants";
@@ -58,9 +59,17 @@ export default function SocialActivityCard({ colour, activities, user }) {
             <div className="font-semibold">{activity?.title}</div>
 
             <div className="font-light italic">
-              {formatDateandTime(activity.eventDate)}
+              {new Date(activity?.eventDate) < new Date()
+                ? formatDateandTime(activity?.eventDate) // past events
+                : activity?.participants?.some(
+                      (participant) =>
+                        participant?.user.id === currentUser?.id &&
+                        participant?.status === true,
+                    )
+                  ? formatDateandTime(activity?.eventDate)
+                  : formatDateMaskedTime(activity?.eventDate)}
             </div>
-            <div>{activity.description}</div>
+            <div>{activity?.description}</div>
             <div className="items-left flex flex-col flex-wrap space-x-1 ">
               {activity.categories.map((category) => (
                 <div className={`${dPinkIcon}`} key={category?.id}>
@@ -88,40 +97,40 @@ export default function SocialActivityCard({ colour, activities, user }) {
                   ),
               )}
             </>
-
             {/* When I view another person's account, 
               //the card should show the join button if i am not the host, participant.
               //button should not appear in my profile when i view my profile.
               //the button should only be available in current section (future events) */}
-            {activity?.hostId !== currentUser?.id && (
-              <div className="card-body -mb-4">
-                {activity?.participants?.some(
-                  (participant) =>
-                    participant?.user.id === currentUser?.id &&
-                    !participant?.status,
-                ) ? (
-                  <button
-                    className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
-                    disabled
-                  >
-                    REQUESTED
-                  </button>
-                ) : (
-                  activity?.participants?.some(
+            {activity?.hostId !== currentUser?.id &&
+              new Date(activity?.eventDate) > new Date() && (
+                <div className="card-body -mb-4">
+                  {activity?.participants?.some(
                     (participant) =>
                       participant?.user.id === currentUser?.id &&
-                      participant?.status,
-                  ) || (
+                      !participant?.status,
+                  ) ? (
                     <button
                       className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
-                      onClick={() => handleClick(activity.id)}
+                      disabled
                     >
-                      JOIN NOW
+                      REQUESTED
                     </button>
-                  )
-                )}
-              </div>
-            )}
+                  ) : (
+                    activity?.participants?.some(
+                      (participant) =>
+                        participant?.user.id === currentUser?.id &&
+                        participant?.status,
+                    ) || (
+                      <button
+                        className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
+                        onClick={() => handleClick(activity.id)}
+                      >
+                        JOIN NOW
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
           </div>
         </div>
       ))}
