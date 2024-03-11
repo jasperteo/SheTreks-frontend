@@ -55,7 +55,7 @@ export default function ProfileOther() {
 
   const currentActivities = useQuery({
     queryKey: [
-      "pastActivities",
+      "currentActivities",
       `${BACKEND_URL}/activities/current/${userInfo?.data?.id}/`,
     ],
     queryFn: () =>

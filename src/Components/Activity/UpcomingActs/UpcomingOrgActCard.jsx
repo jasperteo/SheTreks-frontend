@@ -125,30 +125,26 @@ export default function UpcomingOrgActCard() {
               <div>{formatDateandTime(activity?.eventDate)}</div>
               <div>{activity?.address}</div>
               {/* list of confirmed participants */}
-              {activity?.participants &&
-                activity?.participants.map((participant) =>
-                  participant?.status === true ? (
+              {activity?.participants.map(
+                (participant) =>
+                  !!participant?.status && (
                     <Fragment key={participant?.id}>
                       <div className="font-semibold">Participants:</div>
                       <UserSummProfile user={participant} />
                     </Fragment>
-                  ) : null,
-                )}
+                  ),
+              )}
               {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
-              {activity?.participants && (
-                <>
-                  {activity.participants.some(
-                    (participant) => !participant.status,
-                  ) && (
-                    <Link to={`/activity/${activity.id}/request`}>
-                      <button
-                        className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-                      >
-                        VIEW REQUEST
-                      </button>
-                    </Link>
-                  )}
-                </>
+              {activity.participants.some(
+                (participant) => !participant.status,
+              ) && (
+                <Link to={`/activity/${activity.id}/request`}>
+                  <button
+                    className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                  >
+                    VIEW REQUEST
+                  </button>
+                </Link>
               )}
             </div>
           </div>
