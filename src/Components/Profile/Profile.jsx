@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const { data: followers } = useQuery({
     queryKey: [

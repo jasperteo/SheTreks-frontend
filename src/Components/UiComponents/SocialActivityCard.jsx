@@ -13,7 +13,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 
 export default function SocialActivityCard({ colour, activities, user }) {
-  // console.log(activities);
+  console.log(activities);
   // console.log(user);
 
   const currentUser = useContext(CurrentUserContext);
@@ -59,17 +59,17 @@ export default function SocialActivityCard({ colour, activities, user }) {
 
               <div className="font-light italic">
                 {new Date(activity?.eventDate) < new Date()
-                  ? formatDateandTime(activity.eventDate) // past events
+                  ? formatDateandTime(activity?.eventDate) // past events
                   : activity?.hostId !== currentUser?.id &&
                       !activity?.participants?.some(
                         (participant) =>
                           participant?.user.id === currentUser?.id &&
                           participant?.status === true,
                       )
-                    ? formatDateMaskedTime(activity.eventDate)
-                    : formatDateandTime(activity.eventDate)}
+                    ? formatDateMaskedTime(activity?.eventDate)
+                    : formatDateandTime(activity?.eventDate)}
               </div>
-              <div>{activity.description}</div>
+              <div>{activity?.description}</div>
               <div className="items-left flex flex-col flex-wrap space-x-1 ">
                 {activity.categories.map((category) => (
                   <div className={`${dPinkIcon}`} key={category?.id}>
@@ -90,18 +90,22 @@ export default function SocialActivityCard({ colour, activities, user }) {
                 </>
               )}
               {/* for the current page */}
-              {/* show list of paricipants when the length of participants' status = true is more than 1 */}
+              {/* show list of paricipants when the length of participants' status = true is more than 1 
+              Hide "Participant" status is true length's length is 0*/}
               {activity?.participants &&
-                activity.participants.some(
+                activity?.participants.some(
                   (participant) => participant?.status === true,
                 ) && (
                   <>
                     <div className="font-semibold">Participants:</div>
-                    {activity.participants
+                    {activity?.participants
                       .filter((participant) => participant?.status === true)
                       .map((participant) => (
                         <>
-                          <UserSummProfile user={participant} />
+                          <UserSummProfile
+                            key={currentUser?.clerkUid}
+                            user={participant}
+                          />
                         </>
                       ))}
                   </>
