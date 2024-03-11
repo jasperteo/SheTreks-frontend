@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ActivityCard from "../UiComponents/ActivityCard";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
-import PastActivityCard from "../UiComponents/PastActivityCard";
+import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
 import { UserButton } from "@clerk/clerk-react";
 import { CurrentUserContext, getRequest, BACKEND_URL } from "../lib/Constants";
 import { useContext } from "react";
@@ -61,6 +61,30 @@ export default function Profile() {
     );
   };
 
+  const pastActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/past/${currentUser?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/past/${currentUser?.id}`),
+    enabled: !!currentUser?.id,
+  });
+
+  // console.log(pastActivities.data);
+
+  const currentActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
+    enabled: !!currentUser?.id,
+  });
+
+  // console.log(currentActivities.data);
+
   return (
     <>
       <ProfileHeader />
@@ -80,30 +104,24 @@ export default function Profile() {
         </Link>
       </div>
       <div className="mb-6" />
-      {/* <TwoTabs
+      <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
         leftContent={
-          // <ActivityCard
-          //   accOwnerImage="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-          //   accOwnerUserName="Fiona"
-          //   accOwnerStatus="(Attendee)"
-          //   city="Hanoi"
-          //   country="Vietnam"
-          //   activityTitle="Fly Fly"
-          //   date="23 Jan 2023"
-          //   time="08:00AM"
-          //   activityDescription="Feel like a garbage bag!"
-          //   organiserImageURL="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-          //   organiserFirstName="Tay Tay"
-          //   organiserUsername="swiftieeee"
-          //   activityImageURL="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-          //   categoryApiId={1}
-          //   catergoryName="Fooddd"
-          // />
+          <SocialActivityCard
+            colour="primary"
+            user={currentUser}
+            activities={currentActivities.data}
+          />
         }
-        rightContent={<PastActivityCard userStatus="(Attendee)" />}
-      /> */}
+        rightContent={
+          <SocialActivityCard
+            colour="grey"
+            user={currentUser}
+            activities={pastActivities.data}
+          />
+        }
+      />
     </>
   );
 }
