@@ -3,7 +3,7 @@ import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   CurrentUserContext,
@@ -17,6 +17,7 @@ import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
 export default function UpcomingOrgActCard() {
   const currentUser = useContext(CurrentUserContext);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const queryClient = useQueryClient();
 
   const upcomingOrgActivity = useQuery({
     queryKey: [

@@ -18,6 +18,7 @@ export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [participantId, setParticipantId] = useState(null);
+  const queryClient = useQueryClient();
 
   console.log("user", currentUser);
 
@@ -38,7 +39,10 @@ export default function UpcomingJoinedActCard() {
     mutationFn: () =>
       deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
     onSuccess: () => {
-      upcomingJoinedActivity.refetch();
+      queryClient.setQueryData([
+        "upcomingJoinedActs",
+        `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
+      ]);
       document.getElementById("withdraw-event").close();
     },
   });
