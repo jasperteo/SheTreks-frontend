@@ -1,5 +1,5 @@
-import FollowBlock from "./Profile/FollowBlock";
-import TwoTabs from "./UiComponents/TwoTabs";
+import FollowBlock from "./FollowBlock";
+import TwoTabs from "../UiComponents/TwoTabs";
 
 export default function Following() {
   return (

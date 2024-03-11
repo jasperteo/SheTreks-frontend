@@ -12,7 +12,7 @@ import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
 import ProfileOther from "./Components/Profile/ProfileOther";
 import Home from "./Components/Home";
-import Following from "./Components/Following";
+import Following from "./Components/Profile/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
 import Feed from "./Components/Feed/Feed";
 import {
