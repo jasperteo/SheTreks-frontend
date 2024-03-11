@@ -4,11 +4,32 @@ import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
 import PastActivityCard from "../UiComponents/PastActivityCard";
 import { UserButton } from "@clerk/clerk-react";
-import { CurrentUserContext } from "../lib/Constants";
+import { CurrentUserContext, getRequest, BACKEND_URL } from "../lib/Constants";
 import { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
+
+  const { data: followers } = useQuery({
+    queryKey: [
+      "followers",
+      `${BACKEND_URL}/users/followers/${currentUser?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/followers/${currentUser?.id}`),
+    enabled: !!currentUser,
+  });
+
+  const { data: following } = useQuery({
+    queryKey: [
+      "following",
+      `${BACKEND_URL}/users/following/${currentUser?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/following/${currentUser?.id}`),
+    enabled: !!currentUser,
+  });
 
   const ProfileHeader = () => {
     return (
@@ -25,10 +46,14 @@ export default function Profile() {
         <Link to="/profile/follow" className="flex-auto">
           <div className="flex w-full justify-between">
             <div className={`${semiBoldTxCen} w-1/2`}>
-              0 <br /> FOLLOWERS
+              {!!followers && followers.count}
+              <br />
+              FOLLOWERS
             </div>
             <div className={`${semiBoldTxCen} w-1/2  `}>
-              0 <br /> FOLLOWING
+              {!!following && following.count}
+              <br />
+              FOLLOWING
             </div>
           </div>
         </Link>
