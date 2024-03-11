@@ -1,7 +1,7 @@
 import UserSummProfile from "./UserSummProfile";
 import RoundedAvatar from "./RoundedAvatar";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   BACKEND_URL,
   CurrentUserContext,
@@ -98,12 +98,7 @@ export default function SocialActivityCard({ colour, activities, user }) {
                   (participant) => participant?.status === true,
                 ) && (
                   <>
-                    <div
-                      className="font-semibold"
-                      key={`${currentUser?.clerkUid}sdasd`}
-                    >
-                      Participants:
-                    </div>
+                    <div className="font-semibold">Participants:</div>
                     {activity?.participants
                       .filter((participant) => participant?.status === true)
                       .map((participant) => (

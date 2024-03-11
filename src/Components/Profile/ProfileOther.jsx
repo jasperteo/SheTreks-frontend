@@ -17,7 +17,7 @@ export default function ProfileOther() {
       getRequest(`${BACKEND_URL}/users/profile/${params.username}`),
   });
 
-  console.log(userInfo.data);
+  // console.log(userInfo.data);
 
   const ProfileHeader = () => {
     return (

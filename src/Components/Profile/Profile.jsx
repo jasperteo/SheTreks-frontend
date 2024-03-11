@@ -94,7 +94,7 @@ export default function Profile() {
         {currentUser?.lastName}
       </div>
       <div className="font-light italic">@{currentUser?.username}</div>
-      <div>Destination City 📍</div>
+      <div>📍</div>
       <div>{currentUser?.about}</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">
