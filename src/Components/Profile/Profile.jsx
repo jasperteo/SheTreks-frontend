@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Profile() {
   const currentUser = useContext(CurrentUserContext);
 
-  const { data: followers } = useQuery({
+  const followers = useQuery({
     queryKey: [
       "followers",
       `${BACKEND_URL}/users/followers/${currentUser?.id}`,
@@ -21,7 +21,7 @@ export default function Profile() {
     enabled: !!currentUser,
   });
 
-  const { data: following } = useQuery({
+  const following = useQuery({
     queryKey: [
       "following",
       `${BACKEND_URL}/users/following/${currentUser?.id}`,
@@ -31,6 +31,29 @@ export default function Profile() {
     enabled: !!currentUser,
   });
 
+  const pastActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/past/${currentUser?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/past/${currentUser?.id}`),
+    enabled: !!currentUser,
+  });
+
+  // console.log(pastActivities.data);
+
+  const currentActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
+    enabled: !!currentUser,
+  });
+
+  // console.log(currentActivities.data);
   const ProfileHeader = () => {
     return (
       <div className="flex items-center">
@@ -46,12 +69,12 @@ export default function Profile() {
         <Link to="/profile/follow" className="flex-auto">
           <div className="flex w-full justify-between">
             <div className={`${semiBoldTxCen} w-1/2`}>
-              {!!followers && followers.count}
+              {followers?.data?.count}
               <br />
               FOLLOWERS
             </div>
             <div className={`${semiBoldTxCen} w-1/2  `}>
-              {!!following && following.count}
+              {following?.data?.count}
               <br />
               FOLLOWING
             </div>
@@ -60,30 +83,6 @@ export default function Profile() {
       </div>
     );
   };
-
-  const pastActivities = useQuery({
-    queryKey: [
-      "pastActivities",
-      `${BACKEND_URL}/activities/past/${currentUser?.id}/`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/past/${currentUser?.id}`),
-    enabled: !!currentUser?.id,
-  });
-
-  // console.log(pastActivities.data);
-
-  const currentActivities = useQuery({
-    queryKey: [
-      "pastActivities",
-      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
-    enabled: !!currentUser?.id,
-  });
-
-  // console.log(currentActivities.data);
 
   return (
     <>

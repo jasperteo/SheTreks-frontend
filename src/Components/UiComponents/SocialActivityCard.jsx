@@ -12,14 +12,8 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function SocialActivityCard({ colour, activities, user }) {
-  console.log(activities);
-  // console.log(user);
-
   const currentUser = useContext(CurrentUserContext);
   const queryClient = useQueryClient();
-
-  const handleClick = (activityId) =>
-    mutateJoin({ activityId, userId: currentUser.id });
 
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
@@ -35,6 +29,9 @@ export default function SocialActivityCard({ colour, activities, user }) {
         ],
       }),
   });
+
+  const handleClick = (activityId) =>
+    mutateJoin({ activityId, userId: currentUser.id });
 
   return (
     <div>
