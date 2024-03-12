@@ -69,6 +69,8 @@ export default function ActivityCard({ activity }) {
           {/* {time} */}
         </div>
         <div>{activity?.description}</div>
+        <div>Estimated Group Size: {activity?.group_size?.size}</div>
+        <div>{activity?.address}</div>
         <div className="items-left flex flex-col flex-wrap space-x-1 ">
           {activity.categories.map((category) => (
             <div className={`${dPinkIcon}`} key={category?.id}>
@@ -81,11 +83,13 @@ export default function ActivityCard({ activity }) {
         <div className="font-semibold">Organiser:</div>
         <UserSummProfile user={activity} />
       </div>
-      <img
-        className="-mt-2 object-none"
-        src={activity?.imageUrl}
-        alt="Activity Image"
-      />
+      {activity?.imageUrl && (
+        <img
+          className="mt-2 object-none"
+          src={activity.imageUrl}
+          alt="Activity Image"
+        />
+      )}
       <IndividualMap activity={activity} />
 
       {/* do not show the join now button if user is an attendee */}

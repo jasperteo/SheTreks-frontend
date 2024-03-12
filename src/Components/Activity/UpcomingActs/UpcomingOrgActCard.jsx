@@ -42,7 +42,6 @@ export default function UpcomingOrgActCard() {
 
   const handleDeleteEvent = (activity) => {
     console.log("Event deleted!", activity);
-
     mutate(activity);
     document.getElementById(`delete-event-${activity.id}`).close();
   };
@@ -92,6 +91,7 @@ export default function UpcomingOrgActCard() {
             <div>{formatDateandTime(activity?.eventDate)}</div>
             <div>{activity?.description}</div>
             <div>{activity?.address}</div>
+            <div>Estimated Group Size: {activity?.group_size?.size}</div>
             {/* list of confirmed participants */}
 
             {activity?.participants.some(
@@ -113,6 +113,7 @@ export default function UpcomingOrgActCard() {
                   <UserSummProfile key={participant?.id} user={participant} />
                 ),
             )}
+            <IndividualMap activity={activity} />
             {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
             {activity.participants.some(
               (participant) => !participant.status,

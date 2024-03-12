@@ -36,6 +36,8 @@ export default function SingleAct() {
         {singleActivity?.data?.location.country}
       </div>
       <div>{formatDateandTime(singleActivity?.data?.eventDate)}</div>
+      <div>Estimated Group Size: {singleActivity?.data?.group_size?.size}</div>
+      <div>{singleActivity?.data?.address}</div>
       {/* confirmed participants' are true, request are false. Delete declined request*/}
       {singleActivity?.data?.participants.map((participant) =>
         participant.status ? (
