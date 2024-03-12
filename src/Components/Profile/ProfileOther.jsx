@@ -40,7 +40,7 @@ export default function ProfileOther() {
   });
 
   // console.log(currentActivities.data);
-  // console.log(userInfo.data);
+  console.log(userInfo.data);
 
   const ProfileHeader = () => {
     return (

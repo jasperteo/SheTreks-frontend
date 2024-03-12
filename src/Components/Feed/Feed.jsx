@@ -29,7 +29,7 @@ export default function Feed() {
     enabled: !!currentUser?.id,
   });
 
-  // console.log(feedActivities.data);
+  console.log(feedActivities.data);
 
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
@@ -71,9 +71,7 @@ export default function Feed() {
               <div className="font-semibold">
                 {activity?.location?.city}, {activity?.location?.country}
               </div>
-
               <div className="font-semibold">{activity?.title}</div>
-
               <div className="font-light italic">
                 {new Date(activity?.eventDate) < new Date()
                   ? formatDateandTime(activity?.eventDate) // past events
@@ -81,7 +79,7 @@ export default function Feed() {
                         (participant) =>
                           participant?.user.id === currentUser?.id &&
                           participant?.status === true,
-                      )
+                      ) || activity?.user?.id === currentUser?.id
                     ? formatDateandTime(activity?.eventDate)
                     : formatDateMaskedTime(activity?.eventDate)}
               </div>
@@ -99,10 +97,8 @@ export default function Feed() {
                   </div>
                 ))}
               </div>
-
               <div className="font-semibold">Organiser:</div>
               <UserSummProfile user={activity} key={activity?.user?.id} />
-
               {activity?.participants?.some(
                 (participant) => !!participant?.status,
               ) && (
@@ -119,6 +115,14 @@ export default function Feed() {
                   )}
                 </>
               )}
+              {activity?.imageUrl && (
+                <img
+                  className="mt-2 object-none"
+                  src={activity.imageUrl}
+                  alt="Activity Image"
+                />
+              )}
+
               <IndividualMap activity={activity} />
 
               {activity?.hostId !== currentUser?.id &&

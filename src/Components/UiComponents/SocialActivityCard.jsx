@@ -66,11 +66,13 @@ export default function SocialActivityCard({ colour, activities, user }) {
                       (participant) =>
                         participant?.user.id === currentUser?.id &&
                         participant?.status === true,
-                    )
+                    ) || activity?.hostId === currentUser?.id
                   ? formatDateandTime(activity?.eventDate)
                   : formatDateMaskedTime(activity?.eventDate)}
             </div>
             <div>{activity?.description}</div>
+            <div>Estimated Group Size: {activity?.group_size?.size}</div>
+            <div>{activity?.address}</div>
             <div className="items-left flex flex-col flex-wrap space-x-1 ">
               {activity.categories.map((category) => (
                 <div className={`${dPinkIcon}`} key={category?.id}>
@@ -89,16 +91,22 @@ export default function SocialActivityCard({ colour, activities, user }) {
             )}
             {/* for the current page */}
             {/* show list of paricipants when the length of participants' status = true is more than 1 */}
-            <>
-              <div className="font-semibold">Participants:</div>
-              {activity?.participants?.map(
-                (participant) =>
-                  !!participant?.status && (
-                    <UserSummProfile user={participant} key={participant?.id} />
-                  ),
-              )}
-            </>
-
+            {activity?.participants?.some(
+              (participant) => !!participant?.status,
+            ) && (
+              <>
+                <div className="font-semibold">Participants:</div>
+                {activity?.participants?.map(
+                  (participant) =>
+                    !!participant?.status && (
+                      <UserSummProfile
+                        user={participant}
+                        key={participant?.id}
+                      />
+                    ),
+                )}
+              </>
+            )}
             <IndividualMap activity={activity} />
             {/* When I view another person's account, 
               //the card should show the join button if i am not the host, participant.
