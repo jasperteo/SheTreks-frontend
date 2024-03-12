@@ -29,7 +29,10 @@ export default function Feed() {
     enabled: !!currentUser?.id,
   });
 
-  console.log(feedActivities.data);
+  const { mutate: sendJoinRequestNotif } = useMutation({
+    mutationFn: (data) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, data),
+  });
 
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
@@ -46,8 +49,17 @@ export default function Feed() {
       }),
   });
 
-  const handleClick = (activityId) =>
-    mutateJoin({ activityId, userId: currentUser.id });
+  const handleClick = (activity) => {
+    const { id, title, host } = activity;
+    mutateJoin({ activityId: id, userId: currentUser.id });
+    sendJoinRequestNotif({
+      notifMessage: `${currentUser?.username} would like to join "${title}"`,
+      senderId: currentUser.id,
+      recipientId: host,
+    });
+  };
+
+  // console.log(feedActivities.data);
 
   return (
     <>
@@ -147,7 +159,13 @@ export default function Feed() {
                       ) || (
                         <button
                           className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
-                          onClick={() => handleClick(activity.id)}
+                          onClick={() =>
+                            handleClick({
+                              id: activity?.id,
+                              title: activity?.title,
+                              host: activity?.hostId,
+                            })
+                          }
                         >
                           JOIN NOW
                         </button>

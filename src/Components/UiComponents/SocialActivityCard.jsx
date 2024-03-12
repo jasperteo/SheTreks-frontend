@@ -17,6 +17,11 @@ export default function SocialActivityCard({ colour, activities, user }) {
   const currentUser = useContext(CurrentUserContext);
   const queryClient = useQueryClient();
 
+  const { mutate: sendJoinRequestNotif } = useMutation({
+    mutationFn: (data) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, data),
+  });
+
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
       postRequest(
@@ -32,8 +37,15 @@ export default function SocialActivityCard({ colour, activities, user }) {
       }),
   });
 
-  const handleClick = (activityId) =>
-    mutateJoin({ activityId, userId: currentUser.id });
+  const handleClick = (activity) => {
+    const { id, title, host } = activity;
+    mutateJoin({ activityId: id, userId: currentUser.id });
+    sendJoinRequestNotif({
+      notifMessage: `${currentUser?.username} would like to join "${title}"`,
+      senderId: currentUser.id,
+      recipientId: host,
+    });
+  };
 
   return (
     <div>
@@ -134,7 +146,13 @@ export default function SocialActivityCard({ colour, activities, user }) {
                     ) || (
                       <button
                         className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
-                        onClick={() => handleClick(activity.id)}
+                        onClick={() =>
+                          handleClick({
+                            id: activity?.id,
+                            title: activity?.title,
+                            host: activity?.hostId,
+                          })
+                        }
                       >
                         JOIN NOW
                       </button>
