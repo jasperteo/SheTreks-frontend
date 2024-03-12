@@ -16,11 +16,8 @@ import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
-  const [selectedPlace, setSelectedPlace] = useState(null);
   const [participantId, setParticipantId] = useState(null);
   const queryClient = useQueryClient();
-
-  // console.log("user", currentUser);
 
   const upcomingJoinedActivity = useQuery({
     queryKey: [
@@ -29,10 +26,10 @@ export default function UpcomingJoinedActCard() {
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/joinedByUser/${currentUser?.id}`),
-    enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
+    enabled: !!currentUser, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
-  // console.log(upcomingJoinedActivity.data);
+  console.log(upcomingJoinedActivity.data);
 
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",
@@ -52,16 +49,17 @@ export default function UpcomingJoinedActCard() {
       (participant) => participant.userId === currentUser?.id,
     );
     console.log("Participant ID:", activity);
-    setParticipantId(id);
+
+    //Do not delete, may need to store participant info for notif
+    // setParticipantId(id);
 
     mutate(id);
   };
 
   return (
     <>
-      <IndividualMap activity={activity} />
-      {upcomingJoinedActivity.data &&
-        upcomingJoinedActivity.data.map((activity) => (
+      <>
+        {upcomingJoinedActivity?.data?.map((activity) => (
           <div
             key={activity.id}
             className="lg:card-sides card mt-8 bg-grey shadow-xl"
@@ -92,7 +90,7 @@ export default function UpcomingJoinedActCard() {
                   class="text-3xl text-neutral"
                   onClick={() =>
                     document
-                      .getElementById(`withdraw-event-${activity.id}`)
+                      .getElementById(`withdraw-event${activity.id}`)
                       .showModal()
                   }
                 />
@@ -108,15 +106,18 @@ export default function UpcomingJoinedActCard() {
                 <UserSummProfile key={participant?.id} user={participant} />
               ))}
             </div>
+            <IndividualMap activity={activity} />
+
             <PopUpConfirmation
-              id={`withdraw-event-${activity.id}`}
-              option="Withdraw"
-              title={activity.title}
+              id={`withdraw-event${activity.id}`}
+              option="Withdraw from"
+              title={activity?.title}
               message="By agreeing, we will withdraw you from the event."
               onConfirm={() => handleWithdrawEvent(activity)}
             />
           </div>
         ))}
+      </>
     </>
   );
 }
