@@ -96,50 +96,47 @@ export default function UpcomingOrgActCard() {
             {/* list of confirmed participants */}
 
             {activity?.participants.some(
-              (participant) => participant?.status === true,
+              (participant) => participant?.status,
             ) && <div className="font-semibold">Participants:</div>}
-            {activity?.participants
-              .filter((participant) => participant?.status === true)
-              .map((participant) => (
-                <UserSummProfile key={participant?.id} user={participant} />
-              ))}
+            {activity?.participants.map(
+              (participant) =>
+                participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ),
+            )}
 
             {activity?.participants.some(
-              (participant) => participant?.status === false,
+              (participant) => !participant?.status,
             ) && <div className="font-semibold">Pending Confirmation:</div>}
-            {activity?.participants
-              .filter((participant) => participant?.status === false)
-              .map((participant) => (
-                <UserSummProfile key={participant?.id} user={participant} />
-              ))}
-            {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
-            {activity?.participants && (
-              <>
-                {activity.participants.some(
-                  (participant) => !participant.status,
-                ) && (
-                  <Link to={`/activity/${activity.id}/request`}>
-                    <button
-                      className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-                    >
-                      VIEW REQUEST
-                    </button>
-                  </Link>
-                )}
-              </>
+            {activity?.participants.map(
+              (participant) =>
+                !participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ),
             )}
-            <IndividualMap activity={activity} />
+            {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
+            {activity.participants.some(
+              (participant) => !participant.status,
+            ) && (
+              <Link to={`/activity/${activity.id}/request`}>
+                <button
+                  className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                >
+                  VIEW REQUEST
+                </button>
+              </Link>
+            )}
           </div>
-          {/* pop up modal */}
           <PopUpConfirmation
-            id={`delete-event-${activity.id}`}
+            id={`delete-event${activity.id}`}
             option="Delete"
             title={activity.title}
             message="By agreeing, the event will be permanently deleted."
-            onConfirm={() => handleDeleteEvent(activity)}
+            onConfirm={handleDeleteEvent}
           />
         </div>
       ))}
+      {/* pop up modal */}
     </>
   );
 }
