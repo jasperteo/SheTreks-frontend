@@ -126,9 +126,15 @@ export default function UpcomingOrgActCard() {
                 </button>
               </Link>
             )}
+            <img
+              className="-mt-2 object-none"
+              src={activity?.imageUrl}
+              alt="Activity Image"
+            />
+            <IndividualMap activity={activity} />
           </div>
           <PopUpConfirmation
-            id={`delete-event${activity.id}`}
+            id={`delete-event-${activity.id}`}
             option="Delete"
             title={activity.title}
             message="By agreeing, the event will be permanently deleted."

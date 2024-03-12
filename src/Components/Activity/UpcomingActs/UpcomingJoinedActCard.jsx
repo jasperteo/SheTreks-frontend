@@ -66,9 +66,8 @@ export default function UpcomingJoinedActCard() {
     setParticipantId(data.id);
     setNotifData({
       recipientId: activity.hostId,
-      senderId: data.id,
+      senderId: currentUser?.id,
       notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has withdrawn from your event, ${activity.title}.`,
-      read: false,
     });
 
     mutate();
