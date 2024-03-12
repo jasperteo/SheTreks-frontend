@@ -11,14 +11,17 @@ import {
   formatDateandTime,
   getRequest,
   deleteRequest,
+  postRequest,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
   const [participantId, setParticipantId] = useState(null);
+  const [notifData, setNotifData] = useState({});
   const queryClient = useQueryClient();
 
+  //Gets users's upcoming joined events upon page load
   const upcomingJoinedActivity = useQuery({
     queryKey: [
       "upcomingJoinedActs",
@@ -31,29 +34,44 @@ export default function UpcomingJoinedActCard() {
 
   console.log(upcomingJoinedActivity.data);
 
+  //Posts requests for notification triggered when user withdraws from event
+  const { mutate: withdrawNotification } = useMutation({
+    mutationKey: "withdrawEventNotification",
+    mutationFn: (notifData) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+  });
+
+  //Delete request to remove user from specific activity
   const { mutate } = useMutation({
     mutationKey: "withdrawEvent",
-    mutationFn: (id) =>
-      deleteRequest(`${BACKEND_URL}/activities/participants/${id}`),
-    onSuccess: () =>
+    mutationFn: () =>
+      deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
+    onSuccess: () => {
+      withdrawNotification(notifData);
       queryClient.invalidateQueries([
         "upcomingJoinedActs",
         `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
-      ]),
+      ]);
+    },
   });
 
   const handleWithdrawEvent = (activity) => {
     console.log("activity", activity);
     // Find the participant whose userId matches currentUserId
-    const { id } = activity.participants.find(
+    const data = activity.participants.find(
       (participant) => participant.userId === currentUser?.id,
     );
-    console.log("Participant ID:", activity);
+    console.log("Participant ID:", data);
 
-    //Do not delete, may need to store participant info for notif
-    // setParticipantId(id);
+    setParticipantId(data.id);
+    setNotifData({
+      recipientId: activity.hostId,
+      senderId: data.id,
+      notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has withdrawn from your event, ${activity.title}.`,
+      read: false,
+    });
 
-    mutate(id);
+    mutate();
   };
 
   return (
@@ -105,6 +123,11 @@ export default function UpcomingJoinedActCard() {
               {activity?.participants?.map((participant) => (
                 <UserSummProfile key={participant?.id} user={participant} />
               ))}
+              <img
+                className="-mt-2 object-none"
+                src={activity?.imageUrl}
+                alt="Activity Image"
+              />
               <IndividualMap activity={activity} />
             </div>
 
