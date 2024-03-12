@@ -12,7 +12,6 @@ import {
   deleteRequest,
 } from "../../lib/Constants";
 import { useContext, useState } from "react";
-import { Fragment } from "react";
 import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingOrgActCard() {
@@ -43,7 +42,6 @@ export default function UpcomingOrgActCard() {
 
   const handleDeleteEvent = (activity) => {
     console.log("Event deleted!", activity);
-
     mutate(activity);
     document.getElementById(`delete-event-${activity.id}`).close();
   };
