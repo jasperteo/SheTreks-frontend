@@ -11,7 +11,6 @@ import {
   getRequest,
 } from "../../lib/Constants";
 import { useContext, useState } from "react";
-import { Fragment } from "react";
 import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
 
 export default function UpcomingOrgActCard() {
@@ -126,15 +125,6 @@ export default function UpcomingOrgActCard() {
             <div>{formatDateandTime(activity?.eventDate)}</div>
             <div>{activity?.address}</div>
             {/* list of confirmed participants */}
-            {/* {activity?.participants.map(
-              (participant) =>
-                !!participant?.status && (
-                  <Fragment key={participant?.id}>
-                    <div className="font-semibold">Participants:</div>
-                    <UserSummProfile user={participant} />
-                  </Fragment>
-                ),
-            )} */}
 
             {activity?.participants.some(
               (participant) => participant?.status,

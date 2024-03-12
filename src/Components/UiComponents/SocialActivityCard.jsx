@@ -60,7 +60,7 @@ export default function SocialActivityCard({ colour, activities, user }) {
 
             <div className="font-light italic">
               {new Date(activity?.eventDate) < new Date()
-                ? formatDateandTime(activity?.eventDate) // past events
+                ? formatDateandTime(activity?.eventDate)
                 : activity?.participants?.some(
                       (participant) =>
                         participant?.user.id === currentUser?.id &&
