@@ -10,7 +10,6 @@ import {
   postRequest,
 } from "../lib/Constants";
 import { useContext } from "react";
-import SocialActivityCard from "../UiComponents/SocialActivityCard";
 import RoundedAvatar from "../UiComponents/RoundedAvatar";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
 import UserSummProfile from "../UiComponents/UserSummProfile";
@@ -22,10 +21,10 @@ export default function Feed() {
   const feedActivities = useQuery({
     queryKey: [
       "feedActivitieis",
-      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
+      `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
+      getRequest(`${BACKEND_URL}/activities/feed/${currentUser?.id}`),
     enabled: !!currentUser?.id,
   });
 
@@ -40,8 +39,8 @@ export default function Feed() {
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: [
-          "currentActivities",
-          `${BACKEND_URL}/activities/current/${user?.id}/`,
+          "feedActivitieis",
+          `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
         ],
       }),
   });
@@ -66,9 +65,6 @@ export default function Feed() {
                 {/* to indicidate if user is an attendee */}
                 <div className="ml-2 mt-1 flex-auto font-light italic">
                   {`@${activity?.user?.username}`}
-                  {activity?.hostId !== currentUser?.id
-                    ? " (Attendee)"
-                    : " (Organiser)"}
                 </div>
               </div>
               <div className="font-semibold">
@@ -89,6 +85,7 @@ export default function Feed() {
                     : formatDateMaskedTime(activity?.eventDate)}
               </div>
               <div>{activity?.description}</div>
+              <div>Estimated Group Size: {activity?.group_size?.size}</div>
               <div className="items-left flex flex-col flex-wrap space-x-1 ">
                 {activity.categories.map((category) => (
                   <div className={`${dPinkIcon}`} key={category?.id}>
@@ -100,26 +97,28 @@ export default function Feed() {
                   </div>
                 ))}
               </div>
-              {/* remove organiser section if user is the organiser */}
 
-              {activity?.hostId !== currentUser?.id && (
-                <>
-                  <div className="font-semibold">Organiser:</div>
-                  <UserSummProfile user={activity} key={activity?.user?.id} />
-                </>
-              )}
+              <div className="font-semibold">Organiser:</div>
+              <UserSummProfile user={activity} key={activity?.user?.id} />
+
               {/* for the current page */}
               {/* show list of paricipants when the length of participants' status = true is more than 1 */}
               <>
-                <div className="font-semibold">Participants:</div>
-                {activity?.participants?.map(
-                  (participant) =>
-                    !!participant?.status && (
-                      <UserSummProfile
-                        user={participant}
-                        key={participant?.id}
-                      />
-                    ),
+                {activity?.participants?.some(
+                  (participant) => !!participant?.status,
+                ) && (
+                  <>
+                    <div className="font-semibold">Participants:</div>
+                    {activity?.participants?.map(
+                      (participant) =>
+                        !!participant?.status && (
+                          <UserSummProfile
+                            user={participant}
+                            key={participant?.id}
+                          />
+                        ),
+                    )}
+                  </>
                 )}
               </>
               {/* When I view another person's account, 
