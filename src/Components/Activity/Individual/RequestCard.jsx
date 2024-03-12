@@ -14,8 +14,6 @@ export default function RequestCard({ participant }) {
   const queryClient = useQueryClient();
   const params = useParams();
 
-  console.log("test", participant);
-
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
@@ -41,10 +39,6 @@ export default function RequestCard({ participant }) {
         ],
       }),
   });
-
-  const handleAccept = (participant) => {
-    console.log(participant);
-  };
 
   return (
     <>
@@ -81,13 +75,12 @@ export default function RequestCard({ participant }) {
           </button>
         </div>
       </div>
-
       <PopUpConfirmation
         id={`accept-user${participant?.id}`}
         option="Accept"
         title="user participation?"
         message="By agreeing, user can participate in the activity."
-        onConfirm={() => handleAccept(participant)}
+        onConfirm={mutateAccept}
       />
       <PopUpConfirmation
         id={`decline-user${participant?.id}`}
