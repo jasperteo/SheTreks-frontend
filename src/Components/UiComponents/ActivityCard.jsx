@@ -31,17 +31,18 @@ export default function ActivityCard({ activity }) {
         `${BACKEND_URL}/activities/${activity.id}/participants`,
         data,
       ),
-    onSuccess: () => setRequestSent(true),
+    onSuccess: () => {
+      requestToJoinNotification(notifData), setRequestSent(true);
+    },
   });
 
   //Handles the click event for the join now button
   //Posts requests to the backend to join the activity
   const handleClick = () => {
     setNotifData({
-      recipientId: activity.hostId,
-      senderId: currentUser.id,
+      recipientId: activity?.hostId,
+      senderId: currentUser?.id,
       notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has requested to join your event, ${activity.title}.`,
-      read: false,
     });
 
     mutate({ userId: currentUser.id });

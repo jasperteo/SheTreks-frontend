@@ -47,11 +47,11 @@ export default function UpcomingJoinedActCard() {
     mutationFn: () =>
       deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
     onSuccess: () => {
-      withdrawNotification(notifData);
-      queryClient.invalidateQueries([
-        "upcomingJoinedActs",
-        `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
-      ]);
+      withdrawNotification(notifData),
+        queryClient.invalidateQueries([
+          "upcomingJoinedActs",
+          `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
+        ]);
     },
   });
 
