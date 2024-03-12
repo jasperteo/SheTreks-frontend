@@ -11,6 +11,7 @@ import {
   postRequest,
 } from "../lib/Constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import IndividualMap from "./Map";
 
 export default function SocialActivityCard({ colour, activities, user }) {
   const currentUser = useContext(CurrentUserContext);
@@ -97,6 +98,8 @@ export default function SocialActivityCard({ colour, activities, user }) {
                   ),
               )}
             </>
+
+            <IndividualMap activity={activity} />
             {/* When I view another person's account, 
               //the card should show the join button if i am not the host, participant.
               //button should not appear in my profile when i view my profile.

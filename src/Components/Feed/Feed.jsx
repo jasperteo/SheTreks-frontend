@@ -13,6 +13,7 @@ import { useContext } from "react";
 import RoundedAvatar from "../UiComponents/RoundedAvatar";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
 import UserSummProfile from "../UiComponents/UserSummProfile";
+import IndividualMap from "../UiComponents/Map";
 
 export default function Feed() {
   const currentUser = useContext(CurrentUserContext);
@@ -28,7 +29,7 @@ export default function Feed() {
     enabled: !!currentUser?.id,
   });
 
-  console.log(feedActivities.data);
+  // console.log(feedActivities.data);
 
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
@@ -86,6 +87,7 @@ export default function Feed() {
               </div>
               <div>{activity?.description}</div>
               <div>Estimated Group Size: {activity?.group_size?.size}</div>
+              <div>{activity?.address}</div>
               <div className="items-left flex flex-col flex-wrap space-x-1 ">
                 {activity.categories.map((category) => (
                   <div className={`${dPinkIcon}`} key={category?.id}>
@@ -101,30 +103,24 @@ export default function Feed() {
               <div className="font-semibold">Organiser:</div>
               <UserSummProfile user={activity} key={activity?.user?.id} />
 
-              {/* for the current page */}
-              {/* show list of paricipants when the length of participants' status = true is more than 1 */}
-              <>
-                {activity?.participants?.some(
-                  (participant) => !!participant?.status,
-                ) && (
-                  <>
-                    <div className="font-semibold">Participants:</div>
-                    {activity?.participants?.map(
-                      (participant) =>
-                        !!participant?.status && (
-                          <UserSummProfile
-                            user={participant}
-                            key={participant?.id}
-                          />
-                        ),
-                    )}
-                  </>
-                )}
-              </>
-              {/* When I view another person's account, 
-              //the card should show the join button if i am not the host, participant.
-              //button should not appear in my profile when i view my profile.
-              //the button should only be available in current section (future events) */}
+              {activity?.participants?.some(
+                (participant) => !!participant?.status,
+              ) && (
+                <>
+                  <div className="font-semibold">Participants:</div>
+                  {activity?.participants?.map(
+                    (participant) =>
+                      !!participant?.status && (
+                        <UserSummProfile
+                          user={participant}
+                          key={participant?.id}
+                        />
+                      ),
+                  )}
+                </>
+              )}
+              <IndividualMap activity={activity} />
+
               {activity?.hostId !== currentUser?.id &&
                 new Date(activity?.eventDate) > new Date() && (
                   <div className="card-body -mb-4">
