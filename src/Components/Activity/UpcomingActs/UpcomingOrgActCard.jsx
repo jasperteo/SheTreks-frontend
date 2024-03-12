@@ -13,7 +13,7 @@ import {
 } from "../../lib/Constants";
 import { useContext, useState } from "react";
 import { Fragment } from "react";
-import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
+import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useContext(CurrentUserContext);
@@ -30,9 +30,6 @@ export default function UpcomingOrgActCard() {
     enabled: !!currentUser, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
-  // console.log(currentUser);
-  // console.log(upcomingOrgActivity.data);
-
   const { mutate } = useMutation({
     mutationKey: "deleteEvent",
     mutationFn: (activity) =>
@@ -47,55 +44,12 @@ export default function UpcomingOrgActCard() {
   const handleDeleteEvent = (activity) => {
     console.log("Event deleted!", activity);
 
-    mutate();
+    mutate(activity);
     document.getElementById(`delete-event-${activity.id}`).close();
   };
 
   return (
     <>
-      <div id="upcoming-map" style={{ height: "40vh", width: "100%" }}>
-        <Map
-          defaultCenter={{
-            lat: 1.287953,
-            lng: 103.851784,
-          }}
-          defaultZoom={12}
-          mapId="upcoming-map"
-        >
-          {upcomingOrgActivity?.data &&
-            upcomingOrgActivity.data.map((activity) => (
-              <AdvancedMarker
-                key={activity.id}
-                position={{
-                  lat: activity?.latitude,
-                  lng: activity?.longitude,
-                }}
-                offsetLeft={-20}
-                offsetTop={-10}
-                title={activity?.title}
-                onClick={() => {
-                  activity === selectedPlace
-                    ? setSelectedPlace(null)
-                    : setSelectedPlace(activity);
-                }}
-              ></AdvancedMarker>
-            ))}
-          {selectedPlace && (
-            <InfoWindow
-              position={{
-                lat: selectedPlace?.latitude,
-                lng: selectedPlace?.longitude,
-              }}
-              onCloseClick={() => setSelectedPlace(null)}
-            >
-              <div>
-                <p>{selectedPlace.title}</p>
-              </div>
-            </InfoWindow>
-          )}
-        </Map>
-      </div>
-
       {upcomingOrgActivity?.data?.map((activity) => (
         <div
           key={activity.id}
@@ -112,15 +66,25 @@ export default function UpcomingOrgActCard() {
               {/* to change URL link */}
               <Link to="/">
                 <iconify-icon
-                  icon="ri:delete-bin-line"
-                  class="text-3xl text-neutral"
-                  onClick={() =>
-                    document
-                      .getElementById(`delete-event-${activity.id}`)
-                      .showModal()
-                  }
+                  icon={chatIcon}
+                  class="mr-2 text-3xl text-secondary"
                 />
               </Link>
+              <Link to="/">
+                <iconify-icon
+                  icon="ri:calendar-check-line"
+                  class="mr-2 text-3xl text-success"
+                />
+              </Link>
+              <iconify-icon
+                icon="ri:delete-bin-line"
+                class="text-3xl text-neutral"
+                onClick={() =>
+                  document
+                    .getElementById(`delete-event-${activity.id}`)
+                    .showModal()
+                }
+              />
             </div>
             <div className="font-semibold">
               {activity?.location.city}, {activity?.location.country}
@@ -164,6 +128,7 @@ export default function UpcomingOrgActCard() {
                 )}
               </>
             )}
+            <IndividualMap activity={activity} />
           </div>
           {/* pop up modal */}
           <PopUpConfirmation

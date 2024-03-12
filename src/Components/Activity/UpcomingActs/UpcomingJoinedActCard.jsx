@@ -105,8 +105,8 @@ export default function UpcomingJoinedActCard() {
               {activity?.participants?.map((participant) => (
                 <UserSummProfile key={participant?.id} user={participant} />
               ))}
+              <IndividualMap activity={activity} />
             </div>
-            <IndividualMap activity={activity} />
 
             <PopUpConfirmation
               id={`withdraw-event${activity.id}`}
