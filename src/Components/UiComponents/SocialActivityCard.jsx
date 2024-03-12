@@ -11,10 +11,16 @@ import {
   postRequest,
 } from "../lib/Constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import IndividualMap from "./Map";
 
 export default function SocialActivityCard({ colour, activities, user }) {
   const currentUser = useContext(CurrentUserContext);
   const queryClient = useQueryClient();
+
+  const { mutate: sendJoinRequestNotif } = useMutation({
+    mutationFn: (data) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, data),
+  });
 
   const { mutate: mutateJoin } = useMutation({
     mutationFn: (data) =>
@@ -31,8 +37,15 @@ export default function SocialActivityCard({ colour, activities, user }) {
       }),
   });
 
-  const handleClick = (activityId) =>
-    mutateJoin({ activityId, userId: currentUser.id });
+  const handleClick = (activity) => {
+    const { id, title, host } = activity;
+    mutateJoin({ activityId: id, userId: currentUser.id });
+    sendJoinRequestNotif({
+      notifMessage: `${currentUser?.username} would like to join "${title}"`,
+      senderId: currentUser.id,
+      recipientId: host,
+    });
+  };
 
   return (
     <div>
@@ -65,11 +78,13 @@ export default function SocialActivityCard({ colour, activities, user }) {
                       (participant) =>
                         participant?.user.id === currentUser?.id &&
                         participant?.status === true,
-                    )
+                    ) || activity?.hostId === currentUser?.id
                   ? formatDateandTime(activity?.eventDate)
                   : formatDateMaskedTime(activity?.eventDate)}
             </div>
             <div>{activity?.description}</div>
+            <div>Estimated Group Size: {activity?.group_size?.size}</div>
+            <div>{activity?.address}</div>
             <div className="items-left flex flex-col flex-wrap space-x-1 ">
               {activity.categories.map((category) => (
                 <div className={`${dPinkIcon}`} key={category?.id}>
@@ -88,15 +103,23 @@ export default function SocialActivityCard({ colour, activities, user }) {
             )}
             {/* for the current page */}
             {/* show list of paricipants when the length of participants' status = true is more than 1 */}
-            <>
-              <div className="font-semibold">Participants:</div>
-              {activity?.participants?.map(
-                (participant) =>
-                  !!participant?.status && (
-                    <UserSummProfile user={participant} key={participant?.id} />
-                  ),
-              )}
-            </>
+            {activity?.participants?.some(
+              (participant) => !!participant?.status,
+            ) && (
+              <>
+                <div className="font-semibold">Participants:</div>
+                {activity?.participants?.map(
+                  (participant) =>
+                    !!participant?.status && (
+                      <UserSummProfile
+                        user={participant}
+                        key={participant?.id}
+                      />
+                    ),
+                )}
+              </>
+            )}
+            <IndividualMap activity={activity} />
             {/* When I view another person's account, 
               //the card should show the join button if i am not the host, participant.
               //button should not appear in my profile when i view my profile.
@@ -123,7 +146,13 @@ export default function SocialActivityCard({ colour, activities, user }) {
                     ) || (
                       <button
                         className={`${darkPinkButton} -mb-4 -mt-4 text-grey`}
-                        onClick={() => handleClick(activity.id)}
+                        onClick={() =>
+                          handleClick({
+                            id: activity?.id,
+                            title: activity?.title,
+                            host: activity?.hostId,
+                          })
+                        }
                       >
                         JOIN NOW
                       </button>
