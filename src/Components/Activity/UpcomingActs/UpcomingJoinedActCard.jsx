@@ -12,7 +12,7 @@ import {
   getRequest,
   deleteRequest,
 } from "../../lib/Constants";
-import { Map, InfoWindow, AdvancedMarker } from "@vis.gl/react-google-maps";
+import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useContext(CurrentUserContext);
@@ -59,48 +59,7 @@ export default function UpcomingJoinedActCard() {
 
   return (
     <>
-      <div id="joined-map" style={{ height: "40vh", width: "100%" }}>
-        <Map
-          defaultCenter={{
-            lat: 1.287953,
-            lng: 103.851784,
-          }}
-          defaultZoom={12}
-          mapId="joined-map"
-        >
-          {upcomingJoinedActivity?.data &&
-            upcomingJoinedActivity.data.map((activity) => (
-              <AdvancedMarker
-                key={activity.id}
-                position={{
-                  lat: activity?.latitude,
-                  lng: activity?.longitude,
-                }}
-                offsetLeft={-20}
-                offsetTop={-10}
-                title={activity?.title}
-                onClick={() => {
-                  activity === selectedPlace
-                    ? setSelectedPlace(null)
-                    : setSelectedPlace(activity);
-                }}
-              ></AdvancedMarker>
-            ))}
-          {selectedPlace && (
-            <InfoWindow
-              position={{
-                lat: selectedPlace?.latitude,
-                lng: selectedPlace?.longitude,
-              }}
-              onCloseClick={() => setSelectedPlace(null)}
-            >
-              <div>
-                <p>{selectedPlace.title}</p>
-              </div>
-            </InfoWindow>
-          )}
-        </Map>
-      </div>
+      <IndividualMap activity={activity} />
       {upcomingJoinedActivity.data &&
         upcomingJoinedActivity.data.map((activity) => (
           <div
