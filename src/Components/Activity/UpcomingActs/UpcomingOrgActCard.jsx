@@ -12,7 +12,6 @@ import {
   deleteRequest,
 } from "../../lib/Constants";
 import { useContext, useState } from "react";
-import { Fragment } from "react";
 import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingOrgActCard() {
