@@ -25,7 +25,7 @@ export default function UpcomingOrgActCard() {
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/includeHost/${currentUser?.id}`),
-    enabled: !!currentUser?.id, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
+    enabled: !!currentUser, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
   // console.log(currentUser);
@@ -83,93 +83,101 @@ export default function UpcomingOrgActCard() {
         </Map>
       </div>
 
-      {upcomingOrgActivity.data &&
-        upcomingOrgActivity.data.map((activity) => (
-          <div
-            key={activity.id}
-            className="lg:card-sides card mt-8 bg-primary shadow-xl"
-          >
-            <div className="card-body">
-              <div className="flex">
-                <div className="flex-none">
-                  <RoundedAvatar image={`${currentUser?.imageUrl}`} size="8" />
-                </div>
-                <div className="ml-2 mt-1 flex-auto font-light italic">
-                  {`@${currentUser?.username}`}
-                </div>
-                {/* to change URL link */}
-                <Link to="/">
-                  <iconify-icon
-                    icon={chatIcon}
-                    class="mr-2 text-3xl text-secondary"
-                  />
-                </Link>
-                <Link to="/">
-                  <iconify-icon
-                    icon="ri:calendar-check-line"
-                    class="mr-2 text-3xl text-success"
-                  />
-                </Link>
+      {upcomingOrgActivity?.data?.map((activity) => (
+        <div
+          key={activity.id}
+          className="lg:card-sides card mt-8 bg-primary shadow-xl"
+        >
+          <div className="card-body">
+            <div className="flex">
+              <div className="flex-none">
+                <RoundedAvatar image={`${currentUser?.imageUrl}`} size="8" />
+              </div>
+              <div className="ml-2 mt-1 flex-auto font-light italic">
+                {`@${currentUser?.username}`}
+              </div>
+              {/* to change URL link */}
+              <Link to="/">
                 <iconify-icon
-                  icon="ri:delete-bin-line"
-                  class="text-3xl text-neutral"
-                  onClick={() =>
-                    document.getElementById("delete-event").showModal()
-                  }
+                  icon={chatIcon}
+                  class="mr-2 text-3xl text-secondary"
                 />
-              </div>
-              <div className="font-semibold">
-                {activity?.location.city}, {activity?.location.country}
-              </div>
-              <div className="font-semibold">{activity?.title}</div>
-              <div>{formatDateandTime(activity?.eventDate)}</div>
-              <div>{activity?.address}</div>
-              {/* list of confirmed participants */}
-
-              {activity?.participants.some(
-                (participant) => participant?.status === true,
-              ) && <div className="font-semibold">Participants:</div>}
-              {activity?.participants
-                .filter((participant) => participant?.status === true)
-                .map((participant) => (
-                  <UserSummProfile key={participant?.id} user={participant} />
-                ))}
-
-              {activity?.participants.some(
-                (participant) => participant?.status === false,
-              ) && <div className="font-semibold">Pending Confirmation:</div>}
-              {activity?.participants
-                .filter((participant) => participant?.status === false)
-                .map((participant) => (
-                  <UserSummProfile key={participant?.id} user={participant} />
-                ))}
-              {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
-              {activity?.participants && (
-                <>
-                  {activity.participants.some(
-                    (participant) => !participant.status,
-                  ) && (
-                    <Link to={`/activity/${activity.id}/request`}>
-                      <button
-                        className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-                      >
-                        VIEW REQUEST
-                      </button>
-                    </Link>
-                  )}
-                </>
-              )}
+              </Link>
+              <Link to="/">
+                <iconify-icon
+                  icon="ri:calendar-check-line"
+                  class="mr-2 text-3xl text-success"
+                />
+              </Link>
+              <iconify-icon
+                icon="ri:delete-bin-line"
+                class="text-3xl text-neutral"
+                onClick={() =>
+                  document
+                    .getElementById(`delete-event${activity.id}`)
+                    .showModal()
+                }
+              />
             </div>
+            <div className="font-semibold">
+              {activity?.location.city}, {activity?.location.country}
+            </div>
+            <div className="font-semibold">{activity?.title}</div>
+            <div>{formatDateandTime(activity?.eventDate)}</div>
+            <div>{activity?.address}</div>
+            {/* list of confirmed participants */}
+            {/* {activity?.participants.map(
+              (participant) =>
+                !!participant?.status && (
+                  <Fragment key={participant?.id}>
+                    <div className="font-semibold">Participants:</div>
+                    <UserSummProfile user={participant} />
+                  </Fragment>
+                ),
+            )} */}
+
+            {activity?.participants.some(
+              (participant) => participant?.status,
+            ) && <div className="font-semibold">Participants:</div>}
+            {activity?.participants.map(
+              (participant) =>
+                participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ),
+            )}
+
+            {activity?.participants.some(
+              (participant) => !participant?.status,
+            ) && <div className="font-semibold">Pending Confirmation:</div>}
+            {activity?.participants.map(
+              (participant) =>
+                !participant?.status && (
+                  <UserSummProfile key={participant?.id} user={participant} />
+                ),
+            )}
+            {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
+            {activity.participants.some(
+              (participant) => !participant.status,
+            ) && (
+              <Link to={`/activity/${activity.id}/request`}>
+                <button
+                  className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
+                >
+                  VIEW REQUEST
+                </button>
+              </Link>
+            )}
           </div>
-        ))}
+          <PopUpConfirmation
+            id={`delete-event${activity.id}`}
+            option="Delete"
+            title={activity.title}
+            message="By agreeing, the event will be permanently deleted."
+            onConfirm={handleDeleteEvent}
+          />
+        </div>
+      ))}
       {/* pop up modal */}
-      <PopUpConfirmation
-        id="delete-event"
-        option="Delete"
-        title="anothereventXYZ"
-        message="By agreeing, the event will be permanently deleted."
-        onConfirm={handleDeleteEvent}
-      />
     </>
   );
 }

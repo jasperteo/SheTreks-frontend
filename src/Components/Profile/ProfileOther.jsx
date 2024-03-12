@@ -17,6 +17,29 @@ export default function ProfileOther() {
       getRequest(`${BACKEND_URL}/users/profile/${params.username}`),
   });
 
+  const pastActivities = useQuery({
+    queryKey: [
+      "pastActivities",
+      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/past/${userInfo?.data?.id}`),
+    enabled: !!userInfo,
+  });
+
+  // console.log(pastActivities.data);
+
+  const currentActivities = useQuery({
+    queryKey: [
+      "currentActivities",
+      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}/`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/activities/current/${userInfo?.data?.id}`),
+    enabled: !!userInfo,
+  });
+
+  // console.log(currentActivities.data);
   // console.log(userInfo.data);
 
   const ProfileHeader = () => {
@@ -40,30 +63,6 @@ export default function ProfileOther() {
       </div>
     );
   };
-
-  const pastActivities = useQuery({
-    queryKey: [
-      "pastActivities",
-      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}/`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/past/${userInfo?.data?.id}`),
-    enabled: !!userInfo?.data?.id,
-  });
-
-  // console.log(pastActivities.data);
-
-  const currentActivities = useQuery({
-    queryKey: [
-      "pastActivities",
-      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}/`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/current/${userInfo?.data?.id}`),
-    enabled: !!userInfo?.data?.id,
-  });
-
-  // console.log(currentActivities.data);
 
   return (
     <>

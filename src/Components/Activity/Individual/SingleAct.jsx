@@ -38,12 +38,12 @@ export default function SingleAct() {
       <div>{formatDateandTime(singleActivity?.data?.eventDate)}</div>
       {/* confirmed participants' are true, request are false. Delete declined request*/}
       {singleActivity?.data?.participants.map((participant) =>
-        participant.status === true ? (
+        participant.status ? (
           <Fragment key={participant?.id}>
             <div className="mb-2 font-semibold">Participants:</div>
             <UserSummProfile user={participant} />
           </Fragment>
-        ) : participant.status === false ? (
+        ) : !participant.status ? (
           <RequestCard participant={participant} key={participant?.id} />
         ) : null,
       )}

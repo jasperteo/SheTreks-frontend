@@ -70,7 +70,7 @@ export default function EditProfile() {
             </div>
           )}
         </label>
-        <Link to="/profile">
+        <Link to={-1}>
           <button className="btn btn-primary">Back</button>
         </Link>
         <button type="submit" className="btn btn-primary">
