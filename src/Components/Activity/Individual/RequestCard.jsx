@@ -7,37 +7,68 @@ import {
   darkPinkButton,
   lgreyIcon,
 } from "../../lib/ClassesName";
-import { BACKEND_URL, deleteRequest, putRequest } from "../../lib/Constants";
+import {
+  BACKEND_URL,
+  deleteRequest,
+  putRequest,
+  postRequest,
+  CurrentUserContext,
+} from "../../lib/Constants";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
 
-export default function RequestCard({ participant }) {
+export default function RequestCard({ participant, activity }) {
   const queryClient = useQueryClient();
   const params = useParams();
+  const currentUser = useContext(CurrentUserContext);
 
+  console.log("participant", participant);
+  console.log("single activity", activity);
+
+  //Posts requests for notification triggered when user is accepted or rejected by organizer
+  const { mutate: resultNotification } = useMutation({
+    mutationFn: (notifData) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+  });
+
+  //If organiser accepts the request, the user is added to the activity as participant
   const { mutate: mutateAccept } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
-    onSuccess: () =>
+    onSuccess: () => {
+      resultNotification({
+        recipientId: participant?.user?.id,
+        senderId: currentUser?.id,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has approved your request to join ${activity.title}.`,
+      });
       queryClient.invalidateQueries({
         queryKey: [
           "singleActivity",
           `${BACKEND_URL}/activities/${params.activityId}`,
         ],
-      }),
+      });
+    },
   });
 
+  //If organiser rejects the request, the user is removed from the activity
   const { mutate: mutateDecline } = useMutation({
     mutationFn: () =>
       deleteRequest(
         `${BACKEND_URL}/activities/participants/${participant?.id}`,
       ),
-    onSuccess: () =>
+    onSuccess: () => {
+      resultNotification({
+        recipientId: participant?.user?.id,
+        senderId: currentUser?.id,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has rejected your request to join ${activity.title}.`,
+      });
       queryClient.invalidateQueries({
         queryKey: [
           "singleActivity",
           `${BACKEND_URL}/activities/${params.activityId}`,
         ],
-      }),
+      });
+    },
   });
 
   return (

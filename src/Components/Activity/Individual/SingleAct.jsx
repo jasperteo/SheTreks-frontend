@@ -46,7 +46,11 @@ export default function SingleAct() {
             <UserSummProfile user={participant} />
           </Fragment>
         ) : !participant.status ? (
-          <RequestCard participant={participant} key={participant?.id} />
+          <RequestCard
+            participant={participant}
+            activity={singleActivity?.data}
+            key={participant?.id}
+          />
         ) : null,
       )}
     </div>

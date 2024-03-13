@@ -15,20 +15,38 @@ import IndividualMap from "./Map";
 export default function ActivityCard({ activity }) {
   const currentUser = useContext(CurrentUserContext);
   const [requestSent, setRequestSent] = useState(false);
+  const [notifData, setNotifData] = useState({});
 
-  //Request to post request to join to backend
+  //Posts requests for notification triggered when user requests to join
+  const { mutate: requestToJoinNotification } = useMutation({
+    mutationFn: (notifData) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+  });
+
+  //Request to post request to join event
   const { mutate } = useMutation({
     mutationFn: (data) =>
       postRequest(
         `${BACKEND_URL}/activities/${activity.id}/participants`,
         data,
       ),
-    onSuccess: () => setRequestSent(true),
+    onSuccess: () => {
+      requestToJoinNotification(notifData);
+      setRequestSent(true);
+    },
   });
 
   //Handles the click event for the join now button
   //Posts requests to the backend to join the activity
-  const handleClick = () => mutate({ userId: currentUser.id });
+  const handleClick = () => {
+    setNotifData({
+      recipientId: activity?.hostId,
+      senderId: currentUser?.id,
+      notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has requested to join your event, ${activity.title}.`,
+    });
+
+    mutate({ userId: currentUser.id });
+  };
 
   return (
     <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
