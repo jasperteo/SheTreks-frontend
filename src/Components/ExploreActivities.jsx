@@ -1,5 +1,4 @@
 import Select from "react-select";
-import { useContext } from "react";
 import {
   multiValue,
   controlForm,
@@ -8,24 +7,19 @@ import {
   title,
   exploreCenter,
 } from "./lib/ClassesName";
-import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs from "dayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import ActivityCard from "./UiComponents/ActivityCard.jsx";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  BACKEND_URL,
-  getRequest,
-  CurrentUserContext,
-  postRequest,
-} from "./lib/Constants.js";
+import { BACKEND_URL, getRequest, postRequest } from "./lib/Constants.js";
 import { useForm, Controller } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
 
 export default function ExploreActivities() {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useOutletContext();
   const queryClient = useQueryClient();
 
-  const { data: activitiesExcludeHost } = useQuery({
+  const activitiesExcludeHost = useQuery({
     queryKey: [
       "activitiesExcludeHost",
       `${BACKEND_URL}/activities/excludeHost/${currentUser?.id}`,
@@ -34,6 +28,33 @@ export default function ExploreActivities() {
       getRequest(`${BACKEND_URL}/activities/excludeHost/${currentUser?.id}`),
     enabled: !!currentUser,
   });
+
+  const { data: locationsData } = useQuery({
+    queryKey: ["locationsData", `${BACKEND_URL}/locations`],
+    queryFn: () => getRequest(`${BACKEND_URL}/locations`),
+  });
+  const locations = locationsData?.map(({ id, country, city }) => ({
+    value: id,
+    label: `${city}, ${country}`,
+  }));
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categoriesData", `${BACKEND_URL}/activities/categories`],
+    queryFn: () => getRequest(`${BACKEND_URL}/activities/categories`),
+  });
+  const categories = categoriesData?.map(({ id, categoryName }) => ({
+    value: id,
+    label: categoryName,
+  }));
+
+  const { data: groupSizesData } = useQuery({
+    queryKey: ["groupSizesData", `${BACKEND_URL}/activities/groupSizes`],
+    queryFn: () => getRequest(`${BACKEND_URL}/activities/groupSizes`),
+  });
+  const groupSizes = groupSizesData?.map(({ id, size }) => ({
+    value: id,
+    label: size,
+  }));
 
   const {
     register,
@@ -213,7 +234,7 @@ export default function ExploreActivities() {
 
       <div className="-mb-2 font-semibold">RESULTS:</div>
 
-      {activitiesExcludeHost?.map((activity) => (
+      {activitiesExcludeHost?.data?.map((activity) => (
         <ActivityCard key={activity?.id} activity={activity} />
       ))}
     </>

@@ -1,5 +1,4 @@
 import Select from "react-select";
-import { useContext } from "react";
 import {
   controlForm,
   menu,
@@ -9,25 +8,20 @@ import {
   title,
   multiValue,
 } from "./lib/ClassesName";
-import { categories, locations, groupSizes } from "./lib/Constants";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useForm, Controller } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import supabase from "./lib/Supabase";
-import {
-  BACKEND_URL,
-  CurrentUserContext,
-  getRequest,
-  postRequest,
-} from "./lib/Constants";
+import { BACKEND_URL, getRequest, postRequest } from "./lib/Constants";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export default function AddActivity() {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useOutletContext();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,10 +30,38 @@ export default function AddActivity() {
     formState: { errors },
   } = useForm();
 
+  const { data: locationsData } = useQuery({
+    queryKey: ["locationsData", `${BACKEND_URL}/locations`],
+    queryFn: () => getRequest(`${BACKEND_URL}/locations`),
+  });
+  const locations = locationsData?.map(({ id, country, city }) => ({
+    value: id,
+    label: `${city}, ${country}`,
+  }));
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categoriesData", `${BACKEND_URL}/activities/categories`],
+    queryFn: () => getRequest(`${BACKEND_URL}/activities/categories`),
+  });
+  const categories = categoriesData?.map(({ id, categoryName }) => ({
+    value: id,
+    label: categoryName,
+  }));
+
+  const { data: groupSizesData } = useQuery({
+    queryKey: ["groupSizesData", `${BACKEND_URL}/activities/groupSizes`],
+    queryFn: () => getRequest(`${BACKEND_URL}/activities/groupSizes`),
+  });
+  const groupSizes = groupSizesData?.map(({ id, size }) => ({
+    value: id,
+    label: size,
+  }));
+
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       postRequest(`${BACKEND_URL}/activities`, formData),
-  }); // on success navigate to newly created activity page?
+    onSuccess: (res) => navigate(`/activity/${res.data.id}`),
+  });
 
   const onSubmit = async (formData) => {
     // get latitude and longitude from address
@@ -55,13 +77,7 @@ export default function AddActivity() {
         .upload(formData.imageUrl[0].name, formData.imageUrl[0]);
       const { data } = supabase.storage
         .from("activity")
-        .getPublicUrl(formData.imageUrl[0].name, {
-          transform: {
-            width: 500,
-            height: 500,
-            resize: "contain",
-          },
-        });
+        .getPublicUrl(formData.imageUrl[0].name);
       imageData = data;
     }
     // send form data to backend

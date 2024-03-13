@@ -1,52 +1,39 @@
 import UserSummProfile from "./UserSummProfile";
-import RoundedAvatar from "./RoundedAvatar";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
 import {
   categoryIcon,
   BACKEND_URL,
   postRequest,
-  CurrentUserContext,
   formatDateMaskedTime,
 } from "../lib/Constants";
 import { useMutation } from "@tanstack/react-query";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import IndividualMap from "./Map";
+import { useOutletContext } from "react-router-dom";
 
 export default function ActivityCard({ activity }) {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useOutletContext();
   const [requestSent, setRequestSent] = useState(false);
-  const [notifData, setNotifData] = useState({});
 
-  //Posts requests for notification triggered when user requests to join
-  const { mutate: requestToJoinNotification } = useMutation({
+  const { mutate: notifyHost } = useMutation({
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
-  //Request to post request to join event
-  const { mutate } = useMutation({
-    mutationFn: (data) =>
-      postRequest(
-        `${BACKEND_URL}/activities/${activity.id}/participants`,
-        data,
-      ),
+  const { mutate: requestToJoin } = useMutation({
+    mutationFn: () =>
+      postRequest(`${BACKEND_URL}/activities/${activity.id}/participants`, {
+        userId: currentUser.id,
+      }),
     onSuccess: () => {
-      requestToJoinNotification(notifData);
+      notifyHost({
+        recipientId: activity?.hostId,
+        senderId: currentUser?.id,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has requested to join your event, ${activity.title}.`,
+      });
       setRequestSent(true);
     },
   });
-
-  //Handles the click event for the join now button
-  //Posts requests to the backend to join the activity
-  const handleClick = () => {
-    setNotifData({
-      recipientId: activity?.hostId,
-      senderId: currentUser?.id,
-      notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has requested to join your event, ${activity.title}.`,
-    });
-
-    mutate({ userId: currentUser.id });
-  };
 
   return (
     <div className="lg:card-sides card mt-8 bg-primary shadow-xl">
@@ -99,7 +86,7 @@ export default function ActivityCard({ activity }) {
         ) : (
           <button
             className={`${darkPinkButton} mb-4 text-grey`}
-            onClick={handleClick}
+            onClick={requestToJoin}
           >
             JOIN NOW
           </button>

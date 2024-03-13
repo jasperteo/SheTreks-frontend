@@ -12,31 +12,26 @@ import {
   deleteRequest,
   putRequest,
   postRequest,
-  CurrentUserContext,
 } from "../../lib/Constants";
-import { useParams } from "react-router-dom";
-import { useContext } from "react";
+import { useParams, useOutletContext } from "react-router-dom";
 
 export default function RequestCard({ participant, activity }) {
+  const currentUser = useOutletContext();
   const queryClient = useQueryClient();
   const params = useParams();
-  const currentUser = useContext(CurrentUserContext);
-
-  console.log("participant", participant);
-  console.log("single activity", activity);
 
   //Posts requests for notification triggered when user is accepted or rejected by organizer
-  const { mutate: resultNotification } = useMutation({
+  const { mutate: notifyParticipant } = useMutation({
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
   //If organiser accepts the request, the user is added to the activity as participant
-  const { mutate: mutateAccept } = useMutation({
+  const { mutate: acceptParticipant } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
     onSuccess: () => {
-      resultNotification({
+      notifyParticipant({
         recipientId: participant?.user?.id,
         senderId: currentUser?.id,
         notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has approved your request to join ${activity.title}.`,
@@ -51,13 +46,13 @@ export default function RequestCard({ participant, activity }) {
   });
 
   //If organiser rejects the request, the user is removed from the activity
-  const { mutate: mutateDecline } = useMutation({
+  const { mutate: declineParticipant } = useMutation({
     mutationFn: () =>
       deleteRequest(
         `${BACKEND_URL}/activities/participants/${participant?.id}`,
       ),
     onSuccess: () => {
-      resultNotification({
+      notifyParticipant({
         recipientId: participant?.user?.id,
         senderId: currentUser?.id,
         notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has rejected your request to join ${activity.title}.`,
@@ -111,14 +106,14 @@ export default function RequestCard({ participant, activity }) {
         option="Accept"
         title="user participation?"
         message="By agreeing, user can participate in the activity."
-        onConfirm={mutateAccept}
+        onConfirm={acceptParticipant}
       />
       <PopUpConfirmation
         id={`decline-user${participant?.id}`}
         option="Decline"
         title="user participation?"
         message="By agreeing, user is unable to participate in the activity."
-        onConfirm={mutateDecline}
+        onConfirm={declineParticipant}
       />
     </>
   );

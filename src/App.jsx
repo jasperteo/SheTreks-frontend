@@ -25,6 +25,8 @@ import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+
 export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
@@ -114,7 +116,7 @@ export default function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+        <APIProvider apiKey={GOOGLE_API_KEY}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <RouterProvider router={router} />
           </LocalizationProvider>

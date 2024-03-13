@@ -1,6 +1,6 @@
 import { Link, useParams, useOutletContext } from "react-router-dom";
-import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import {
   BACKEND_URL,
   getRequest,
@@ -72,12 +72,22 @@ export default function ProfileOther() {
     enabled: !!userInfo.data,
   });
 
+  const { mutate: notifytoFollow } = useMutation({
+    mutationFn: (notifData) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+  });
+
   const { mutate: followUser } = useMutation({
     mutationFn: (toFollowId) =>
       postRequest(
         `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
       ),
     onSuccess: () => {
+      notifytoFollow({
+        recipientId: userInfo?.data?.id,
+        senderId: currentUser?.id,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has followed you.`,
+      });
       queryClient.invalidateQueries({
         queryKey: [
           "currentUserFollowing",
@@ -92,6 +102,7 @@ export default function ProfileOther() {
       });
     },
   });
+
   const { mutate: unfollowUser } = useMutation({
     mutationFn: (toFollowId) =>
       deleteRequest(

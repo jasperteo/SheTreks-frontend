@@ -11,13 +11,27 @@ export default function FollowBlock({ followers, following }) {
 
   const Follower = (follower) => {
     const [followButton, setFollowButton] = useState(false);
+
+    const { mutate: notifytoFollow } = useMutation({
+      mutationFn: (notifData) =>
+        postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+    });
+
     const { mutate: followUser } = useMutation({
       mutationFn: (toFollowId) =>
         postRequest(
           `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
         ),
-      onSuccess: () => setFollowButton(false),
+      onSuccess: () => {
+        notifytoFollow({
+          recipientId: follower?.user?.id,
+          senderId: currentUser?.id,
+          notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has followed you.`,
+        });
+        setFollowButton(false);
+      },
     });
+
     const { mutate: unfollowUser } = useMutation({
       mutationFn: (toFollowId) =>
         deleteRequest(
@@ -25,6 +39,7 @@ export default function FollowBlock({ followers, following }) {
         ),
       onSuccess: () => setFollowButton(true),
     });
+
     return (
       <div key={follower.id} className="flex items-start justify-between gap-2">
         <Link
@@ -70,6 +85,7 @@ export default function FollowBlock({ followers, following }) {
 
   const Follow = (follow) => {
     const [followButton, setFollowButton] = useState(false);
+
     const { mutate: followUser } = useMutation({
       mutationFn: (toFollowId) =>
         postRequest(
@@ -77,6 +93,7 @@ export default function FollowBlock({ followers, following }) {
         ),
       onSuccess: () => setFollowButton(false),
     });
+
     const { mutate: unfollowUser } = useMutation({
       mutationFn: (toFollowId) =>
         deleteRequest(
@@ -84,6 +101,7 @@ export default function FollowBlock({ followers, following }) {
         ),
       onSuccess: () => setFollowButton(true),
     });
+
     return (
       <div key={follow.id} className="flex items-start justify-between gap-2">
         <Link

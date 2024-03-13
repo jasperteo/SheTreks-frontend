@@ -1,8 +1,8 @@
 import Select from "react-select";
-import { locations, BACKEND_URL, putRequest } from "../lib/Constants.js";
+import { BACKEND_URL, putRequest, getRequest } from "../lib/Constants.js";
 import { controlForm, menu, option } from "../lib/ClassesName";
 import { useForm, Controller } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
@@ -18,6 +18,15 @@ export default function EditProfile() {
     control,
     formState: { errors },
   } = useForm();
+
+  const { data: locationsData } = useQuery({
+    queryKey: ["locationsData", `${BACKEND_URL}/locations`],
+    queryFn: () => getRequest(`${BACKEND_URL}/locations`),
+  });
+  const locations = locationsData?.map(({ id, country, city }) => ({
+    value: id,
+    label: `${city}, ${country}`,
+  }));
 
   const { mutate } = useMutation({
     mutationFn: (formData) =>
