@@ -95,7 +95,7 @@ export default function ExploreActivities() {
     <>
       <h1 className={title}>EXPLORE ACTIVITIES</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mx-auto my-4 flex w-80 items-center justify-center ">
+        <div className="mx-auto my-4 flex w-80 items-center justify-center">
           <Controller
             name="startDate"
             control={control}

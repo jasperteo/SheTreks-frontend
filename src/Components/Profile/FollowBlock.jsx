@@ -103,7 +103,10 @@ export default function FollowBlock({ followers, following }) {
     });
 
     return (
-      <div key={follow.id} className="flex items-start justify-between gap-2">
+      <div
+        key={follow.id}
+        className="flex w-3/4 items-start justify-between gap-2"
+      >
         <Link
           to={
             currentUser?.username === follow?.toFollow?.username
@@ -118,7 +121,7 @@ export default function FollowBlock({ followers, following }) {
           />
         </Link>
         <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-bold text-black">
+          <div className="whitespace-nowrap text-lg font-semibold text-neutral">
             {follow?.toFollow?.firstName} {follow?.toFollow?.lastName}
           </div>
           <div className="text-sm font-medium text-black text-opacity-50">
@@ -128,14 +131,14 @@ export default function FollowBlock({ followers, following }) {
         {params.username ? null : followButton ? (
           <button
             onClick={() => followUser(follow?.toFollow?.id)}
-            className={brGreenButton}
+            className={`${ssGreenButton} w-1/4`}
           >
             Follow
           </button>
         ) : (
           <button
             onClick={() => unfollowUser(follow?.toFollow?.id)}
-            className={greyButton}
+            className={`${greyButton}  w-1/4`}
           >
             Following
           </button>

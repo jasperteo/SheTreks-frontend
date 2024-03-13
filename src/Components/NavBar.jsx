@@ -8,11 +8,7 @@ export default function NavBar({ currentUser }) {
       <div className="btm-nav fixed bottom-0 z-10 md:left-0 md:top-0 md:h-full md:w-1/12 md:flex-col md:justify-start md:bg-accent">
         <Link to="/feeds" className="bg-accent md:bg-transparent">
           <button className="bg-accent md:mt-8 md:block">
-            <iconify-icon
-              inline
-              icon="ri:robot-2-line"
-              class={lgreyIcon}
-            ></iconify-icon>
+            <iconify-icon inline icon="ri:robot-2-line" class={lgreyIcon} />
           </button>
         </Link>
         <Link
@@ -20,11 +16,7 @@ export default function NavBar({ currentUser }) {
           className="bg-accent md:mt-12 md:block md:bg-transparent"
         >
           <button className="bg-accent">
-            <iconify-icon
-              inline
-              icon="ri:file-search-line"
-              class={lgreyIcon}
-            ></iconify-icon>
+            <iconify-icon inline icon="ri:file-search-line" class={lgreyIcon} />
           </button>
         </Link>
         <Link
@@ -36,7 +28,7 @@ export default function NavBar({ currentUser }) {
               inline
               icon="ri:notification-2-line"
               class={lgreyIcon}
-            ></iconify-icon>
+            />
           </button>
         </Link>
         <Link
@@ -48,7 +40,7 @@ export default function NavBar({ currentUser }) {
               inline
               icon="ri:calendar-event-line"
               class={lgreyIcon}
-            ></iconify-icon>
+            />
           </button>
         </Link>
         <Link to="/profile" className="bg-accent md:mb-80 md:block md:p-2">
