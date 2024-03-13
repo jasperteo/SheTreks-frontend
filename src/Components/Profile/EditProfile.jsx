@@ -1,19 +1,16 @@
 import Select from "react-select";
-import {
-  locations,
-  BACKEND_URL,
-  putRequest,
-  CurrentUserContext,
-} from "../lib/Constants.js";
+import { locations, BACKEND_URL, putRequest } from "../lib/Constants.js";
 import { controlForm, menu, option } from "../lib/ClassesName";
 import { useForm, Controller } from "react-hook-form";
-import { useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate, Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 export default function EditProfile() {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useOutletContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
 
   const {
     register,
@@ -25,7 +22,16 @@ export default function EditProfile() {
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       putRequest(`${BACKEND_URL}/users/${currentUser?.id}`, formData),
-    onSuccess: () => navigate("/profile"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "currentUser",
+          user,
+          `${BACKEND_URL}/users/sync/${currentUser?.clerkUid}`,
+        ],
+      });
+      navigate(-1);
+    },
   });
 
   const onSubmit = (formData) =>
@@ -33,11 +39,14 @@ export default function EditProfile() {
 
   return (
     <>
+      <Link to={-1}>
+        <iconify-icon icon="ri:arrow-left-s-line" />
+      </Link>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="locationId"
           control={control}
-          defaultValue=""
+          defaultValue={currentUser?.locationId}
           render={({ field }) => (
             <Select
               {...field}
@@ -70,9 +79,7 @@ export default function EditProfile() {
             </div>
           )}
         </label>
-        <Link to={-1}>
-          <button className="btn btn-primary">Back</button>
-        </Link>
+        <br />
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

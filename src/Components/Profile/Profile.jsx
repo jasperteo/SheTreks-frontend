@@ -1,15 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import TwoTabs from "../UiComponents/TwoTabs.jsx";
 import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
 import { UserButton } from "@clerk/clerk-react";
-import { CurrentUserContext, getRequest, BACKEND_URL } from "../lib/Constants";
-import { useContext } from "react";
+import { getRequest, BACKEND_URL } from "../lib/Constants";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
-  const currentUser = useContext(CurrentUserContext);
-  // console.log(currentUser);
+  const currentUser = useOutletContext();
 
   const followers = useQuery({
     queryKey: [
@@ -41,8 +39,6 @@ export default function Profile() {
     enabled: !!currentUser,
   });
 
-  // console.log(pastActivities.data);
-
   const currentActivities = useQuery({
     queryKey: [
       "pastActivities",
@@ -53,9 +49,8 @@ export default function Profile() {
     enabled: !!currentUser,
   });
 
-  // console.log(currentActivities.data);
-  const ProfileHeader = () => {
-    return (
+  return (
+    <>
       <div className="flex items-center">
         <div className="avatar w-24 flex-none">
           <div className="rounded-full">
@@ -81,23 +76,17 @@ export default function Profile() {
           </div>
         </Link>
       </div>
-    );
-  };
-
-  return (
-    <>
-      <ProfileHeader />
       <div className="mt-2 font-semibold">
-        {currentUser?.firstName}
-        {currentUser?.lastName}
+        {currentUser?.firstName} {currentUser?.lastName}
       </div>
       <div className="font-light italic">@{currentUser?.username}</div>
-      <div>📍</div>
+      <div>
+        📍 {currentUser?.location.city}, {currentUser?.location.country}
+      </div>
       <div>{currentUser?.about}</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">
-          {/* view for non-account holder - button to show Follow or Following */}
-          <button className={`${pinkButton} mr-4 mt-2`}>Edit Profile</button>
+          <button className={`${pinkButton} mr-4 mt-2`}>Edit Bio</button>
         </Link>
         <Link to="/activity/add">
           <button className={`${pinkButton} mt-2`}>Add Activity</button>
