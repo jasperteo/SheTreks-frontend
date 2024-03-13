@@ -2,7 +2,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
-import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import { darkPinkButton } from "../../lib/ClassesName";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
@@ -56,15 +56,8 @@ export default function UpcomingOrgActCard() {
                 <RoundedAvatar image={`${currentUser?.imageUrl}`} size="8" />
               </div>
               <div className="ml-2 mt-1 flex-auto font-light italic">
-                {`@${currentUser?.username}`}
+                @{currentUser?.username}
               </div>
-              {/* to change URL link */}
-              <Link to="/">
-                <iconify-icon
-                  icon={chatIcon}
-                  class="mr-2 text-3xl text-secondary"
-                />
-              </Link>
               <Link to="/">
                 <iconify-icon
                   icon="ri:calendar-check-line"
