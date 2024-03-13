@@ -8,13 +8,18 @@ import {
 import { truncateText } from "../lib/Constants";
 import { BACKEND_URL, putRequest, formatDateandTime } from "../lib/Constants";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ActivityNotification({ notification }) {
   //When message is rendered, set read status to true
-  const { mutate } = useMutation({
-    mutationFn: () =>
+  const markAsRead = useQuery({
+    queryKey: [
+      "markAsRead",
+      `${BACKEND_URL}/users/notifications/read/${notification.id}`,
+    ],
+    queryFn: () =>
       putRequest(`${BACKEND_URL}/users/notifications/read/${notification.id}`),
+    enabled: !!notification,
   });
 
   const generateNotifType = (notification) => {
