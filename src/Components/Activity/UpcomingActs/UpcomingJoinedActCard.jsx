@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import { chatIcon, brGreenButton } from "../../lib/ClassesName";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import { useContext, useState } from "react";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
@@ -83,15 +82,8 @@ export default function UpcomingJoinedActCard() {
                   <RoundedAvatar image={activity?.user?.imageUrl} size="8" />
                 </div>
                 <div className="ml-2 mt-1 flex-auto font-light italic">
-                  {`@${activity?.user?.username}`}
+                  @{activity?.user?.username}
                 </div>
-                {/* to change URL link */}
-                <Link to="/">
-                  <iconify-icon
-                    icon={chatIcon}
-                    class="mr-2 text-3xl text-secondary"
-                  />
-                </Link>
                 <Link to="/">
                   <iconify-icon
                     icon="ri:calendar-check-line"

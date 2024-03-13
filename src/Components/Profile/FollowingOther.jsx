@@ -2,29 +2,35 @@ import FollowBlock from "./FollowBlock";
 import TwoTabs from "../UiComponents/TwoTabs";
 import { useQuery } from "@tanstack/react-query";
 import { getRequest, BACKEND_URL } from "../lib/Constants.js";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Following() {
-  const currentUser = useOutletContext();
+  const params = useParams();
+
+  const userInfo = useQuery({
+    queryKey: ["userInfo", `${BACKEND_URL}/users/profile/${params.username}`],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/profile/${params.username}`),
+  });
 
   const followers = useQuery({
     queryKey: [
       "followers",
-      `${BACKEND_URL}/users/followers/${currentUser?.id}`,
+      `${BACKEND_URL}/users/followers/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}/users/followers/${currentUser?.id}`),
-    enabled: !!currentUser,
+      getRequest(`${BACKEND_URL}/users/followers/${userInfo?.data?.id}`),
+    enabled: !!userInfo.data,
   });
 
   const following = useQuery({
     queryKey: [
       "following",
-      `${BACKEND_URL}/users/following/${currentUser?.id}`,
+      `${BACKEND_URL}/users/following/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
-      getRequest(`${BACKEND_URL}/users/following/${currentUser?.id}`),
-    enabled: !!currentUser,
+      getRequest(`${BACKEND_URL}/users/following/${userInfo?.data?.id}`),
+    enabled: !!userInfo.data,
   });
 
   return (

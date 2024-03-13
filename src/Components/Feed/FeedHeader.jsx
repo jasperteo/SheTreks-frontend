@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { chatIcon } from "../lib/ClassesName";
 
 export default function FeedHeader() {
   return (
@@ -9,9 +8,6 @@ export default function FeedHeader() {
         <div className="ml-4 text-xl font-semibold">SheTreks</div>
       </div>
       <div className="flex gap-4">
-        {/* <Link to="/"> */}
-        <iconify-icon icon={chatIcon} class="-mt-1 text-3xl text-neutral" />
-        {/* </Link> */}
         <Link to="/activity/add">
           <iconify-icon
             icon="ri:function-add-line"

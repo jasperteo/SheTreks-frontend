@@ -1,22 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
-import { chatIcon, darkPinkButton } from "../../lib/ClassesName";
+import { darkPinkButton } from "../../lib/ClassesName";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
-  CurrentUserContext,
   formatDateandTime,
   getRequest,
   deleteRequest,
 } from "../../lib/Constants";
-import { useContext, useState } from "react";
 import IndividualMap from "../../UiComponents/Map";
 
 export default function UpcomingOrgActCard() {
-  const currentUser = useContext(CurrentUserContext);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const currentUser = useOutletContext();
   const queryClient = useQueryClient();
 
   const upcomingOrgActivity = useQuery({
@@ -59,15 +56,8 @@ export default function UpcomingOrgActCard() {
                 <RoundedAvatar image={`${currentUser?.imageUrl}`} size="8" />
               </div>
               <div className="ml-2 mt-1 flex-auto font-light italic">
-                {`@${currentUser?.username}`}
+                @{currentUser?.username}
               </div>
-              {/* to change URL link */}
-              <Link to="/">
-                <iconify-icon
-                  icon={chatIcon}
-                  class="mr-2 text-3xl text-secondary"
-                />
-              </Link>
               <Link to="/">
                 <iconify-icon
                   icon="ri:calendar-check-line"
@@ -113,12 +103,16 @@ export default function UpcomingOrgActCard() {
                   <UserSummProfile key={participant?.id} user={participant} />
                 ),
             )}
+            <img
+              className="-mt-2 object-none"
+              src={activity?.imageUrl}
+              alt="Activity Image"
+            />
             <IndividualMap activity={activity} />
-            {/* if there is no request, do not show view request button. Hit the first "false" status and break. */}
             {activity.participants.some(
               (participant) => !participant.status,
             ) && (
-              <Link to={`/activity/${activity.id}/request`}>
+              <Link to={`/activity/${activity.id}`}>
                 <button
                   className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
                 >
@@ -126,12 +120,6 @@ export default function UpcomingOrgActCard() {
                 </button>
               </Link>
             )}
-            <img
-              className="-mt-2 object-none"
-              src={activity?.imageUrl}
-              alt="Activity Image"
-            />
-            <IndividualMap activity={activity} />
           </div>
           <PopUpConfirmation
             id={`delete-event-${activity.id}`}

@@ -1,20 +1,55 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useOutletContext } from "react-router-dom";
 import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
-import { useQuery } from "@tanstack/react-query";
-import { BACKEND_URL, getRequest } from "../lib/Constants";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  BACKEND_URL,
+  getRequest,
+  postRequest,
+  deleteRequest,
+} from "../lib/Constants";
 import TwoTabs from "../UiComponents/TwoTabs";
 import SocialActivityCard from "../UiComponents/SocialActivityCard";
 import RoundedAvatar from "../UiComponents/RoundedAvatar";
 
 export default function ProfileOther() {
+  const currentUser = useOutletContext();
   const params = useParams();
-  // console.log(params.username);
+  const queryClient = useQueryClient();
 
-  //fetch user data
   const userInfo = useQuery({
     queryKey: ["userInfo", `${BACKEND_URL}/users/profile/${params.username}`],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/users/profile/${params.username}`),
+  });
+
+  const followers = useQuery({
+    queryKey: [
+      "followers",
+      `${BACKEND_URL}/users/followers/${userInfo?.data?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/followers/${userInfo?.data?.id}`),
+    enabled: !!userInfo.data,
+  });
+
+  const following = useQuery({
+    queryKey: [
+      "following",
+      `${BACKEND_URL}/users/following/${userInfo?.data?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/following/${userInfo?.data?.id}`),
+    enabled: !!userInfo.data,
+  });
+
+  const currentUserFollowing = useQuery({
+    queryKey: [
+      "currentUserFollowing",
+      `${BACKEND_URL}/users/following/${currentUser?.id}`,
+    ],
+    queryFn: () =>
+      getRequest(`${BACKEND_URL}/users/following/${currentUser?.id}`),
+    enabled: !!currentUser,
   });
 
   const pastActivities = useQuery({
@@ -24,10 +59,8 @@ export default function ProfileOther() {
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/past/${userInfo?.data?.id}`),
-    enabled: !!userInfo,
+    enabled: !!userInfo.data,
   });
-
-  // console.log(pastActivities.data);
 
   const currentActivities = useQuery({
     queryKey: [
@@ -36,37 +69,76 @@ export default function ProfileOther() {
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/current/${userInfo?.data?.id}`),
-    enabled: !!userInfo,
+    enabled: !!userInfo.data,
   });
 
-  // console.log(currentActivities.data);
-  console.log(userInfo.data);
+  const { mutate: followUser } = useMutation({
+    mutationFn: (toFollowId) =>
+      postRequest(
+        `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "currentUserFollowing",
+          `${BACKEND_URL}/users/following/${currentUser?.id}`,
+        ],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "followers",
+          `${BACKEND_URL}/users/followers/${userInfo?.data?.id}`,
+        ],
+      });
+    },
+  });
+  const { mutate: unfollowUser } = useMutation({
+    mutationFn: (toFollowId) =>
+      deleteRequest(
+        `${BACKEND_URL}/users/unfollow/${currentUser?.id}/${toFollowId}`,
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "currentUserFollowing",
+          `${BACKEND_URL}/users/following/${currentUser?.id}`,
+        ],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "followers",
+          `${BACKEND_URL}/users/followers/${userInfo?.data?.id}`,
+        ],
+      });
+    },
+  });
 
-  const ProfileHeader = () => {
-    return (
+  return (
+    <>
+      <Link to={-1}>
+        <iconify-icon icon="ri:arrow-left-s-line" />
+      </Link>
       <div className="flex items-center">
         <div className="avatar w-24 flex-none">
           <div className="rounded-full">
             <RoundedAvatar image={userInfo?.data?.imageUrl} size="16" />
           </div>
         </div>
-        <Link to="/profile/follow" className="flex-auto">
+        <Link to={`/profile/${params.username}/follow`} className="flex-auto">
           <div className="flex w-full justify-between">
             <div className={`${semiBoldTxCen} w-1/2`}>
-              0 <br /> FOLLOWERS
+              {followers?.data?.count}
+              <br />
+              FOLLOWERS
             </div>
             <div className={`${semiBoldTxCen} w-1/2  `}>
-              0 <br /> FOLLOWING
+              {following?.data?.count}
+              <br />
+              FOLLOWING
             </div>
           </div>
         </Link>
       </div>
-    );
-  };
-
-  return (
-    <>
-      <ProfileHeader />
       <div className="mt-2 font-semibold">
         {userInfo?.data?.firstName} {userInfo?.data?.lastName}
       </div>
@@ -76,10 +148,25 @@ export default function ProfileOther() {
       </div>
       <div>{userInfo?.data?.about}</div>
       <div className="flex justify-start">
-        <Link to="/profile/setting">
-          {/* view for non-account holder - button to show Follow or Following */}
-          <button className={`${pinkButton} mr-4 mt-2`}>Follow</button>
-        </Link>
+        <div>
+          {currentUserFollowing?.data?.rows?.some(
+            (user) => user.toFollow.id === userInfo?.data?.id,
+          ) ? (
+            <button
+              onClick={() => unfollowUser(userInfo?.data?.id)}
+              className={`${pinkButton} mr-4 mt-2`}
+            >
+              Following
+            </button>
+          ) : (
+            <button
+              onClick={() => followUser(userInfo?.data?.id)}
+              className={`${pinkButton} mr-4 mt-2`}
+            >
+              Follow
+            </button>
+          )}
+        </div>
       </div>
       <div className="mb-6" />
       <TwoTabs
