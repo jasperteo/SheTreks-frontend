@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { greyButton, brGreenButton } from "../lib/ClassesName";
+import { greyButton, brGreenButton, ssGreenButton } from "../lib/ClassesName";
 import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 
 export default function FollowBlock({ followers, following }) {
@@ -40,8 +40,9 @@ export default function FollowBlock({ followers, following }) {
     });
 
     return (
-      <div key={follower.id} className="flex items-start justify-between gap-2">
+      <div key={follower.id} className="flex">
         <Link
+          className="flex w-3/4 items-start justify-between gap-2"
           to={
             currentUser?.username === follower?.user?.username
               ? `/profile`
@@ -54,7 +55,7 @@ export default function FollowBlock({ followers, following }) {
             className="mt-3 aspect-[1.06] w-12 rounded-full"
           />
           <div className=" mr-10 mt-3 flex flex-1 flex-col">
-            <div className="whitespace-nowrap text-lg font-bold text-neutral">
+            <div className="whitespace-nowrap text-lg font-semibold text-neutral">
               {follower?.user?.firstName} {follower?.user?.lastName}
             </div>
             <div className="text-sm font-medium text-neutral text-opacity-50">
@@ -66,14 +67,14 @@ export default function FollowBlock({ followers, following }) {
         {params.username ? null : followButton ? (
           <button
             onClick={() => followUser(follower?.user?.id)}
-            className={brGreenButton}
+            className={`${ssGreenButton} w-1/4`}
           >
             Follow
           </button>
         ) : (
           <button
             onClick={() => unfollowUser(follower?.user?.id)}
-            className={greyButton}
+            className={`${greyButton}  w-1/4`}
           >
             Remove
           </button>
