@@ -92,7 +92,16 @@ export default function UpcomingOrgActCard() {
           {activity?.participants.map(
             (participant) =>
               participant?.status && (
-                <UserSummProfile key={participant?.id} user={participant} />
+                <Link
+                  to={
+                    currentUser?.username === participant?.user?.username
+                      ? `/profile`
+                      : `/profile/${participant?.user?.username}`
+                  }
+                  key={participant?.id}
+                >
+                  <UserSummProfile user={participant} />
+                </Link>
               ),
           )}
 
@@ -102,7 +111,16 @@ export default function UpcomingOrgActCard() {
           {activity?.participants.map(
             (participant) =>
               !participant?.status && (
-                <UserSummProfile key={participant?.id} user={participant} />
+                <Link
+                  to={
+                    currentUser?.username === participant?.user?.username
+                      ? `/profile`
+                      : `/profile/${participant?.user?.username}`
+                  }
+                  key={participant?.id}
+                >
+                  <UserSummProfile user={participant} />
+                </Link>
               ),
           )}
           {!!activity?.imageUrl && (

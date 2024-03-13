@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
 import {
@@ -36,27 +36,32 @@ export default function SocialActivityCard({ colour, activities, user }) {
         queryClient.invalidateQueries({
           queryKey: [
             "currentActivities",
-            `${BACKEND_URL}/activities/current/${user?.id}/`,
+            `${BACKEND_URL}/activities/current/${user.id ?? currentUser?.id}/`,
+          ],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [
+            "feed",
+            `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
           ],
         });
       },
     });
 
     return (
-      <div
-        className={`lg:card-sides card mt-8 bg-${colour} shadow-xl`}
-        key={activity.id}
-      >
+      <div className={`lg:card-sides card mt-8 bg-${colour} shadow-xl`}>
         <div className="card-body">
-          <div className="flex">
-            <div className="flex-none">
-              <RoundedAvatar image={user?.imageUrl} size="8" />
+          {user && (
+            <div className="flex">
+              <div className="flex-none">
+                <RoundedAvatar image={user?.imageUrl} size="8" />
+              </div>
+              <div className="ml-2 mt-1 flex-auto font-light italic">
+                @{user?.username}
+                {activity?.hostId !== user?.id ? " (Attendee)" : " (Organiser)"}
+              </div>
             </div>
-            <div className="ml-2 mt-1 flex-auto font-light italic">
-              {`@${user?.username}`}
-              {activity?.hostId !== user?.id ? " (Attendee)" : " (Organiser)"}
-            </div>
-          </div>
+          )}
           <div className="font-semibold">
             {activity?.location?.city}, {activity?.location?.country}
           </div>
@@ -88,7 +93,15 @@ export default function SocialActivityCard({ colour, activities, user }) {
           {activity?.hostId !== user?.id && (
             <>
               <div className="font-semibold">Organiser:</div>
-              <UserSummProfile user={activity} key={activity?.user?.id} />
+              <Link
+                to={
+                  currentUser?.username === activity?.user?.username
+                    ? `/profile`
+                    : `/profile/${activity?.user?.username}`
+                }
+              >
+                <UserSummProfile user={activity} />
+              </Link>
             </>
           )}
           {activity?.participants?.some(
@@ -99,10 +112,26 @@ export default function SocialActivityCard({ colour, activities, user }) {
               {activity?.participants?.map(
                 (participant) =>
                   !!participant?.status && (
-                    <UserSummProfile user={participant} key={participant?.id} />
+                    <Link
+                      to={
+                        currentUser?.username === participant?.user?.username
+                          ? `/profile`
+                          : `/profile/${participant?.user?.username}`
+                      }
+                      key={participant?.id}
+                    >
+                      <UserSummProfile user={participant} />
+                    </Link>
                   ),
               )}
             </>
+          )}
+          {activity?.imageUrl && (
+            <img
+              className="mt-2 flex w-full object-cover"
+              src={activity.imageUrl}
+              alt="Activity Image"
+            />
           )}
           <IndividualMap activity={activity} />
           {activity?.hostId !== currentUser?.id &&

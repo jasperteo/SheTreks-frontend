@@ -85,7 +85,16 @@ export default function UpcomingJoinedActCard() {
           <div>{activity?.address}</div>
           <div className="font-semibold">Participants:</div>
           {activity?.participants?.map((participant) => (
-            <UserSummProfile key={participant?.id} user={participant} />
+            <Link
+              to={
+                currentUser?.username === participant?.user?.username
+                  ? `/profile`
+                  : `/profile/${participant?.user?.username}`
+              }
+              key={participant?.id}
+            >
+              <UserSummProfile user={participant} />
+            </Link>
           ))}
           {!!activity?.imageUrl && (
             <img
@@ -96,7 +105,6 @@ export default function UpcomingJoinedActCard() {
           )}
           <IndividualMap activity={activity} />
         </div>
-
         <PopUpConfirmation
           id={`withdraw-event${activity.id}`}
           option="Withdraw from"

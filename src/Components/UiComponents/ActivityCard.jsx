@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
 import {
@@ -58,9 +58,10 @@ export default function ActivityCard({ activity }) {
           ))}
         </div>
         <div className="font-semibold">Organiser:</div>
-        <UserSummProfile user={activity} />
+        <Link to={`/profile/${activity?.user?.username}`}>
+          <UserSummProfile user={activity} />
+        </Link>
       </div>
-
       {activity?.imageUrl && (
         <img
           className="mt-2 object-cover"
