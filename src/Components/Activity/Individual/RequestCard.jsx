@@ -61,13 +61,13 @@ export default function RequestCard({ participant, activity }) {
         recipientId: participant?.user?.id,
         senderId: currentUser?.id,
         notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has rejected your request to join ${activity.title}.`,
-      }),
-        queryClient.invalidateQueries({
-          queryKey: [
-            "singleActivity",
-            `${BACKEND_URL}/activities/${params.activityId}`,
-          ],
-        });
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "singleActivity",
+          `${BACKEND_URL}/activities/${params.activityId}`,
+        ],
+      });
     },
   });
 
