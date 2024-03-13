@@ -36,7 +36,7 @@ export default function ActivityNotification({ notification }) {
 
   return (
     <>
-      <Link to={activityNotif ? "../upcomingevents" : "../profile/follow"}>
+      <Link to={activityNotif ? "/upcomingevents" : "/profile/follow"}>
         <div
           className={
             notification.read
