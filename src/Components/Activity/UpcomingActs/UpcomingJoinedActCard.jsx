@@ -1,7 +1,4 @@
 import { Link, useOutletContext } from "react-router-dom";
-import UserSummProfile from "../../UiComponents/UserSummProfile";
-import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   BACKEND_URL,
@@ -11,6 +8,9 @@ import {
   postRequest,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
+import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useOutletContext();

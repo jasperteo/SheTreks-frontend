@@ -1,4 +1,9 @@
+import dayjs from "dayjs";
+import { DateField } from "@mui/x-date-pickers/DateField";
+import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
+import { useOutletContext } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   multiValue,
   controlForm,
@@ -7,13 +12,8 @@ import {
   title,
   exploreCenter,
 } from "./lib/ClassesName";
-import dayjs from "dayjs";
-import { DateField } from "@mui/x-date-pickers/DateField";
-import ActivityCard from "./UiComponents/ActivityCard.jsx";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BACKEND_URL, getRequest, postRequest } from "./lib/Constants.js";
-import { useForm, Controller } from "react-hook-form";
-import { useOutletContext } from "react-router-dom";
+import ActivityCard from "./UiComponents/ActivityCard.jsx";
 
 export default function ExploreActivities() {
   const currentUser = useOutletContext();
@@ -91,8 +91,6 @@ export default function ExploreActivities() {
     });
   };
 
-  /*show organizer, hide Attendee section (acc) */
-
   return (
     <>
       <h1 className={title}>EXPLORE ACTIVITIES</h1>
@@ -124,7 +122,6 @@ export default function ExploreActivities() {
               />
             )}
           />
-
           <Controller
             name="endDate"
             control={control}
@@ -151,7 +148,6 @@ export default function ExploreActivities() {
             )}
           />
         </div>
-
         <div className={exploreCenter}>
           <Controller
             name="locationId"
@@ -231,9 +227,7 @@ export default function ExploreActivities() {
           </button>
         </div>
       </form>
-
       <div className="-mb-2 font-semibold">RESULTS:</div>
-
       {activitiesExcludeHost?.data?.map((activity) => (
         <ActivityCard key={activity?.id} activity={activity} />
       ))}

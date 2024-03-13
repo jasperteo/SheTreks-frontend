@@ -1,14 +1,14 @@
-import UserSummProfile from "../../UiComponents/UserSummProfile";
+import { Fragment } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { title } from "../../lib/ClassesName";
-import RequestCard from "./RequestCard";
 import {
   BACKEND_URL,
   formatDateandTime,
   getRequest,
 } from "../../lib/Constants";
-import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { Fragment } from "react";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
+import RequestCard from "./RequestCard";
 
 export default function SingleAct() {
   const params = useParams();
@@ -24,7 +24,7 @@ export default function SingleAct() {
   return (
     <>
       <Link to={-1}>
-        <iconify-icon icon="ri:arrow-left-s-line" />
+        <iconify-icon class="text-3xl" icon="ri:arrow-left-s-line" />
       </Link>
       <div className="leading-8" key={singleActivity?.data?.id}>
         <div className={`${title}`}>{singleActivity?.data?.title}</div>

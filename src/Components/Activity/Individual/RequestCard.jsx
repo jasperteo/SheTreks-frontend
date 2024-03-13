@@ -1,6 +1,5 @@
+import { useParams, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import UserSummProfile from "../../UiComponents/UserSummProfile";
 import {
   chatIcon,
   brGreenButton,
@@ -13,12 +12,13 @@ import {
   putRequest,
   postRequest,
 } from "../../lib/Constants";
-import { useParams, useOutletContext } from "react-router-dom";
+import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
 
 export default function RequestCard({ participant, activity }) {
   const currentUser = useOutletContext();
-  const queryClient = useQueryClient();
   const params = useParams();
+  const queryClient = useQueryClient();
 
   //Posts requests for notification triggered when user is accepted or rejected by organizer
   const { mutate: notifyParticipant } = useMutation({

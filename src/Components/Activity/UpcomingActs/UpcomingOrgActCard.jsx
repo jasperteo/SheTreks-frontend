@@ -1,9 +1,6 @@
 import { Link, useOutletContext } from "react-router-dom";
-import UserSummProfile from "../../UiComponents/UserSummProfile";
-import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
-import RoundedAvatar from "../../UiComponents/RoundedAvatar";
-import { darkPinkButton } from "../../lib/ClassesName";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { darkPinkButton } from "../../lib/ClassesName";
 import {
   BACKEND_URL,
   formatDateandTime,
@@ -12,6 +9,9 @@ import {
   postRequest,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
+import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
+import RoundedAvatar from "../../UiComponents/RoundedAvatar";
+import UserSummProfile from "../../UiComponents/UserSummProfile";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useOutletContext();

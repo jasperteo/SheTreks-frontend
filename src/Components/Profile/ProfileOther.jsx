@@ -7,9 +7,9 @@ import {
   postRequest,
   deleteRequest,
 } from "../lib/Constants";
-import TwoTabs from "../UiComponents/TwoTabs";
-import SocialActivityCard from "../UiComponents/SocialActivityCard";
 import RoundedAvatar from "../UiComponents/RoundedAvatar";
+import SocialActivityCard from "../UiComponents/SocialActivityCard";
+import TwoTabs from "../UiComponents/TwoTabs";
 
 export default function ProfileOther() {
   const currentUser = useOutletContext();
@@ -55,7 +55,7 @@ export default function ProfileOther() {
   const pastActivities = useQuery({
     queryKey: [
       "pastActivities",
-      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}/`,
+      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/past/${userInfo?.data?.id}`),
@@ -65,7 +65,7 @@ export default function ProfileOther() {
   const currentActivities = useQuery({
     queryKey: [
       "currentActivities",
-      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}/`,
+      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/current/${userInfo?.data?.id}`),
@@ -127,7 +127,7 @@ export default function ProfileOther() {
   return (
     <>
       <Link to={-1}>
-        <iconify-icon icon="ri:arrow-left-s-line" />
+        <iconify-icon class="text-3xl" icon="ri:arrow-left-s-line" />
       </Link>
       <div className="flex items-center">
         <div className="avatar w-24 flex-none">
@@ -186,15 +186,15 @@ export default function ProfileOther() {
         leftContent={
           <SocialActivityCard
             colour="primary"
-            user={userInfo.data}
-            activities={currentActivities.data}
+            user={userInfo?.data}
+            activities={currentActivities?.data}
           />
         }
         rightContent={
           <SocialActivityCard
             colour="grey"
-            user={userInfo.data}
-            activities={pastActivities.data}
+            user={userInfo?.data}
+            activities={pastActivities?.data}
           />
         }
       />

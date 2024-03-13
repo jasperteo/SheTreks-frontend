@@ -1,7 +1,7 @@
+import { title } from "../../lib/ClassesName";
+import TwoTabs from "../../UiComponents/TwoTabs";
 import UpcomingOrgActCard from "./UpcomingOrgActCard";
 import UpcomingJoinedActCard from "./UpcomingJoinedActCard";
-import TwoTabs from "../../UiComponents/TwoTabs";
-import { title } from "../../lib/ClassesName";
 
 export default function UpcomingEvents() {
   return (

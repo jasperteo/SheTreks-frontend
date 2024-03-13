@@ -1,9 +1,8 @@
-import { greyButton, brGreenButton } from "../lib/ClassesName";
-import { useMutation } from "@tanstack/react-query";
-import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { greyButton, brGreenButton } from "../lib/ClassesName";
+import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 
 export default function FollowBlock({ followers, following }) {
   const currentUser = useOutletContext();

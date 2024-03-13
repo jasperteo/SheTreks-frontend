@@ -1,10 +1,10 @@
-import { Link, useOutletContext } from "react-router-dom";
-import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
-import TwoTabs from "../UiComponents/TwoTabs.jsx";
-import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
 import { UserButton } from "@clerk/clerk-react";
-import { getRequest, BACKEND_URL } from "../lib/Constants";
+import { Link, useOutletContext } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
+import { getRequest, BACKEND_URL } from "../lib/Constants";
+import SocialActivityCard from "../UiComponents/SocialActivityCard.jsx";
+import TwoTabs from "../UiComponents/TwoTabs.jsx";
 
 export default function Profile() {
   const currentUser = useOutletContext();
@@ -41,8 +41,8 @@ export default function Profile() {
 
   const currentActivities = useQuery({
     queryKey: [
-      "pastActivities",
-      `${BACKEND_URL}/activities/current/${currentUser?.id}/`,
+      "currentActivities",
+      `${BACKEND_URL}/activities/current/${currentUser?.id}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/current/${currentUser?.id}`),
@@ -100,14 +100,14 @@ export default function Profile() {
           <SocialActivityCard
             colour="primary"
             user={currentUser}
-            activities={currentActivities.data}
+            activities={currentActivities?.data}
           />
         }
         rightContent={
           <SocialActivityCard
             colour="grey"
             user={currentUser}
-            activities={pastActivities.data}
+            activities={pastActivities?.data}
           />
         }
       />

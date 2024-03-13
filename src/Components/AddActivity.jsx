@@ -1,4 +1,10 @@
+import axios from "axios";
+import dayjs from "dayjs";
+import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
+import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   controlForm,
   menu,
@@ -8,14 +14,8 @@ import {
   title,
   multiValue,
 } from "./lib/ClassesName";
-import dayjs from "dayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { useForm, Controller } from "react-hook-form";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import supabase from "./lib/Supabase";
 import { BACKEND_URL, getRequest, postRequest } from "./lib/Constants";
-import axios from "axios";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import supabase from "./lib/Supabase";
 
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
@@ -64,12 +64,10 @@ export default function AddActivity() {
   });
 
   const onSubmit = async (formData) => {
-    // get latitude and longitude from address
     const { data: mapData } = await axios.get(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(formData.address)}&key=${GOOGLE_API_KEY}`,
     );
     const { lat, lng } = mapData.results[0].geometry.location;
-    // upload image to supabase storage
     let imageData = {};
     if (formData.imageUrl[0]) {
       await supabase.storage
@@ -80,7 +78,6 @@ export default function AddActivity() {
         .getPublicUrl(formData.imageUrl[0].name);
       imageData = data;
     }
-    // send form data to backend
     mutate({
       ...formData,
       hostId: currentUser.id,
@@ -97,7 +94,7 @@ export default function AddActivity() {
   return (
     <>
       <Link to={-1}>
-        <iconify-icon icon="ri:arrow-left-s-line" />
+        <iconify-icon class="text-3xl" icon="ri:arrow-left-s-line" />
       </Link>
       <div className="mt-3 flex flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
@@ -129,7 +126,6 @@ export default function AddActivity() {
               )}
             </label>
           </div>
-
           <div className={center}>
             <label className="form-control w-full max-w-xs">
               <textarea
@@ -146,7 +142,6 @@ export default function AddActivity() {
               )}
             </label>
           </div>
-
           <div className={center}>
             <label className="form-control w-full max-w-xs">
               <textarea
@@ -173,7 +168,6 @@ export default function AddActivity() {
               )}
             </label>
           </div>
-
           <div className={center}>
             <label className="form-control w-full max-w-xs">
               <input
@@ -194,14 +188,13 @@ export default function AddActivity() {
               )}
             </label>
           </div>
-
           <Controller
             name="eventDate"
             control={control}
             defaultValue={dayjs().add(1, "day")}
             rules={{ required: "Enter Activity date and time" }}
             render={({ field }) => (
-              <DateTimePicker
+              <DateTimeField
                 {...field}
                 sx={{
                   width: "20rem",
@@ -214,10 +207,10 @@ export default function AddActivity() {
                 label="Activity date and time"
                 format="DD/MM/YYYY hh:mm a"
                 error={!!errors.eventDate}
+                helperText={errors?.eventDate?.message}
               />
             )}
           />
-
           <Controller
             name="locationId"
             control={control}
@@ -237,7 +230,6 @@ export default function AddActivity() {
               />
             )}
           />
-
           <Controller
             name="selectedCategoryIds"
             control={control}
@@ -259,7 +251,6 @@ export default function AddActivity() {
               />
             )}
           />
-
           <Controller
             name="groupSizeId"
             control={control}
@@ -279,14 +270,12 @@ export default function AddActivity() {
               />
             )}
           />
-
           <input
             {...register("imageUrl")}
             type="file"
             accept="image/*, image/avif"
             className="file-input file-input-bordered file-input-primary my-2 h-10 w-full max-w-xs"
           />
-
           <button type="submit" className={pinkButton}>
             Submit
           </button>
