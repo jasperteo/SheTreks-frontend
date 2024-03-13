@@ -32,26 +32,22 @@ export default function UpcomingJoinedActCard() {
     enabled: !!currentUser, // i have to wait for all depencies to load. so if i depends on 2 "data", i need to include !!a.id && b.id (it must be in boolean)
   });
 
-  // console.log(upcomingJoinedActivity.data);
-
   //Posts requests for notification triggered when user withdraws from event
   const { mutate: withdrawNotification } = useMutation({
-    mutationKey: "withdrawEventNotification",
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
   //Delete request to remove user from specific activity
   const { mutate } = useMutation({
-    mutationKey: "withdrawEvent",
     mutationFn: () =>
       deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
     onSuccess: () => {
-      withdrawNotification(notifData),
-        queryClient.invalidateQueries([
-          "upcomingJoinedActs",
-          `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
-        ]);
+      withdrawNotification(notifData);
+      queryClient.invalidateQueries([
+        "upcomingJoinedActs",
+        `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
+      ]);
     },
   });
 

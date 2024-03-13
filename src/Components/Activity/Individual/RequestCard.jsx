@@ -27,14 +27,12 @@ export default function RequestCard({ participant, activity }) {
 
   //Posts requests for notification triggered when user is accepted or rejected by organizer
   const { mutate: resultNotification } = useMutation({
-    mutationKey: "resultNotification",
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
   //If organiser accepts the request, the user is added to the activity as participant
   const { mutate: mutateAccept } = useMutation({
-    mutationKey: "mutateAccept",
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
     onSuccess: () => {
@@ -42,19 +40,18 @@ export default function RequestCard({ participant, activity }) {
         recipientId: participant?.user?.id,
         senderId: currentUser?.id,
         notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has approved your request to join ${activity.title}.`,
-      }),
-        queryClient.invalidateQueries({
-          queryKey: [
-            "singleActivity",
-            `${BACKEND_URL}/activities/${params.activityId}`,
-          ],
-        });
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "singleActivity",
+          `${BACKEND_URL}/activities/${params.activityId}`,
+        ],
+      });
     },
   });
 
   //If organiser rejects the request, the user is removed from the activity
   const { mutate: mutateDecline } = useMutation({
-    mutationKey: "mutateDecline",
     mutationFn: () =>
       deleteRequest(
         `${BACKEND_URL}/activities/participants/${participant?.id}`,

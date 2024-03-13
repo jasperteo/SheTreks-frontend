@@ -32,7 +32,8 @@ export default function ActivityCard({ activity }) {
         data,
       ),
     onSuccess: () => {
-      requestToJoinNotification(notifData), setRequestSent(true);
+      requestToJoinNotification(notifData);
+      setRequestSent(true);
     },
   });
 
