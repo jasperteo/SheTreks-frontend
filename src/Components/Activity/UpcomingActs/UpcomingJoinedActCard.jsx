@@ -111,7 +111,7 @@ export default function UpcomingJoinedActCard() {
                 <UserSummProfile key={participant?.id} user={participant} />
               ))}
               <img
-                className="-mt-2 object-none"
+                className="-mt-2 object-cover"
                 src={activity?.imageUrl}
                 alt="Activity Image"
               />

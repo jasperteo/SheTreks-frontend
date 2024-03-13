@@ -28,6 +28,10 @@ const brGreenButton =
 const greyButton =
   "mt-3 grow justify-center whitespace-nowrap btn btn-grey focus:outline-none focus:ring-2 focus:ring-green-500";
 
+//social follow button
+const ssGreenButton =
+  "mt-3 grow justify-center whitespace-nowrap btn btn-success focus:outline-none focus:ring-2 focus:ring-green-500 text-grey";
+
 //Light grey icon in Navbar
 const lgreyIcon = "content-center text-3xl text-grey";
 
@@ -86,4 +90,5 @@ export {
   darkPinkButton,
   brGreenButton,
   chatIcon,
+  ssGreenButton,
 };
