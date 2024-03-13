@@ -86,7 +86,6 @@ export default function Profile() {
       <div>{currentUser?.about}</div>
       <div className="flex justify-start">
         <Link to="/profile/setting">
-          {/* view for non-account holder - button to show Follow or Following */}
           <button className={`${pinkButton} mr-4 mt-2`}>Edit Bio</button>
         </Link>
         <Link to="/activity/add">

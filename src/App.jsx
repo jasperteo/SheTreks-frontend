@@ -103,7 +103,7 @@ export default function App() {
               element: <AddActivity />,
             },
             {
-              path: ":activityId/request",
+              path: ":activityId",
               element: <SingleAct />,
             },
           ],

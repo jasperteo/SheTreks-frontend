@@ -2,7 +2,7 @@ import Select from "react-select";
 import { locations, BACKEND_URL, putRequest } from "../lib/Constants.js";
 import { controlForm, menu, option } from "../lib/ClassesName";
 import { useForm, Controller } from "react-hook-form";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 

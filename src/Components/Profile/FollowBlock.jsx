@@ -39,15 +39,16 @@ export default function FollowBlock({ followers, following }) {
             src={follower?.user?.imageUrl}
             className="mt-3 aspect-[1.06] w-12 rounded-full"
           />
+          <div className=" mr-10 mt-3 flex flex-1 flex-col">
+            <div className="whitespace-nowrap text-lg font-bold text-neutral">
+              {follower?.user?.firstName} {follower?.user?.lastName}
+            </div>
+            <div className="text-sm font-medium text-neutral text-opacity-50">
+              @{follower?.user?.username}
+            </div>
+          </div>
         </Link>
-        <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-bold text-black">
-            {follower?.user?.firstName} {follower?.user?.lastName}
-          </div>
-          <div className="text-sm font-medium text-black text-opacity-50">
-            @{follower?.user?.username}
-          </div>
-        </div>
+
         {params.username ? null : followButton ? (
           <button
             onClick={() => followUser(follower?.user?.id)}
