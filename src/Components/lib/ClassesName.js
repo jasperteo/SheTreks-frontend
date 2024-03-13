@@ -57,7 +57,7 @@ const activeTabColour = "hover:text-secondary text-secondary font-semibold";
 const tabColour = "tabs tabs-bordered text-neutral";
 
 //notifications icons name - Activity Icon
-const notifActicityIcon = "ri:walk-line";
+const notifActivityIcon = "ri:walk-line";
 
 //notifications icons name - Follower Icon
 const notifFollowerIcon = "ri:user-settings-line";
@@ -83,7 +83,7 @@ export {
   activeTabColour,
   tabColour,
   notifIcon,
-  notifActicityIcon,
+  notifActivityIcon,
   notifFollowerIcon,
   exploreCenter,
   exploreForm,
