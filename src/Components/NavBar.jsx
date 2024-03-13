@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import { lgreyIcon } from "./lib/ClassesName";
 import RoundedAvatar from "./UiComponents/RoundedAvatar";
 
-export default function NavBar() {
-  // use Link to instead of useNavigate
+export default function NavBar({ currentUser }) {
   return (
     <div className="btm-nav fixed bottom-0 z-10">
       <Link to="/feeds" className="bg-accent">
@@ -44,7 +43,7 @@ export default function NavBar() {
       </Link>
       <Link to="/profile" className="bg-accent">
         <button className="mt-2 bg-accent">
-          <RoundedAvatar image="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <RoundedAvatar image={currentUser?.imageUrl} />
         </button>
       </Link>
     </div>

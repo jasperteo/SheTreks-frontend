@@ -4,13 +4,13 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { SignedOut, SignedIn, useAuth, useUser } from "@clerk/clerk-react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "./App.css";
 import AddActivity from "./Components/AddActivity";
 import ExploreActivities from "./Components/ExploreActivities";
 import NavBar from "./Components/NavBar";
 import Profile from "./Components/Profile/Profile";
 import EditProfile from "./Components/Profile/EditProfile";
 import ProfileOther from "./Components/Profile/ProfileOther";
+import FollowingOther from "./Components/Profile/FollowingOther";
 import Home from "./Components/Home";
 import Following from "./Components/Profile/Following";
 import NotificationMain from "./Components/Notification/NotificationMain";
@@ -49,8 +49,10 @@ export default function App() {
             <Home />
           </SignedOut>
           <SignedIn>
-            <Outlet />
-            <NavBar />
+            <div className="m-auto max-w-7xl p-8 pb-24">
+              <Outlet context={currentUser} />
+              <NavBar currentUser={currentUser} />
+            </div>
           </SignedIn>
         </>
       ),
@@ -78,7 +80,10 @@ export default function App() {
             { index: true, element: <Profile /> },
             {
               path: `:username`,
-              element: <ProfileOther />,
+              children: [
+                { index: true, element: <ProfileOther /> },
+                { path: "follow", element: <FollowingOther /> },
+              ],
             },
             {
               path: "setting",
