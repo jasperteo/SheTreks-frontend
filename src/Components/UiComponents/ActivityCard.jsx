@@ -19,7 +19,6 @@ export default function ActivityCard({ activity }) {
 
   //Posts requests for notification triggered when user requests to join
   const { mutate: requestToJoinNotification } = useMutation({
-    mutationKey: "requestToJoinNotification",
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
