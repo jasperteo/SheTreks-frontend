@@ -83,9 +83,10 @@ export default function ActivityCard({ activity }) {
         <div className="font-semibold">Organiser:</div>
         <UserSummProfile user={activity} />
       </div>
+
       {activity?.imageUrl && (
         <img
-          className="mt-2 object-none"
+          className="mt-2 object-cover"
           src={activity.imageUrl}
           alt="Activity Image"
         />

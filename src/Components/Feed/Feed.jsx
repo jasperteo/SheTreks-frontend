@@ -127,9 +127,10 @@ export default function Feed() {
                   )}
                 </>
               )}
+
               {activity?.imageUrl && (
                 <img
-                  className="mt-2 object-none"
+                  className="mt-2 flex w-full object-cover"
                   src={activity.imageUrl}
                   alt="Activity Image"
                 />
