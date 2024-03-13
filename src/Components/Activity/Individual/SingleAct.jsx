@@ -29,8 +29,8 @@ export default function SingleAct() {
       <div className="leading-8" key={singleActivity?.data?.id}>
         <div className={`${title}`}>{singleActivity?.data?.title}</div>
         <div className="font-semibold">
-          {singleActivity?.data?.location.city},
-          {singleActivity?.data?.location.country}
+          {singleActivity?.data?.location?.city},
+          {singleActivity?.data?.location?.country}
         </div>
         <div>{formatDateandTime(singleActivity?.data?.eventDate)}</div>
         <div>

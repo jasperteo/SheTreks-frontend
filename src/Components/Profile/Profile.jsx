@@ -81,7 +81,8 @@ export default function Profile() {
       </div>
       <div className="font-light italic">@{currentUser?.username}</div>
       <div>
-        📍 {currentUser?.location.city}, {currentUser?.location.country}
+        {!!currentUser?.location &&
+          `📍 ${currentUser?.location?.city}, ${currentUser?.location?.country}`}
       </div>
       <div>{currentUser?.about}</div>
       <div className="flex justify-start">

@@ -155,7 +155,8 @@ export default function ProfileOther() {
       </div>
       <div className="font-light italic">@{userInfo?.data?.username}</div>
       <div>
-        📍 {userInfo?.data?.location.city}, {userInfo?.data?.location.country}
+        {!!userInfo?.data?.location &&
+          `📍 ${userInfo?.data?.location?.city}, ${userInfo?.data?.location?.country}`}
       </div>
       <div>{userInfo?.data?.about}</div>
       <div className="flex justify-start">

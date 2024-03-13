@@ -5,12 +5,7 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  BACKEND_URL,
-  getRequest,
-  axiosAuth,
-  CurrentUserContext,
-} from "./Components/lib/Constants";
+import { BACKEND_URL, getRequest, axiosAuth } from "./Components/lib/Constants";
 import AddActivity from "./Components/AddActivity";
 import ExploreActivities from "./Components/ExploreActivities";
 import NavBar from "./Components/NavBar";
@@ -115,13 +110,11 @@ export default function App() {
   ]);
   return (
     <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <APIProvider apiKey={GOOGLE_API_KEY}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <RouterProvider router={router} />
-          </LocalizationProvider>
-        </APIProvider>
-      </CurrentUserContext.Provider>
+      <APIProvider apiKey={GOOGLE_API_KEY}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
+      </APIProvider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
   );

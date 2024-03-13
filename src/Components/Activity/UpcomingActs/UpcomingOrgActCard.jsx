@@ -78,7 +78,7 @@ export default function UpcomingOrgActCard() {
             />
           </div>
           <div className="font-semibold">
-            {activity?.location.city}, {activity?.location.country}
+            {activity?.location?.city}, {activity?.location?.country}
           </div>
           <div className="font-semibold">{activity?.title}</div>
           <div>{formatDateandTime(activity?.eventDate)}</div>

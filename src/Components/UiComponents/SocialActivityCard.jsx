@@ -35,14 +35,14 @@ export default function SocialActivityCard({ colour, activities, user }) {
         });
         queryClient.invalidateQueries({
           queryKey: [
-            "currentActivities",
-            `${BACKEND_URL}/activities/current/${user.id ?? currentUser?.id}/`,
+            "feed",
+            `${BACKEND_URL}/activities/feed/${currentUser?.id}`,
           ],
         });
         queryClient.invalidateQueries({
           queryKey: [
-            "feed",
-            `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
+            "currentActivities",
+            `${BACKEND_URL}/activities/current/${user.id ?? currentUser?.id}`,
           ],
         });
       },

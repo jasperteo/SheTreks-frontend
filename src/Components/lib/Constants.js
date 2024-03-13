@@ -1,9 +1,6 @@
 import axios from "axios";
-import { createContext } from "react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-const CurrentUserContext = createContext(null);
 
 const axiosAuth = axios.create();
 const getRequest = async (url) => (await axiosAuth.get(url)).data;
@@ -82,7 +79,6 @@ const formatDateMaskedTime = (dateString) => {
 export {
   BACKEND_URL,
   axiosAuth,
-  CurrentUserContext,
   getRequest,
   putRequest,
   postRequest,

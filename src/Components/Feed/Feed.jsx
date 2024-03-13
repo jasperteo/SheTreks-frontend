@@ -7,7 +7,7 @@ export default function Feed() {
   const currentUser = useOutletContext();
 
   const feed = useQuery({
-    queryKey: ["feed", `${BACKEND_URL}/activities/feed/${currentUser?.id}/`],
+    queryKey: ["feed", `${BACKEND_URL}/activities/feed/${currentUser?.id}`],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/feed/${currentUser?.id}`),
     enabled: !!currentUser,
