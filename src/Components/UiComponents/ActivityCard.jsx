@@ -82,15 +82,15 @@ export default function ActivityCard({ activity }) {
 
         <div className="font-semibold">Organiser:</div>
         <UserSummProfile user={activity} />
+        {activity?.imageUrl && (
+          <img
+            className="mt-2 object-none"
+            src={activity.imageUrl}
+            alt="Activity Image"
+          />
+        )}
+        <IndividualMap activity={activity} />
       </div>
-      {activity?.imageUrl && (
-        <img
-          className="mt-2 object-none"
-          src={activity.imageUrl}
-          alt="Activity Image"
-        />
-      )}
-      <IndividualMap activity={activity} />
 
       {/* do not show the join now button if user is an attendee */}
       <div className="card-body -mb-4">
