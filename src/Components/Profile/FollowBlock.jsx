@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { greyButton, brGreenButton, ssGreenButton } from "../lib/ClassesName";
+import { greyButton, ssGreenButton } from "../lib/ClassesName";
 import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 
 export default function FollowBlock({ followers, following }) {
@@ -83,7 +83,7 @@ export default function FollowBlock({ followers, following }) {
     );
   };
 
-  const Follow = (follow) => {
+  const Followin = (followin) => {
     const [followButton, setFollowButton] = useState(false);
 
     const { mutate: followUser } = useMutation({
@@ -103,41 +103,39 @@ export default function FollowBlock({ followers, following }) {
     });
 
     return (
-      <div
-        key={follow.id}
-        className="flex w-3/4 items-start justify-between gap-2"
-      >
+      <div key={followin.id} className="flex">
         <Link
+          className="flex w-3/4 items-start justify-between gap-2"
           to={
-            currentUser?.username === follow?.toFollow?.username
+            currentUser?.username === followin?.toFollow?.username
               ? `/profile`
-              : `/profile/${follow?.toFollow?.username}`
+              : `/profile/${followin?.toFollow?.username}`
           }
         >
           <img
             loading="lazy"
-            src={follow?.toFollow?.imageUrl}
+            src={followin?.toFollow?.imageUrl}
             className="mt-3 aspect-[1.06] w-12 rounded-full"
           />
+          <div className=" mr-10 mt-3 flex flex-1 flex-col">
+            <div className="whitespace-nowrap text-lg font-semibold text-neutral">
+              {followin?.toFollow?.firstName} {followin?.toFollow?.lastName}
+            </div>
+            <div className="ttext-sm font-medium text-neutral text-opacity-50">
+              @{followin?.toFollow?.username}
+            </div>
+          </div>
         </Link>
-        <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-semibold text-neutral">
-            {follow?.toFollow?.firstName} {follow?.toFollow?.lastName}
-          </div>
-          <div className="text-sm font-medium text-black text-opacity-50">
-            @{follow?.toFollow?.username}
-          </div>
-        </div>
         {params.username ? null : followButton ? (
           <button
-            onClick={() => followUser(follow?.toFollow?.id)}
+            onClick={() => followUser(followin?.toFollow?.id)}
             className={`${ssGreenButton} w-1/4`}
           >
             Follow
           </button>
         ) : (
           <button
-            onClick={() => unfollowUser(follow?.toFollow?.id)}
+            onClick={() => unfollowUser(followin?.toFollow?.id)}
             className={`${greyButton}  w-1/4`}
           >
             Following
@@ -153,7 +151,7 @@ export default function FollowBlock({ followers, following }) {
         <Follower key={follower.id} {...follower} />
       ))}
       {following?.data?.rows?.map((follow) => (
-        <Follow key={follow.id} {...follow} />
+        <Followin key={follow.id} {...follow} />
       ))}
     </>
   );
