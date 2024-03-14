@@ -76,6 +76,42 @@ const formatDateMaskedTime = (dateString) => {
   return `${formattedDate}, ${maskedTime}`;
 };
 
+const formatDateforCalendar = (dateString) => {
+  const eventDate = new Date(dateString);
+
+  const year = eventDate.getFullYear();
+  let month = eventDate.getMonth() + 1; // month is zero-based
+  let day = eventDate.getDate();
+
+  if (month < 10) {
+    month = "0" + month;
+  }
+  if (day < 10) {
+    day = "0" + day;
+  }
+  const formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate;
+};
+
+const formatTimeForCalendar = (dateString) => {
+  const eventDate = new Date(dateString);
+
+  let hours = eventDate.getHours();
+  let minutes = eventDate.getMinutes();
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+
+  const formattedTime = `${hours}:${minutes}`;
+
+  return formattedTime;
+};
+
 export {
   BACKEND_URL,
   axiosAuth,
@@ -87,4 +123,6 @@ export {
   categoryIcon,
   formatDateandTime,
   formatDateMaskedTime,
+  formatDateforCalendar,
+  formatTimeForCalendar,
 };

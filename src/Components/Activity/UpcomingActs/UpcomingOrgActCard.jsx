@@ -7,11 +7,14 @@ import {
   getRequest,
   deleteRequest,
   postRequest,
+  formatDateforCalendar,
+  formatTimeForCalendar,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
+import "add-to-calendar-button";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useOutletContext();
@@ -75,12 +78,17 @@ const Activity = ({ activity, currentUser }) => {
           <div className="ml-2 mt-1 flex-auto font-light italic">
             @{currentUser?.username}
           </div>
-          <Link to="/">
-            <iconify-icon
-              icon="ri:calendar-check-line"
-              class="mr-2 text-3xl text-success"
+          <div className="-mt-3 mr-1">
+            <add-to-calendar-button
+              name={activity?.title}
+              startDate={formatDateforCalendar(activity?.eventDate)}
+              startTime={formatTimeForCalendar(activity?.eventDate)}
+              endTime="23:59"
+              options="['Google']"
+              hideTextLabelButton
+              buttonStyle="round"
             />
-          </Link>
+          </div>
           <iconify-icon
             icon="ri:delete-bin-line"
             class="text-3xl text-neutral"

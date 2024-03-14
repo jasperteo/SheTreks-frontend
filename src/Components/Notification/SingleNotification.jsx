@@ -39,7 +39,7 @@ export default function ActivityNotification({ notification }) {
       >
         <div className="flex justify-between">
           <div className="flex items-start">
-            <div className={`${notifIcon}`}>
+            <div className={`${notifIcon} w-12`}>
               <iconify-icon
                 icon={notifType ? notifFollowerIcon : notifActivityIcon}
               />
@@ -51,7 +51,7 @@ export default function ActivityNotification({ notification }) {
               {notification.notifMessage}
             </div>
           </div>
-          <div className="w-1/5 text-xs font-light italic">
+          <div className="w-1/5 flex-shrink-0 text-xs font-light italic">
             {formatDateandTime(notification?.createdAt)}
           </div>
         </div>
