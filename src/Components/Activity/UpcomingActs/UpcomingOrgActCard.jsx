@@ -97,7 +97,7 @@ const Activity = ({ activity, currentUser }) => {
         <div>{activity?.description}</div>
         <div>{activity?.address}</div>
         <div>Estimated Group Size: {activity?.group_size?.size}</div>
-
+        <div>Estimated Cost: ${activity?.cost}</div>
         {activity?.participants.some((participant) => participant?.status) && (
           <div className="font-semibold">Participants:</div>
         )}

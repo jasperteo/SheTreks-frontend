@@ -14,6 +14,7 @@ import UserSummProfile from "./UserSummProfile";
 
 export default function SocialActivityCard({ colour, activities, user }) {
   const currentUser = useOutletContext();
+  console.log(activities);
 
   return (
     <>
@@ -93,6 +94,7 @@ const Activity = ({ activity, colour, currentUser, user }) => {
         </div>
         <div>{activity?.description}</div>
         <div>Estimated Group Size: {activity?.group_size?.size}</div>
+        <div>Estimated Cost: ${activity?.cost}</div>
         <div>{activity?.address}</div>
         <div className="items-left flex flex-col flex-wrap space-x-1 ">
           {activity.categories.map((category) => (

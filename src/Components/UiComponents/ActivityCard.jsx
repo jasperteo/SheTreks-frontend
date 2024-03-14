@@ -48,6 +48,7 @@ export default function ActivityCard({ activity }) {
         </div>
         <div>{activity?.description}</div>
         <div>Estimated Group Size: {activity?.group_size?.size}</div>
+        <div>Estimated Cost: ${activity?.cost}</div>
         <div>{activity?.address}</div>
         <div className="items-left flex flex-col flex-wrap space-x-1 ">
           {activity.categories.map((category) => (
