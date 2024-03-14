@@ -19,6 +19,13 @@ export default function ExploreActivities() {
   const currentUser = useOutletContext();
   const queryClient = useQueryClient();
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
   const activitiesExcludeHost = useQuery({
     queryKey: [
       "activitiesExcludeHost",
@@ -56,13 +63,7 @@ export default function ExploreActivities() {
     label: size,
   }));
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-
+  // Search activities
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       postRequest(`${BACKEND_URL}/activities/search`, formData),

@@ -20,6 +20,7 @@ export default function SocialActivityCard({ colour, activity, user }) {
     mutationFn: (data) =>
       postRequest(`${BACKEND_URL}/users/notifications`, data),
   });
+
   const { mutate: joinActivity } = useMutation({
     mutationFn: () =>
       postRequest(`${BACKEND_URL}/activities/${activity.id}/participants`, {

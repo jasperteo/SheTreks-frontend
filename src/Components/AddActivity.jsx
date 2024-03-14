@@ -57,6 +57,7 @@ export default function AddActivity() {
     label: size,
   }));
 
+  // Add activity
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       postRequest(`${BACKEND_URL}/activities`, formData),

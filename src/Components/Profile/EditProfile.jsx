@@ -28,6 +28,7 @@ export default function EditProfile() {
     label: `${city}, ${country}`,
   }));
 
+  // Update user profile
   const { mutate } = useMutation({
     mutationFn: (formData) =>
       putRequest(`${BACKEND_URL}/users/${currentUser?.id}`, formData),

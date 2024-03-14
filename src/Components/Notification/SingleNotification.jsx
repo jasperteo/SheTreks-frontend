@@ -8,6 +8,7 @@ import {
 import { BACKEND_URL, putRequest, formatDateandTime } from "../lib/Constants";
 
 export default function ActivityNotification({ notification }) {
+  //mark notification as read
   useQuery({
     queryKey: [
       "markAsRead",

@@ -26,6 +26,7 @@ export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
+  // Add token to axios header
   axiosAuth.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${await getToken()}`;
     return config;
