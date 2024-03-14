@@ -145,7 +145,7 @@ const Activity = ({ activity, currentUser }) => {
         )}
         {!!activity?.imageUrl && (
           <img
-            className="-mt-2 object-cover"
+            className="object-cover"
             src={activity?.imageUrl}
             alt="Activity Image"
           />
@@ -153,9 +153,7 @@ const Activity = ({ activity, currentUser }) => {
         <IndividualMap activity={activity} />
         {activity.participants.some((participant) => !participant.status) && (
           <Link to={`/activity/${activity.id}`}>
-            <button
-              className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-            >
+            <button className={`${darkPinkButton} mt-5 size-full text-grey`}>
               VIEW REQUEST
             </button>
           </Link>

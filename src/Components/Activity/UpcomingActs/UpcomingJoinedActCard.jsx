@@ -117,7 +117,7 @@ const Activity = ({ activity, currentUser }) => {
         ))}
         {!!activity?.imageUrl && (
           <img
-            className="-mt-2 object-cover"
+            className="object-cover"
             src={activity?.imageUrl}
             alt="Activity Image"
           />

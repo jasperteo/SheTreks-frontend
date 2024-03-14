@@ -47,7 +47,7 @@ const Activity = ({ activity, colour, currentUser, user }) => {
       notifyHost({
         recipientId: activity.hostId,
         senderId: currentUser?.id,
-        notifMessage: `${currentUser?.username} would like to join "${activity.title}"`,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has requested to join your event, ${activity?.title}.`,
       });
       queryClient.invalidateQueries({
         queryKey: ["feed", `${BACKEND_URL}/activities/feed/${currentUser?.id}`],
@@ -94,7 +94,7 @@ const Activity = ({ activity, colour, currentUser, user }) => {
         </div>
         <div>{activity?.description}</div>
         <div>Estimated Group Size: {activity?.group_size?.size}</div>
-        <div>Estimated Cost: ${activity?.cost}</div>
+        <div>Estimated Cost: {activity?.cost}</div>
         <div>{activity?.address}</div>
         <div className="items-left flex flex-col flex-wrap space-x-1 ">
           {activity.categories.map((category) => (

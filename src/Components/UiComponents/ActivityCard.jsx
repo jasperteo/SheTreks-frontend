@@ -62,18 +62,24 @@ export default function ActivityCard({ activity }) {
         <Link to={`/profile/${activity?.user?.username}`}>
           <UserSummProfile user={activity} />
         </Link>
+        {activity?.imageUrl && (
+          <img
+            className="mt-2 object-cover"
+            src={activity.imageUrl}
+            alt="Activity Image"
+          />
+        )}
+        <IndividualMap activity={activity} />
       </div>
-      {activity?.imageUrl && (
-        <img
-          className="mt-2 object-cover"
-          src={activity.imageUrl}
-          alt="Activity Image"
-        />
-      )}
-      <IndividualMap activity={activity} />
-      <div className="card-body -mb-4">
+      <div className="card-body -mb-4 -mt-8">
         {requestSent ? (
-          <h4 className="text-center">Request sent!</h4>
+          <button
+            className={`${darkPinkButton} mb-4 text-grey`}
+            onClick={requestToJoin}
+            disabled={true}
+          >
+            REQUESTED
+          </button>
         ) : (
           <button
             className={`${darkPinkButton} mb-4 text-grey`}
