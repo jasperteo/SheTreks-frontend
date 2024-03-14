@@ -1,71 +1,37 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import FeedHeader from "./FeedHeader";
-import {
-  BACKEND_URL,
-  CurrentUserContext,
-  categoryIcon,
-  formatDateMaskedTime,
-  formatDateandTime,
-  getRequest,
-  postRequest,
-} from "../lib/Constants";
-import { useContext } from "react";
-import RoundedAvatar from "../UiComponents/RoundedAvatar";
-import { dPinkIcon, darkPinkButton } from "../lib/ClassesName";
-import UserSummProfile from "../UiComponents/UserSummProfile";
-import IndividualMap from "../UiComponents/Map";
+import { Link, useOutletContext } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { BACKEND_URL, getRequest } from "../lib/Constants";
+import SocialActivityCard from "../UiComponents/SocialActivityCard";
 
 export default function Feed() {
-  const currentUser = useContext(CurrentUserContext);
-  const queryClient = useQueryClient();
+  const currentUser = useOutletContext();
 
-  const feedActivities = useQuery({
-    queryKey: [
-      "feedActivitieis",
-      `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
-    ],
+  const feed = useQuery({
+    queryKey: ["feed", `${BACKEND_URL}/activities/feed/${currentUser?.id}`],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/feed/${currentUser?.id}`),
-    enabled: !!currentUser?.id,
+    enabled: !!currentUser,
   });
-
-  const { mutate: sendJoinRequestNotif } = useMutation({
-    mutationFn: (data) =>
-      postRequest(`${BACKEND_URL}/users/notifications`, data),
-  });
-
-  const { mutate: mutateJoin } = useMutation({
-    mutationFn: (data) =>
-      postRequest(
-        `${BACKEND_URL}/activities/${data.activityId}/participants`,
-        data,
-      ),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: [
-          "feedActivitieis",
-          `${BACKEND_URL}/activities/feed/${currentUser?.id}/`,
-        ],
-      }),
-  });
-
-  const handleClick = (activity) => {
-    const { id, title, host } = activity;
-    mutateJoin({ activityId: id, userId: currentUser.id });
-    sendJoinRequestNotif({
-      notifMessage: `${currentUser?.username} would like to join "${title}"`,
-      senderId: currentUser.id,
-      recipientId: host,
-    });
-  };
-
-  // console.log(feedActivities.data);
 
   return (
     <>
-      <FeedHeader />
-      <div>
-        {feedActivities.data?.map((activity) => (
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <img src="/icons8-tourist-96.png" className="h-16 w-16" />
+          <div className="ml-4 text-xl font-semibold">SheTreks</div>
+        </div>
+        <div className="flex gap-4">
+          <Link to="/activity/add">
+            <iconify-icon
+              icon="ri:function-add-line"
+              class="-mt-1 text-3xl text-neutral"
+            />
+          </Link>
+        </div>
+      </div>
+      <SocialActivityCard colour="primary" activities={feed?.data} />
+      {/* <div>
+        {feed.data?.map((activity) => (
           <div
             className={`lg:card-sides card mt-8 bg-primary shadow-xl`}
             key={activity.id}
@@ -75,7 +41,7 @@ export default function Feed() {
                 <div className="flex-none">
                   <RoundedAvatar image={activity?.user?.imageUrl} size="8" />
                 </div>
-                {/* to indicidate if user is an attendee */}
+
                 <div className="ml-2 mt-1 flex-auto font-light italic">
                   {`@${activity?.user?.username}`}
                 </div>
@@ -86,7 +52,7 @@ export default function Feed() {
               <div className="font-semibold">{activity?.title}</div>
               <div className="font-light italic">
                 {new Date(activity?.eventDate) < new Date()
-                  ? formatDateandTime(activity?.eventDate) // past events
+                  ? formatDateandTime(activity?.eventDate)
                   : activity?.participants?.some(
                         (participant) =>
                           participant?.user.id === currentUser?.id &&
@@ -177,7 +143,7 @@ export default function Feed() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }

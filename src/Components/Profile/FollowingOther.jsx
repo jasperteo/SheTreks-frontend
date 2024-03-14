@@ -1,8 +1,8 @@
-import FollowBlock from "./FollowBlock";
-import TwoTabs from "../UiComponents/TwoTabs";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getRequest, BACKEND_URL } from "../lib/Constants.js";
-import { Link, useParams } from "react-router-dom";
+import TwoTabs from "../UiComponents/TwoTabs";
+import FollowBlock from "./FollowBlock";
 
 export default function Following() {
   const params = useParams();
@@ -36,7 +36,7 @@ export default function Following() {
   return (
     <>
       <Link to={-1}>
-        <iconify-icon icon="ri:arrow-left-s-line" />
+        <iconify-icon class="text-3xl" icon="ri:arrow-left-s-line" />
       </Link>
       <TwoTabs
         leftTitle="FOLLOWERS"

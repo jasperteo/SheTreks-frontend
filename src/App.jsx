@@ -1,29 +1,26 @@
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useQuery } from "@tanstack/react-query";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { SignedOut, SignedIn, useAuth, useUser } from "@clerk/clerk-react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { BACKEND_URL, getRequest, axiosAuth } from "./Components/lib/Constants";
 import AddActivity from "./Components/AddActivity";
 import ExploreActivities from "./Components/ExploreActivities";
 import NavBar from "./Components/NavBar";
-import Profile from "./Components/Profile/Profile";
-import EditProfile from "./Components/Profile/EditProfile";
-import ProfileOther from "./Components/Profile/ProfileOther";
-import FollowingOther from "./Components/Profile/FollowingOther";
 import Home from "./Components/Home";
-import Following from "./Components/Profile/Following";
-import NotificationMain from "./Components/Notification/NotificationMain";
-import Feed from "./Components/Feed/Feed";
-import {
-  BACKEND_URL,
-  getRequest,
-  axiosAuth,
-  CurrentUserContext,
-} from "./Components/lib/Constants";
-import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
 import SingleAct from "./Components/Activity/Individual/SingleAct";
-import { APIProvider } from "@vis.gl/react-google-maps";
+import UpcomingEvents from "./Components/Activity/UpcomingActs/UpcomingEvents";
+import Feed from "./Components/Feed/Feed";
+import NotificationMain from "./Components/Notification/NotificationMain";
+import EditProfile from "./Components/Profile/EditProfile";
+import Following from "./Components/Profile/Following";
+import FollowingOther from "./Components/Profile/FollowingOther";
+import Profile from "./Components/Profile/Profile";
+import ProfileOther from "./Components/Profile/ProfileOther";
+
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export default function App() {
   const { user } = useUser();
@@ -113,13 +110,11 @@ export default function App() {
   ]);
   return (
     <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <RouterProvider router={router} />
-          </LocalizationProvider>
-        </APIProvider>
-      </CurrentUserContext.Provider>
+      <APIProvider apiKey={GOOGLE_API_KEY}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
+      </APIProvider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
     </>
   );

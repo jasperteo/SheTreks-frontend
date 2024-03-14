@@ -1,15 +1,15 @@
 import { Link, useParams, useOutletContext } from "react-router-dom";
-import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { pinkButton, semiBoldTxCen } from "../lib/ClassesName";
 import {
   BACKEND_URL,
   getRequest,
   postRequest,
   deleteRequest,
 } from "../lib/Constants";
-import TwoTabs from "../UiComponents/TwoTabs";
-import SocialActivityCard from "../UiComponents/SocialActivityCard";
 import RoundedAvatar from "../UiComponents/RoundedAvatar";
+import SocialActivityCard from "../UiComponents/SocialActivityCard";
+import TwoTabs from "../UiComponents/TwoTabs";
 
 export default function ProfileOther() {
   const currentUser = useOutletContext();
@@ -55,7 +55,7 @@ export default function ProfileOther() {
   const pastActivities = useQuery({
     queryKey: [
       "pastActivities",
-      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}/`,
+      `${BACKEND_URL}/activities/past/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/past/${userInfo?.data?.id}`),
@@ -65,11 +65,16 @@ export default function ProfileOther() {
   const currentActivities = useQuery({
     queryKey: [
       "currentActivities",
-      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}/`,
+      `${BACKEND_URL}/activities/current/${userInfo?.data?.id}`,
     ],
     queryFn: () =>
       getRequest(`${BACKEND_URL}/activities/current/${userInfo?.data?.id}`),
     enabled: !!userInfo.data,
+  });
+
+  const { mutate: notifytoFollow } = useMutation({
+    mutationFn: (notifData) =>
+      postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
   const { mutate: followUser } = useMutation({
@@ -78,6 +83,11 @@ export default function ProfileOther() {
         `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
       ),
     onSuccess: () => {
+      notifytoFollow({
+        recipientId: userInfo?.data?.id,
+        senderId: currentUser?.id,
+        notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has followed you.`,
+      });
       queryClient.invalidateQueries({
         queryKey: [
           "currentUserFollowing",
@@ -92,6 +102,7 @@ export default function ProfileOther() {
       });
     },
   });
+
   const { mutate: unfollowUser } = useMutation({
     mutationFn: (toFollowId) =>
       deleteRequest(
@@ -116,7 +127,7 @@ export default function ProfileOther() {
   return (
     <>
       <Link to={-1}>
-        <iconify-icon icon="ri:arrow-left-s-line" />
+        <iconify-icon class="text-3xl" icon="ri:arrow-left-s-line" />
       </Link>
       <div className="flex items-center">
         <div className="avatar w-24 flex-none">
@@ -144,7 +155,8 @@ export default function ProfileOther() {
       </div>
       <div className="font-light italic">@{userInfo?.data?.username}</div>
       <div>
-        📍 {userInfo?.data?.location.city}, {userInfo?.data?.location.country}
+        {!!userInfo?.data?.location &&
+          `📍 ${userInfo?.data?.location?.city}, ${userInfo?.data?.location?.country}`}
       </div>
       <div>{userInfo?.data?.about}</div>
       <div className="flex justify-start">
@@ -175,15 +187,15 @@ export default function ProfileOther() {
         leftContent={
           <SocialActivityCard
             colour="primary"
-            user={userInfo.data}
-            activities={currentActivities.data}
+            user={userInfo?.data}
+            activities={currentActivities?.data}
           />
         }
         rightContent={
           <SocialActivityCard
             colour="grey"
-            user={userInfo.data}
-            activities={pastActivities.data}
+            user={userInfo?.data}
+            activities={pastActivities?.data}
           />
         }
       />
