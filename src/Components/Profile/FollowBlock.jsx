@@ -1,9 +1,8 @@
-import { greyButton, brGreenButton, ssGreenButton } from "../lib/ClassesName";
-import { useMutation } from "@tanstack/react-query";
-import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { greyButton, ssGreenButton } from "../lib/ClassesName";
+import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
 
 export default function FollowBlock({ followers, following }) {
   const currentUser = useOutletContext();
@@ -11,13 +10,27 @@ export default function FollowBlock({ followers, following }) {
 
   const Follower = (follower) => {
     const [followButton, setFollowButton] = useState(false);
+
+    const { mutate: notifytoFollow } = useMutation({
+      mutationFn: (notifData) =>
+        postRequest(`${BACKEND_URL}/users/notifications`, notifData),
+    });
+
     const { mutate: followUser } = useMutation({
       mutationFn: (toFollowId) =>
         postRequest(
           `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
         ),
-      onSuccess: () => setFollowButton(false),
+      onSuccess: () => {
+        notifytoFollow({
+          recipientId: follower?.user?.id,
+          senderId: currentUser?.id,
+          notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has followed you.`,
+        });
+        setFollowButton(false);
+      },
     });
+
     const { mutate: unfollowUser } = useMutation({
       mutationFn: (toFollowId) =>
         deleteRequest(
@@ -70,8 +83,9 @@ export default function FollowBlock({ followers, following }) {
     );
   };
 
-  const Follow = (follow) => {
+  const Followin = (followin) => {
     const [followButton, setFollowButton] = useState(false);
+
     const { mutate: followUser } = useMutation({
       mutationFn: (toFollowId) =>
         postRequest(
@@ -79,6 +93,7 @@ export default function FollowBlock({ followers, following }) {
         ),
       onSuccess: () => setFollowButton(false),
     });
+
     const { mutate: unfollowUser } = useMutation({
       mutationFn: (toFollowId) =>
         deleteRequest(
@@ -86,40 +101,42 @@ export default function FollowBlock({ followers, following }) {
         ),
       onSuccess: () => setFollowButton(true),
     });
+
     return (
-      <div key={follow.id} className="flex items-start justify-between gap-2">
+      <div key={followin.id} className="flex">
         <Link
+          className="flex w-3/4 items-start justify-between gap-2"
           to={
-            currentUser?.username === follow?.toFollow?.username
+            currentUser?.username === followin?.toFollow?.username
               ? `/profile`
-              : `/profile/${follow?.toFollow?.username}`
+              : `/profile/${followin?.toFollow?.username}`
           }
         >
           <img
             loading="lazy"
-            src={follow?.toFollow?.imageUrl}
+            src={followin?.toFollow?.imageUrl}
             className="mt-3 aspect-[1.06] w-12 rounded-full"
           />
+          <div className=" mr-10 mt-3 flex flex-1 flex-col">
+            <div className="whitespace-nowrap text-lg font-semibold text-neutral">
+              {followin?.toFollow?.firstName} {followin?.toFollow?.lastName}
+            </div>
+            <div className="ttext-sm font-medium text-neutral text-opacity-50">
+              @{followin?.toFollow?.username}
+            </div>
+          </div>
         </Link>
-        <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-bold text-black">
-            {follow?.toFollow?.firstName} {follow?.toFollow?.lastName}
-          </div>
-          <div className="text-sm font-medium text-black text-opacity-50">
-            @{follow?.toFollow?.username}
-          </div>
-        </div>
         {params.username ? null : followButton ? (
           <button
-            onClick={() => followUser(follow?.toFollow?.id)}
-            className={brGreenButton}
+            onClick={() => followUser(followin?.toFollow?.id)}
+            className={`${ssGreenButton} w-1/4`}
           >
             Follow
           </button>
         ) : (
           <button
-            onClick={() => unfollowUser(follow?.toFollow?.id)}
-            className={greyButton}
+            onClick={() => unfollowUser(followin?.toFollow?.id)}
+            className={`${greyButton}  w-1/4`}
           >
             Following
           </button>
@@ -134,7 +151,7 @@ export default function FollowBlock({ followers, following }) {
         <Follower key={follower.id} {...follower} />
       ))}
       {following?.data?.rows?.map((follow) => (
-        <Follow key={follow.id} {...follow} />
+        <Followin key={follow.id} {...follow} />
       ))}
     </>
   );

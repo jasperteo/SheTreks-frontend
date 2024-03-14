@@ -20,7 +20,7 @@ export default function IndividualMap({ activity }) {
           offsetLeft={-20}
           offsetTop={-10}
           title={activity?.title}
-        ></AdvancedMarker>
+        />
       </Map>
     </div>
   );

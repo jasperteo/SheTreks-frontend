@@ -12,24 +12,30 @@ export default function TwoTabs({
   return (
     <div>
       <div role="tablist" className={`${tabColour} mb-8`}>
-        <a
+        <button
           role="tab"
-          className={`tab ${activeTab === 1 ? `${activeTabColour} tab-active` : ""}`}
+          className={`tab ${activeTab === 1 && `${activeTabColour} tab-active`}`}
+          aria-label="Tab 1"
           onClick={() => setActiveTab(1)}
         >
           {leftTitle}
-        </a>
-        <a
+        </button>
+        <button
           role="tab"
-          className={`tab ${activeTab === 2 ? `${activeTabColour} tab-active` : ""}`}
+          className={`tab ${activeTab === 2 && `${activeTabColour} tab-active`}`}
+          aria-label="Tab 2"
           onClick={() => setActiveTab(2)}
         >
           {rightTitle}
-        </a>
+        </button>
       </div>
 
-      <div className={activeTab == 1 ? "block" : "hidden"}>{leftContent}</div>
-      <div className={activeTab == 2 ? "block" : "hidden"}>{rightContent}</div>
+      <div role="tabpanel" className={activeTab == 1 ? "block" : "hidden"}>
+        {leftContent}
+      </div>
+      <div role="tabpanel" className={activeTab == 2 ? "block" : "hidden"}>
+        {rightContent}
+      </div>
     </div>
   );
 }

@@ -1,14 +1,14 @@
-import { title } from "../lib/ClassesName";
-import SingleNotification from "./SingleNotification";
+import { useOutletContext } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { BACKEND_URL, CurrentUserContext, getRequest } from "../lib/Constants";
-import { useContext } from "react";
+import { title } from "../lib/ClassesName";
+import { BACKEND_URL, getRequest } from "../lib/Constants";
+import SingleNotification from "./SingleNotification";
 
 export default function NotificationMain() {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useOutletContext();
 
   //Gets users's notifications upon page load
-  const allNotifications = useQuery({
+  const notifications = useQuery({
     queryKey: [
       "notifications",
       `${BACKEND_URL}/users/notifications/${currentUser?.id}`,
@@ -24,7 +24,7 @@ export default function NotificationMain() {
       {/* sort by: 1. unread messages, latest on top. set bg colour to primary
       color. Read messages, also latest on top. */}
       {/* unread notification to add in bg colour */}
-      {allNotifications?.data?.map((notification) => (
+      {notifications?.data?.map((notification) => (
         <SingleNotification key={notification.id} notification={notification} />
       ))}
     </>
