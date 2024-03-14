@@ -19,7 +19,7 @@ const pinkButton =
   "mt-3 mx-auto justify-center block whitespace-nowrap btn btn-primary  focus:outline-none focus:ring-2 focus:ring-green-500";
 
 const darkPinkButton =
-  "btn btn-secondary mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";
+  "btn btn-secondary focus:outline-none focus:ring-2 focus:ring-green-500";
 
 const brGreenButton =
   "btn btn-success mb-10 focus:outline-none focus:ring-2 focus:ring-green-500";

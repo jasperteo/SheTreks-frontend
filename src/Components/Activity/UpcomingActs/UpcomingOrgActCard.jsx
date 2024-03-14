@@ -7,11 +7,14 @@ import {
   getRequest,
   deleteRequest,
   postRequest,
+  formatDateforCalendar,
+  formatTimeForCalendar,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
+import "add-to-calendar-button";
 
 export default function UpcomingOrgActCard() {
   const currentUser = useOutletContext();
@@ -75,12 +78,17 @@ const Activity = ({ activity, currentUser }) => {
           <div className="ml-2 mt-1 flex-auto font-light italic">
             @{currentUser?.username}
           </div>
-          <Link to="/">
-            <iconify-icon
-              icon="ri:calendar-check-line"
-              class="mr-2 text-3xl text-success"
+          <div className="-mt-3 mr-1">
+            <add-to-calendar-button
+              name={activity?.title}
+              startDate={formatDateforCalendar(activity?.eventDate)}
+              startTime={formatTimeForCalendar(activity?.eventDate)}
+              endTime="23:59"
+              options="['Google']"
+              hideTextLabelButton
+              buttonStyle="round"
             />
-          </Link>
+          </div>
           <iconify-icon
             icon="ri:delete-bin-line"
             class="text-3xl text-neutral"
@@ -97,7 +105,7 @@ const Activity = ({ activity, currentUser }) => {
         <div>{activity?.description}</div>
         <div>{activity?.address}</div>
         <div>Estimated Group Size: {activity?.group_size?.size}</div>
-
+        <div>Estimated Cost: ${activity?.cost}</div>
         {activity?.participants.some((participant) => participant?.status) && (
           <div className="font-semibold">Participants:</div>
         )}
@@ -137,7 +145,7 @@ const Activity = ({ activity, currentUser }) => {
         )}
         {!!activity?.imageUrl && (
           <img
-            className="-mt-2 object-cover"
+            className="object-cover"
             src={activity?.imageUrl}
             alt="Activity Image"
           />
@@ -145,9 +153,7 @@ const Activity = ({ activity, currentUser }) => {
         <IndividualMap activity={activity} />
         {activity.participants.some((participant) => !participant.status) && (
           <Link to={`/activity/${activity.id}`}>
-            <button
-              className={`${darkPinkButton} mb-2 mt-2 size-full text-grey`}
-            >
+            <button className={`${darkPinkButton} mt-5 size-full text-grey`}>
               VIEW REQUEST
             </button>
           </Link>

@@ -6,11 +6,14 @@ import {
   getRequest,
   deleteRequest,
   postRequest,
+  formatDateforCalendar,
+  formatTimeForCalendar,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
+import "add-to-calendar-button";
 
 export default function UpcomingJoinedActCard() {
   const currentUser = useOutletContext();
@@ -71,12 +74,17 @@ const Activity = ({ activity, currentUser }) => {
           <div className="ml-2 mt-1 flex-auto font-light italic">
             @{activity?.user?.username}
           </div>
-          <Link to="/">
-            <iconify-icon
-              icon="ri:calendar-check-line"
-              class="mr-2 text-3xl text-success"
+          <div className="-mt-3 mr-1">
+            <add-to-calendar-button
+              name={activity?.title}
+              startDate={formatDateforCalendar(activity?.eventDate)}
+              startTime={formatTimeForCalendar(activity?.eventDate)}
+              endTime="23:59"
+              options="['Google']"
+              hideTextLabelButton
+              buttonStyle="round"
             />
-          </Link>
+          </div>
           <iconify-icon
             icon="ri:delete-bin-line"
             class="text-3xl text-neutral"
@@ -93,6 +101,7 @@ const Activity = ({ activity, currentUser }) => {
         <div className="font-semibold">{activity?.title}</div>
         <div>{formatDateandTime(activity?.eventDate)}</div>
         <div>{activity?.address}</div>
+        <div>Estimated Cost: ${activity?.cost}</div>
         <div className="font-semibold">Participants:</div>
         {activity?.participants?.map((participant) => (
           <Link
@@ -108,7 +117,7 @@ const Activity = ({ activity, currentUser }) => {
         ))}
         {!!activity?.imageUrl && (
           <img
-            className="-mt-2 object-cover"
+            className="object-cover"
             src={activity?.imageUrl}
             alt="Activity Image"
           />

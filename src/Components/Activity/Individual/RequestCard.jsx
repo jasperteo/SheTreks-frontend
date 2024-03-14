@@ -73,9 +73,6 @@ export default function RequestCard({ participant, activity }) {
         <UserSummProfile user={participant} />
         <div>User is requesting to join the acitivty.</div>
         <div className="-mb-8 flex items-start">
-          <button className={`${darkPinkButton}  mr-2 mt-2 flex-auto`}>
-            <iconify-icon icon={chatIcon} class={lgreyIcon} />
-          </button>
           <button
             className={`${brGreenButton} mr-2 mt-2 flex-auto`}
             onClick={() =>

@@ -46,7 +46,7 @@ export default function App() {
             <Home />
           </SignedOut>
           <SignedIn>
-            <div className="m-auto max-w-7xl p-8 pb-24 md:mr-20 md:w-3/4">
+            <div className="m-auto max-w-7xl p-8 pb-24 md:w-4/5">
               <Outlet context={currentUser} />
               <NavBar currentUser={currentUser} />
             </div>
