@@ -1,48 +1,21 @@
+import "add-to-calendar-button";
+import dayjs from "dayjs";
 import { Link, useOutletContext } from "react-router-dom";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { darkPinkButton } from "../../lib/ClassesName";
 import {
   BACKEND_URL,
   formatDateandTime,
-  getRequest,
   deleteRequest,
   postRequest,
-  formatDateforCalendar,
-  formatTimeForCalendar,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
-import "add-to-calendar-button";
 
-export default function UpcomingOrgActCard() {
+export default function UpcomingOrgActCard({ activity }) {
   const currentUser = useOutletContext();
-
-  const upcomingOrganisedActivities = useQuery({
-    queryKey: [
-      "upcomingOrganisedActivities",
-      `${BACKEND_URL}/activities/includeHost/${currentUser?.id}`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/includeHost/${currentUser?.id}`),
-    enabled: !!currentUser,
-  });
-
-  return (
-    <>
-      {upcomingOrganisedActivities?.data?.map((activity) => (
-        <Activity
-          key={activity.id}
-          activity={activity}
-          currentUser={currentUser}
-        />
-      ))}
-    </>
-  );
-}
-
-const Activity = ({ activity, currentUser }) => {
   const queryClient = useQueryClient();
 
   const { mutate: notifyParticipants } = useMutation({
@@ -81,12 +54,13 @@ const Activity = ({ activity, currentUser }) => {
           <div className="-mt-3 mr-1">
             <add-to-calendar-button
               name={activity?.title}
-              startDate={formatDateforCalendar(activity?.eventDate)}
-              startTime={formatTimeForCalendar(activity?.eventDate)}
+              startDate={dayjs(activity?.eventDate).format("YYYY-MM-DD")}
+              startTime={dayjs(activity?.eventDate).format("HH:mm")}
               endTime="23:59"
-              options="['Google']"
+              options="'Apple', 'Google', 'Outlook.com'"
               hideTextLabelButton
               buttonStyle="round"
+              styleLight="--btn-background: #F8DCD8;"
             />
           </div>
           <iconify-icon
@@ -168,4 +142,4 @@ const Activity = ({ activity, currentUser }) => {
       />
     </div>
   );
-};
+}

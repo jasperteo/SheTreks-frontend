@@ -1,11 +1,6 @@
 import { useParams, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  chatIcon,
-  brGreenButton,
-  darkPinkButton,
-  lgreyIcon,
-} from "../../lib/ClassesName";
+import { brGreenButton, lgreyIcon } from "../../lib/ClassesName";
 import {
   BACKEND_URL,
   deleteRequest,
@@ -20,13 +15,11 @@ export default function RequestCard({ participant, activity }) {
   const params = useParams();
   const queryClient = useQueryClient();
 
-  //Posts requests for notification triggered when user is accepted or rejected by organizer
   const { mutate: notifyParticipant } = useMutation({
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
 
-  //If organiser accepts the request, the user is added to the activity as participant
   const { mutate: acceptParticipant } = useMutation({
     mutationFn: () =>
       putRequest(`${BACKEND_URL}/activities/participants/${participant?.id}`),
@@ -45,7 +38,6 @@ export default function RequestCard({ participant, activity }) {
     },
   });
 
-  //If organiser rejects the request, the user is removed from the activity
   const { mutate: declineParticipant } = useMutation({
     mutationFn: () =>
       deleteRequest(

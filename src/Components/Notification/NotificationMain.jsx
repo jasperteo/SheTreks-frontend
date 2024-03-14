@@ -7,7 +7,6 @@ import SingleNotification from "./SingleNotification";
 export default function NotificationMain() {
   const currentUser = useOutletContext();
 
-  //Gets users's notifications upon page load
   const notifications = useQuery({
     queryKey: [
       "notifications",
@@ -21,9 +20,6 @@ export default function NotificationMain() {
   return (
     <>
       <div className={`${title} mb-7`}>NOTIFICATIONS</div>
-      {/* sort by: 1. unread messages, latest on top. set bg colour to primary
-      color. Read messages, also latest on top. */}
-      {/* unread notification to add in bg colour */}
       {notifications?.data?.map((notification) => (
         <SingleNotification key={notification.id} notification={notification} />
       ))}

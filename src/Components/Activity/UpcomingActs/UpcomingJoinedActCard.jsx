@@ -1,53 +1,27 @@
+import "add-to-calendar-button";
+import dayjs from "dayjs";
 import { Link, useOutletContext } from "react-router-dom";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import {
   BACKEND_URL,
   formatDateandTime,
-  getRequest,
   deleteRequest,
   postRequest,
-  formatDateforCalendar,
-  formatTimeForCalendar,
 } from "../../lib/Constants";
 import IndividualMap from "../../UiComponents/Map";
 import PopUpConfirmation from "../../UiComponents/PopUpConfirmation";
 import RoundedAvatar from "../../UiComponents/RoundedAvatar";
 import UserSummProfile from "../../UiComponents/UserSummProfile";
-import "add-to-calendar-button";
 
-export default function UpcomingJoinedActCard() {
+export default function UpcomingJoinedActCard({ activity }) {
   const currentUser = useOutletContext();
-
-  //Gets users's upcoming joined events upon page load
-  const upcomingJoinedActivities = useQuery({
-    queryKey: [
-      "upcomingJoinedActivities",
-      `${BACKEND_URL}/activities/joinedByHost/${currentUser?.id}`,
-    ],
-    queryFn: () =>
-      getRequest(`${BACKEND_URL}/activities/joinedByUser/${currentUser?.id}`),
-    enabled: !!currentUser,
-  });
-
-  return (
-    <>
-      {upcomingJoinedActivities?.data?.map((activity) => (
-        <Activity
-          key={activity.id}
-          activity={activity}
-          currentUser={currentUser}
-        />
-      ))}
-    </>
-  );
-}
-
-const Activity = ({ activity, currentUser }) => {
   const queryClient = useQueryClient();
+
   const { mutate: notifyHost } = useMutation({
     mutationFn: (notifData) =>
       postRequest(`${BACKEND_URL}/users/notifications`, notifData),
   });
+
   const { mutate: withdrawEvent } = useMutation({
     mutationFn: (participantId) =>
       deleteRequest(`${BACKEND_URL}/activities/participants/${participantId}`),
@@ -77,12 +51,13 @@ const Activity = ({ activity, currentUser }) => {
           <div className="-mt-3 mr-1">
             <add-to-calendar-button
               name={activity?.title}
-              startDate={formatDateforCalendar(activity?.eventDate)}
-              startTime={formatTimeForCalendar(activity?.eventDate)}
+              startDate={dayjs(activity?.eventDate).format("YYYY-MM-DD")}
+              startTime={dayjs(activity?.eventDate).format("HH:mm")}
               endTime="23:59"
-              options="['Google']"
+              options="'Apple', 'Google', 'Outlook.com'"
               hideTextLabelButton
               buttonStyle="round"
+              styleLight="--btn-background: #F2F3F4;"
             />
           </div>
           <iconify-icon
@@ -139,4 +114,4 @@ const Activity = ({ activity, currentUser }) => {
       />
     </div>
   );
-};
+}

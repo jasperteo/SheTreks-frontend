@@ -13,4 +13,3 @@ export default function UserSummProfile({ user }) {
     </div>
   );
 }
-// pass in user only, change all the props name to user.ImageUrl....just add a dot will do, then edit the remaining components.

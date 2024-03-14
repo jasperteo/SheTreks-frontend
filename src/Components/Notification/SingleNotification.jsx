@@ -4,17 +4,10 @@ import {
   notifIcon,
   notifActivityIcon,
   notifFollowerIcon,
-  title,
 } from "../lib/ClassesName";
-import {
-  BACKEND_URL,
-  putRequest,
-  formatDateandTime,
-  truncateText,
-} from "../lib/Constants";
+import { BACKEND_URL, putRequest, formatDateandTime } from "../lib/Constants";
 
 export default function ActivityNotification({ notification }) {
-  //When message is rendered, set read status to true
   useQuery({
     queryKey: [
       "markAsRead",
@@ -25,7 +18,6 @@ export default function ActivityNotification({ notification }) {
     enabled: !!notification,
   });
 
-  // true if message includes "follow"
   const notifType = notification.notifMessage.includes("follow");
 
   return (

@@ -40,9 +40,13 @@ export default function Following() {
       </Link>
       <TwoTabs
         leftTitle="FOLLOWERS"
-        rightTitle="FOLLOWINGS"
-        leftContent={<FollowBlock followers={followers} />}
-        rightContent={<FollowBlock following={following} />}
+        rightTitle="FOLLOWING"
+        leftContent={followers?.data?.rows?.map((follow) => (
+          <FollowBlock key={follow.id} follow={follow} remove={true} />
+        ))}
+        rightContent={following?.data?.rows?.map((follow) => (
+          <FollowBlock key={follow.id} follow={follow} />
+        ))}
       />
     </>
   );

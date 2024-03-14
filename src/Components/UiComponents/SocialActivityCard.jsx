@@ -12,26 +12,8 @@ import IndividualMap from "./Map";
 import RoundedAvatar from "./RoundedAvatar";
 import UserSummProfile from "./UserSummProfile";
 
-export default function SocialActivityCard({ colour, activities, user }) {
+export default function SocialActivityCard({ colour, activity, user }) {
   const currentUser = useOutletContext();
-  console.log(activities);
-
-  return (
-    <>
-      {activities?.map((activity) => (
-        <Activity
-          key={activity?.id}
-          activity={activity}
-          colour={colour}
-          currentUser={currentUser}
-          user={user}
-        />
-      ))}
-    </>
-  );
-}
-
-const Activity = ({ activity, colour, currentUser, user }) => {
   const queryClient = useQueryClient();
 
   const { mutate: notifyHost } = useMutation({
@@ -181,4 +163,4 @@ const Activity = ({ activity, colour, currentUser, user }) => {
       </div>
     </div>
   );
-};
+}
