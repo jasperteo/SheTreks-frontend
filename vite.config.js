@@ -8,9 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-      },
+      devOptions: { enabled: true },
       manifest: {
         name: "SheTreks",
         short_name: "SheTreks",
