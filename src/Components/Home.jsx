@@ -12,8 +12,8 @@ export default function Home() {
         <div className="max-w-md">
           <img
             className="mx-auto my-6"
-            src="./icons8-tourist-96.png"
-            width="96"
+            src="/android-chrome-192x192.png"
+            width="192"
           />
           <h1 className="text-5xl font-bold text-neutral">SheTreks</h1>
           <SignedIn>

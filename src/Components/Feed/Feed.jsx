@@ -17,7 +17,7 @@ export default function Feed() {
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img src="/icons8-tourist-96.png" className="h-16 w-16" />
+          <img src="/android-chrome-192x192.png" className="h-16 w-16" />
           <div className="ml-4 text-xl font-semibold">SheTreks</div>
         </div>
         <div className="flex gap-4">
