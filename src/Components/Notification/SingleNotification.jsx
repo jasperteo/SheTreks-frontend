@@ -58,7 +58,7 @@ export default function ActivityNotification({ notification }) {
                 {notification.notifMessage}
               </div>
             </div>
-            <div className="w-1/5 text-xs font-light italic">
+            <div className="w-2/5 text-xs font-light italic">
               {formatDateandTime(notification?.createdAt)}
             </div>
           </div>
