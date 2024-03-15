@@ -99,16 +99,6 @@ export default function AddActivity() {
       </Link>
       <div className="mt-3 flex flex-col items-center justify-center">
         <h1 className={title}>ADD ACTIVITY</h1>
-        <div className=" carousel w-40 rounded-box">
-          <div className="carousel-item w-full items-center justify-center">
-            <img
-              src="https://d18sx48tl6nre5.cloudfront.net/webp_xl_09e8f36b243c033473b3e0a8dc574183.webp"
-              className="w-full items-center justify-center"
-              alt="Tailwind CSS Carousel component"
-            />
-          </div>
-        </div>
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={center}>
             <label className="form-control w-full max-w-xs">
