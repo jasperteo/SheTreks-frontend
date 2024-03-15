@@ -1,35 +1,15 @@
 import { useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { greyButton, ssGreenButton } from "../lib/ClassesName";
 import { BACKEND_URL, postRequest, deleteRequest } from "../lib/Constants.js";
+import PopUpConfirmation from "../UiComponents/PopUpConfirmation";
 
-export default function FollowBlock({ followers, following }) {
+export default function FollowBlock({ follow, remove }) {
   const currentUser = useOutletContext();
-
-  return (
-    <>
-      {followers?.data?.rows?.map((follower) => (
-        <Follower
-          key={follower.id}
-          follower={follower}
-          currentUser={currentUser}
-        />
-      ))}
-      {following?.data?.rows?.map((followin) => (
-        <Followin
-          key={followin.id}
-          followin={followin}
-          currentUser={currentUser}
-        />
-      ))}
-    </>
-  );
-}
-
-const Follower = ({ follower, currentUser }) => {
-  const [followButton, setFollowButton] = useState(false);
   const params = useParams();
+  const queryClient = useQueryClient();
+  const [followButton, setFollowButton] = useState(false);
 
   const { mutate: notifytoFollow } = useMutation({
     mutationFn: (notifData) =>
@@ -41,9 +21,9 @@ const Follower = ({ follower, currentUser }) => {
       postRequest(
         `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
       ),
-    onSuccess: () => {
+    onSuccess: (res) => {
       notifytoFollow({
-        recipientId: follower?.user?.id,
+        recipientId: res.data.toFollowId,
         senderId: currentUser?.id,
         notifMessage: `${currentUser?.firstName} ${currentUser?.lastName} (@${currentUser?.username}) has followed you.`,
       });
@@ -59,109 +39,81 @@ const Follower = ({ follower, currentUser }) => {
     onSuccess: () => setFollowButton(true),
   });
 
-  return (
-    <div key={follower.id} className="flex">
-      <Link
-        className="flex w-3/4 items-start justify-between gap-2"
-        to={
-          currentUser?.username === follower?.user?.username
-            ? `/profile`
-            : `/profile/${follower?.user?.username}`
-        }
-      >
-        <img
-          loading="lazy"
-          src={follower?.user?.imageUrl}
-          className="mt-3 aspect-[1.06] w-12 rounded-full"
-        />
-        <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-semibold text-neutral">
-            {follower?.user?.firstName} {follower?.user?.lastName}
-          </div>
-          <div className="text-sm font-medium text-neutral text-opacity-50">
-            @{follower?.user?.username}
-          </div>
-        </div>
-      </Link>
-
-      {params.username ? null : followButton ? (
-        <button
-          onClick={() => followUser(follower?.user?.id)}
-          className={`${ssGreenButton} w-1/4`}
-        >
-          Follow
-        </button>
-      ) : (
-        <button
-          onClick={() => unfollowUser(follower?.user?.id)}
-          className={`${greyButton}  w-1/4`}
-        >
-          Remove
-        </button>
-      )}
-    </div>
-  );
-};
-
-const Followin = ({ followin, currentUser }) => {
-  const [followButton, setFollowButton] = useState(false);
-  const params = useParams();
-
-  const { mutate: followUser } = useMutation({
-    mutationFn: (toFollowId) =>
-      postRequest(
-        `${BACKEND_URL}/users/follow/${currentUser?.id}/${toFollowId}`,
-      ),
-    onSuccess: () => setFollowButton(false),
-  });
-
-  const { mutate: unfollowUser } = useMutation({
+  const { mutate: removeFollower } = useMutation({
     mutationFn: (toFollowId) =>
       deleteRequest(
-        `${BACKEND_URL}/users/unfollow/${currentUser?.id}/${toFollowId}`,
+        `${BACKEND_URL}/users/unfollow/${toFollowId}/${currentUser?.id}`,
       ),
-    onSuccess: () => setFollowButton(true),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [
+          "followers",
+          `${BACKEND_URL}/users/followers/${currentUser?.id}`,
+        ],
+      }),
   });
 
   return (
-    <div key={followin.id} className="flex">
-      <Link
-        className="flex w-3/4 items-start justify-between gap-2"
-        to={
-          currentUser?.username === followin?.toFollow?.username
-            ? `/profile`
-            : `/profile/${followin?.toFollow?.username}`
-        }
-      >
-        <img
-          loading="lazy"
-          src={followin?.toFollow?.imageUrl}
-          className="mt-3 aspect-[1.06] w-12 rounded-full"
-        />
-        <div className=" mr-10 mt-3 flex flex-1 flex-col">
-          <div className="whitespace-nowrap text-lg font-semibold text-neutral">
-            {followin?.toFollow?.firstName} {followin?.toFollow?.lastName}
-          </div>
-          <div className="text-sm font-medium text-neutral text-opacity-50">
-            @{followin?.toFollow?.username}
-          </div>
-        </div>
-      </Link>
-      {params.username ? null : followButton ? (
-        <button
-          onClick={() => followUser(followin?.toFollow?.id)}
-          className={`${ssGreenButton} w-1/4`}
+    <>
+      <div className="flex">
+        <Link
+          className="flex w-3/4 items-start justify-between gap-2"
+          to={
+            currentUser?.username === follow?.user?.username ||
+            currentUser?.username === follow?.toFollow?.username
+              ? `/profile`
+              : `/profile/${follow?.user?.username || follow?.toFollow?.username}`
+          }
         >
-          Follow
-        </button>
-      ) : (
-        <button
-          onClick={() => unfollowUser(followin?.toFollow?.id)}
-          className={`${greyButton}  w-1/4`}
-        >
-          Following
-        </button>
-      )}
-    </div>
+          <img
+            loading="lazy"
+            src={follow?.user?.imageUrl || follow?.toFollow?.imageUrl}
+            className="mt-3 aspect-[1.06] w-12 rounded-full"
+          />
+          <div className=" mr-10 mt-3 flex flex-1 flex-col">
+            <div className="whitespace-nowrap text-lg font-semibold text-neutral">
+              {follow?.user?.firstName || follow?.toFollow?.firstName}{" "}
+              {follow?.user?.lastName || follow?.toFollow?.lastName}
+            </div>
+            <div className="text-sm font-medium text-neutral text-opacity-50">
+              @{follow?.user?.username || follow?.toFollow?.username}
+            </div>
+          </div>
+        </Link>
+        {params.username ? null : remove ? (
+          <button
+            onClick={() =>
+              document
+                .getElementById(`remove-follower${follow?.user?.id}`)
+                .showModal()
+            }
+            className={`${greyButton}  w-1/4`}
+          >
+            Remove
+          </button>
+        ) : followButton ? (
+          <button
+            onClick={() => followUser(follow?.toFollow?.id)}
+            className={`${ssGreenButton} w-1/4`}
+          >
+            Follow
+          </button>
+        ) : (
+          <button
+            onClick={() => unfollowUser(follow?.toFollow?.id)}
+            className={`${greyButton}  w-1/4`}
+          >
+            Following
+          </button>
+        )}
+      </div>
+      <PopUpConfirmation
+        id={`remove-follower${follow?.user?.id}`}
+        option="Remove"
+        title={`${follow?.user?.username} as a follower`}
+        message="Are you sure you want to remove this user as a follower?"
+        onConfirm={() => removeFollower(follow?.user?.id)}
+      />
+    </>
   );
-};
+}

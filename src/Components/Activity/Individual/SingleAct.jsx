@@ -37,7 +37,6 @@ export default function SingleAct() {
           Estimated Group Size: {singleActivity?.data?.group_size?.size}
         </div>
         <div>{singleActivity?.data?.address}</div>
-        {/* confirmed participants' are true, request are false. Delete declined request*/}
         {singleActivity?.data?.participants.map((participant) =>
           participant.status ? (
             <Fragment key={participant?.id}>

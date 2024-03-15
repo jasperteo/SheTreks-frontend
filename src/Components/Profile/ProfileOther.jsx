@@ -184,20 +184,22 @@ export default function ProfileOther() {
       <TwoTabs
         leftTitle="CURRENT"
         rightTitle="PAST"
-        leftContent={
+        leftContent={currentActivities?.data?.map((activity) => (
           <SocialActivityCard
+            key={activity.id}
             colour="primary"
             user={userInfo?.data}
-            activities={currentActivities?.data}
+            activity={activity}
           />
-        }
-        rightContent={
+        ))}
+        rightContent={pastActivities?.data?.map((activity) => (
           <SocialActivityCard
+            key={activity.id}
             colour="grey"
             user={userInfo?.data}
-            activities={pastActivities?.data}
+            activity={activity}
           />
-        }
+        ))}
       />
     </>
   );

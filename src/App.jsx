@@ -4,7 +4,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BACKEND_URL, getRequest, axiosAuth } from "./Components/lib/Constants";
 import AddActivity from "./Components/AddActivity";
 import ExploreActivities from "./Components/ExploreActivities";
@@ -26,6 +25,7 @@ export default function App() {
   const { user } = useUser();
   const { userId: clerkUid, getToken } = useAuth();
 
+  // Add token to axios header
   axiosAuth.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${await getToken()}`;
     return config;
@@ -109,13 +109,10 @@ export default function App() {
     },
   ]);
   return (
-    <>
-      <APIProvider apiKey={GOOGLE_API_KEY}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <RouterProvider router={router} />
-        </LocalizationProvider>
-      </APIProvider>
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
-    </>
+    <APIProvider apiKey={GOOGLE_API_KEY}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RouterProvider router={router} />
+      </LocalizationProvider>
+    </APIProvider>
   );
 }
