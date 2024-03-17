@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { title } from "../../lib/ClassesName";
@@ -37,19 +36,33 @@ export default function SingleAct() {
           Estimated Group Size: {singleActivity?.data?.group_size?.size}
         </div>
         <div>{singleActivity?.data?.address}</div>
-        {singleActivity?.data?.participants.map((participant) =>
-          participant.status ? (
-            <Fragment key={participant?.id}>
-              <div className="mb-2 font-semibold">Participants:</div>
-              <UserSummProfile user={participant} />
-            </Fragment>
-          ) : !participant.status ? (
-            <RequestCard
-              participant={participant}
-              activity={singleActivity?.data}
-              key={participant?.id}
-            />
-          ) : null,
+        {singleActivity?.data?.participants?.some(
+          (participant) => participant?.status,
+        ) && (
+          <>
+            <div className="mb-2 font-semibold">Participants:</div>
+            {singleActivity?.data?.participants?.map(
+              (participant) =>
+                participant?.status && (
+                  <Link
+                    to={`/profile/${participant?.user?.username}`}
+                    key={participant?.id}
+                  >
+                    <UserSummProfile user={participant} />
+                  </Link>
+                ),
+            )}
+          </>
+        )}
+        {singleActivity?.data?.participants.map(
+          (participant) =>
+            !participant.status && (
+              <RequestCard
+                participant={participant}
+                activity={singleActivity?.data}
+                key={participant?.id}
+              />
+            ),
         )}
       </div>
     </>
