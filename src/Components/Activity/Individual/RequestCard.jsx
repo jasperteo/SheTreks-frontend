@@ -1,4 +1,4 @@
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { brGreenButton, lgreyIcon } from "../../lib/ClassesName";
 import {
@@ -62,7 +62,12 @@ export default function RequestCard({ participant, activity }) {
     <>
       <div className="lg:card-sides card card-body mt-4 bg-info shadow-xl">
         <div className="font-semibold">Requests</div>
-        <UserSummProfile user={participant} />
+        <Link
+          to={`/profile/${participant?.user?.username}`}
+          key={participant?.id}
+        >
+          <UserSummProfile user={participant} />
+        </Link>
         <div>User is requesting to join the acitivty.</div>
         <div className="-mb-8 flex items-start">
           <button
