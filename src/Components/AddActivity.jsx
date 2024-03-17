@@ -183,7 +183,14 @@ export default function AddActivity() {
             name="eventDate"
             control={control}
             defaultValue={dayjs().add(1, "day")}
-            rules={{ required: "Enter Activity date and time" }}
+            rules={{
+              required: "Enter Activity date and time",
+              validate: {
+                futureDate: (value) =>
+                  (value && dayjs(value).isAfter(dayjs(), "minute")) ||
+                  "Please select a future date and time",
+              },
+            }}
             render={({ field }) => (
               <DateTimeField
                 {...field}
