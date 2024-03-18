@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/32defd49-e96d-4d93-80a5-64956171dca0/deploy-status)](https://app.netlify.com/sites/shetreks/deploys)
+
 # About
 
 SheTreks is an app for solo female travellers, providing a platform to connect, share experiences, and explore together safely. With this app, you can filter activities based on your interests and join in on adventures with other like-minded travellers.
