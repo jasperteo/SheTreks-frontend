@@ -36,6 +36,9 @@ bun run dev
 - [MUI X](https://github.com/mui/mui-x) ![logos--material-ui](https://github.com/jasperteo/SheTreks-frontend/assets/12832610/47c6a096-cfdc-4b32-9ba6-ea6bccfb959d)
 - [Day.js](https://github.com/iamkun/dayjs/)
 - [react-google-maps](https://github.com/visgl/react-google-maps) ![logos--google-maps](https://github.com/jasperteo/SheTreks-frontend/assets/12832610/79d903f7-627d-4348-bbfd-b23eb3283450)
+- [Million.js](https://github.com/aidenybai/million) ![logos--million-icon](https://github.com/jasperteo/SheTreks-frontend/assets/12832610/f4528b71-2ba9-46cb-ae0c-416a3b6e530a)
+
+
 
 ## Contributors
 
